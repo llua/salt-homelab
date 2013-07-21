@@ -1,0 +1,13 @@
+partdd() {
+# Copy partitions from block devices, including raw images.
+  if [[ $# != "3" ]]; then
+    echo "Usage: $0 infile partition# outfile"
+    return 1
+  else
+    if (($2)); then
+      dd if=$1 of=$3 skip=$(sfdisk -luS $1 2>/dev/null | awk /img$2/{'print $2" count="$4'})
+    else
+      echo "Usage: $0 infile partition# outfile"
+    fi
+  fi
+}

@@ -1,0 +1,3 @@
+lazypcap() {
+  sudo tcpdump -i wlan0 -nnvvXSs 0 2> /dev/null -w dump.pcap
+}
