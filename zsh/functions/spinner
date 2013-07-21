@@ -1,0 +1,19 @@
+spinner() {
+  local count
+  while { true } {
+    ((++count))
+    case $count in
+      1) print -f '\b-'
+         sleep 1s ;;
+      2) print -f '\b\\'
+         sleep 1s ;;
+      3) print -f '\b|'
+         sleep 1s ;;
+      4) print -f '\b/'
+         sleep 1s ;;
+      *) count=0 
+         sleep 1s ;;
+     esac
+   }
+}
+
