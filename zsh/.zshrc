@@ -1,80 +1,8 @@
-bindkey -v
-bindkey 'OQ' history-incremental-search-backward # F2
-bindkey -M vicmd 'dd' vi-kill-line
-bindkey -M vicmd 'D' vi-kill-eol
-bindkey -M vicmd 'K' run-help
-bindkey -M vicmd '\e/' 'undefined-key'
-bindkey -M viins '\e.' insert-last-word
-if [[ -n ${terminfo[kLFT]} ]] {
-  bindkey -M viins "${terminfo[kLFT]}" vi-backward-word
-  bindkey -M vicmd "${terminfo[kLFT]}" vi-backward-word
-}
-if [[ -n ${terminfo[kLFT]} ]] { 
-  bindkey -M viins "${terminfo[kRIT]}" vi-forward-word
-  bindkey -M vicmd "${terminfo[kRIT]}" vi-forward-word
-}
-bindkey -M emacs '^[ ' magic-space
-bindkey -M emacs '^[!' expand-history
-bindkey '^Z' undo
-# code from ft of #zsh & the debian project to bind keys consistently.
-typeset -A key
-key=(
-  Home      "${terminfo[khome]}"
-  End       "${terminfo[kend]}"
-  Insert    "${terminfo[kich1]}"
-  Delete    "${terminfo[kdch1]}"
-  Up        "${terminfo[kcuu1]}"
-  Down      "${terminfo[kcud1]}"
-  Left      "${terminfo[kcub1]}"
-  Right     "${terminfo[kcuf1]}"
-  PageUp    "${terminfo[kpp]}"
-  PageDown  "${terminfo[knp]}" 
-  BackSpace "${terminfo[kbs]}"
-)
-
-function bind2maps () {
-  local i sequence widget
-  local -a maps
-
-  while [[ "$1" != "--" ]] {
-    maps+=( "$1" )
-    shift
-  }
-  shift
-
-  sequence="${key[$1]}"
-  widget="$2"
-
-  [[ -z "$sequence" ]] && return 1
-
-  for i in "${maps[@]}"; do
-    bindkey -M "$i" "$sequence" "$widget"
-  done
-}
-
-bind2maps emacs             -- Home       beginning-of-line
-bind2maps       viins vicmd -- Home       vi-beginning-of-line
-bind2maps emacs             -- End        end-of-line
-bind2maps       viins vicmd -- End        vi-end-of-line
-bind2maps emacs viins       -- Insert     overwrite-mode
-bind2maps             vicmd -- Insert     vi-insert
-bind2maps emacs             -- Delete     delete-char
-bind2maps       viins vicmd -- Delete     vi-delete-char
-bind2maps emacs viins vicmd -- Up         up-line-or-history
-bind2maps emacs viins vicmd -- Down       down-line-or-history
-bind2maps emacs             -- Left       backward-char
-bind2maps       viins vicmd -- Left       vi-backward-char
-bind2maps emacs             -- Right      forward-char
-bind2maps       viins vicmd -- Right      vi-forward-char
-bind2maps       viins       -- BackSpace  backward-delete-char
-
-unfunction bind2maps
-
 # Set/unset  shell options
 # Globbing
 setopt   ExtendedGlob 
 # Misc
-setopt   RcQuotes RecExact LongListJobs transientrprompt MagicEqualSubst
+setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst
 # History 
 setopt   ExtendedHistory HistIgnoredUps AppendHistory HistExpiredUpsFirst HistNoStore IncAppendHistory ShareHistory
 # pushd settings
@@ -85,13 +13,16 @@ setopt	 Zle AutoMenu
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList
 
 # Set fpath
-fpath=( .config/functions(N) /usr/(local/)#share/zsh/($ZSH_VERSION/)#(site-)#functions/(*/)#(N/) )
+fpath=( ~/.config/functions(N) /usr/(local/)#share/zsh/($ZSH_VERSION/)#(site-)#functions/(*/)#(N/) )
 
 # History & mail stuff
 HISTFILE=$(print ~/(.config/)#.zsh_history(N[1]))
 HISTSIZE=15000
 SAVEHIST=15000
 MAILCHECK=0
+
+# colourssssssssssssssssssssssssssssssssssssss
+autoload -U colors && colors
 
 # Prompt stuff
 PROMPT="[%{$fg[cyan]%}%n%{$reset_color%}::%{$fg[cyan]%}%m%{$reset_color%}]%# "
@@ -100,11 +31,8 @@ RPROMPT="%B%{$fg[cyan]%}%~%{$reset_color%}%b"
 # run-help's HELPDIR
 HELPDIR=~/.cache/zsh-help(N)
 
-# colourssssssssssssssssssssssssssssssssssssss
-autoload -U colors && colors
-
 # autoload my functions in .config/functions/ and zmv
-autoload -Uz ${ZDOTDIR}/functions/**/[^_]*(N.:t) zmv 
+autoload -Uz ${ZDOTDIR}/functions/**/[^_]*(N.:t) zmv 2>/dev/null
 
 # Completion settings zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
@@ -167,8 +95,83 @@ for ext in $hypertxt ; do
 done
 
 # load wanted modules
-for mod in pcre 'net/tcp'; do
+for mod in pcre 'net/tcp' complist; do
   [[ -e $MODULE_PATH/zsh/${mod}.so ]] && zmodload zsh/$mod
 done
 
 unset mod hypertext ptxt ext 
+
+# keybinds
+bindkey -v
+bindkey 'OQ' history-incremental-search-backward # F2
+bindkey -M vicmd 'dd' vi-kill-line
+bindkey -M vicmd 'D' vi-kill-eol
+bindkey -M vicmd 'K' run-help
+bindkey -M vicmd '\e/' 'undefined-key'
+bindkey -M viins '\e.' insert-last-word
+bindkey -M menuselect '^[[Z' reverse-menu-complete
+if [[ -n ${terminfo[kLFT]} ]] {
+  bindkey -M viins "${terminfo[kLFT]}" vi-backward-word
+  bindkey -M vicmd "${terminfo[kLFT]}" vi-backward-word
+}
+if [[ -n ${terminfo[kLFT]} ]] { 
+  bindkey -M viins "${terminfo[kRIT]}" vi-forward-word
+  bindkey -M vicmd "${terminfo[kRIT]}" vi-forward-word
+}
+bindkey -M emacs '^[ ' magic-space
+bindkey -M emacs '^[!' expand-history
+bindkey '^Z' undo
+# code from ft of #zsh & the debian project to bind keys consistently.
+typeset -A key
+key=(
+  Home      "${terminfo[khome]}"
+  End       "${terminfo[kend]}"
+  Insert    "${terminfo[kich1]}"
+  Delete    "${terminfo[kdch1]}"
+  Up        "${terminfo[kcuu1]}"
+  Down      "${terminfo[kcud1]}"
+  Left      "${terminfo[kcub1]}"
+  Right     "${terminfo[kcuf1]}"
+  PageUp    "${terminfo[kpp]}"
+  PageDown  "${terminfo[knp]}" 
+  BackSpace "${terminfo[kbs]}"
+)
+
+function bind2maps () {
+  local i sequence widget
+  local -a maps
+
+  while [[ "$1" != "--" ]]; do
+    maps+=( "$1" )
+    shift
+  done
+  shift
+
+  sequence="${key[$1]}"
+  widget="$2"
+
+  [[ -z "$sequence" ]] && return 1
+
+  for i in "${maps[@]}"; do
+    bindkey -M "$i" "$sequence" "$widget"
+  done
+}
+
+bind2maps emacs             -- Home       beginning-of-line
+bind2maps       viins vicmd -- Home       vi-beginning-of-line
+bind2maps emacs             -- End        end-of-line
+bind2maps       viins vicmd -- End        vi-end-of-line
+bind2maps emacs viins       -- Insert     overwrite-mode
+bind2maps             vicmd -- Insert     vi-insert
+bind2maps emacs             -- Delete     delete-char
+bind2maps       viins vicmd -- Delete     vi-delete-char
+bind2maps emacs viins vicmd -- Up         up-line-or-history
+bind2maps emacs viins vicmd -- Down       down-line-or-history
+bind2maps emacs             -- Left       backward-char
+bind2maps       viins vicmd -- Left       vi-backward-char
+bind2maps emacs             -- Right      forward-char
+bind2maps       viins vicmd -- Right      vi-forward-char
+bind2maps       viins       -- BackSpace  backward-delete-char
+
+unfunction bind2maps
+
