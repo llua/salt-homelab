@@ -19,7 +19,8 @@ fpath=( ~/.config/functions(N) /usr/(local/)#share/zsh/($ZSH_VERSION/)#(site-)#f
 HISTFILE=$(print ~/(.config/)#.zsh_history(N[1]))
 HISTSIZE=15000
 SAVEHIST=15000
-MAILCHECK=0
+MAILCHECK=1
+mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 
 # colourssssssssssssssssssssssssssssssssssssss
 autoload -U colors && colors
