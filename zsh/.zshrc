@@ -1,3 +1,8 @@
+# load wanted modules
+for mod in 'pcre' 'net/tcp' 'complist'; do
+  [[ -e $MODULE_PATH/zsh/$mod.so ]] && zmodload zsh/$mod
+done
+
 # Set/unset  shell options
 # Globbing
 setopt   ExtendedGlob 
@@ -93,11 +98,6 @@ done
 hypertxt=( html htm org com net)
 for ext in $hypertxt ; do
   alias -s ${ext}=${BROWSER:-firefox}
-done
-
-# load wanted modules
-for mod in pcre 'net/tcp' complist; do
-  [[ -e $MODULE_PATH/zsh/${mod}.so ]] && zmodload zsh/$mod
 done
 
 unset mod hypertext ptxt ext 
