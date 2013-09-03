@@ -47,6 +47,8 @@ autoload -Uz ${ZDOTDIR}/functions/**/[^_]*(N.:t) zmv 2>/dev/null
 zstyle ':completion:*:manuals' separate-sections true 
 # per-match descriptions (if available)
 zstyle ':completion:*' verbose true
+# descriptions of commands (if available)
+zstyle ':completion:*' extra-verbose true
 # if a description isn't defined, use the option's description (from -h|--help)
 zstyle ':completion:*' auto-description 'specify: %d'
 # default seperator between option -- description
