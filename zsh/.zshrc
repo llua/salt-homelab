@@ -5,7 +5,7 @@ done
 
 # Set/unset  shell options
 # Globbing
-setopt   ExtendedGlob 
+setopt   ExtendedGlob  GlobAssign
 # Misc
 setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst
 # History 
@@ -21,12 +21,13 @@ unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList
 fpath=( ~/.config/functions(N) /usr/(local/)#share/zsh/($ZSH_VERSION/)#(site-)#functions/(*/)#(N/) )
 
 # History & mail stuff
-HISTFILE=$(print ~/(.config/)#.zsh_history(N[1]))
+HISTFILE=~/(.config/)#.zsh_history(N[1])
 HISTSIZE=15000
 SAVEHIST=15000
 MAILCHECK=1
 mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 
+READNULLCMD=less
 # colourssssssssssssssssssssssssssssssssssssss
 autoload -U colors && colors
 
