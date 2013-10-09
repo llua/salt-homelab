@@ -1,0 +1,33 @@
+mergeconfs() {
+# search for .{pac,rpm}new files and diff them againist the original.
+
+  local new old answer prefix pkgmgr key value
+  setopt localoptions globassign 
+
+  typeset -A pkgmgr prefix
+  pkgmgr=( 
+           pacman pac 
+           rpm rpm 
+         )
+
+  for key value in ${(kv)pkgmgr}; do
+     (( $+commands[$key] )) && (( ++prefix[$value] ))
+  done
+
+  (( $+prefix )) || { print -- "Can't find a package manager i know of" >&2; exit 1; }
+
+  new=( /(etc|boot)/**/*.${(k)^prefix[@]}new(DN.) )
+  if (( $#new[@] )); then
+    printf '%s\n' "Files to merge:" "$new[*]"
+    sleep 5s
+    for old in $new[@]; do
+      printf 'About to merge: %s & %s\n' ${old%.???*new} $old
+      sleep 3s
+      sudo vimdiff ${old%.???*new} $old
+      print "Delete ${old}?" ; read -k 1 -s answer
+      if [[ $answer:l == "y" ]]; then
+        sudo rm $old
+      fi
+    done
+  fi
+} 

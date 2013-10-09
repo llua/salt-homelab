@@ -1,0 +1,42 @@
+#compdef virsh
+# first attempt at an completion script
+
+if (( CURRENT > 2 )); then
+  local subcmd=${words[2]}
+  curcontext=${curcontext%:*:*}:virsh-$subcmd
+  (( CURRENT-- )); shift words
+  (( $+functions[_virsh-$subcmd] )) ||
+  _virsh-$subcmd() {
+  typeset -A subcmdhelp
+  local -a optlist
+  local subcmdoption subcmddesc key value string
+  # Creating a assoc array, with the output of the help subcommand
+  # Using the first word in a line as the key
+  while read -r key value; do
+    subcmdhelp[$key]=$value    
+  done < <(_call_program help-commands virsh help $subcmd)
+  
+  # any key in the array that starts with ''--'' must be a option for the subcommand. 
+  for subcmdoption subcmddesc in ${(kv)subcmdhelp[(I)(\[)#--*]}; do
+    if [[ $subcmddesc == *(#b)(string|number)* ]]; then
+      subcmddesc=[${subcmddesc/<[^>]##>[[:space:]]#/}]:${${${subcmdoption#\[}%\]}#--}:
+    else
+      subcmddesc=[${subcmddesc/<[^>]##>  /}]
+    fi
+    optlist=($optlist ${${subcmdoption#\[}%\]}${subcmddesc})
+  done
+  #_arguments -A "-*" : $optlist[@] :${${(s: :)subcmdhelp[${words[1]}]}[1]}: 
+  _arguments -A '-*' : $optlist[@] #:$words[1]: 
+}
+  _virsh-$subcmd
+else
+  local hline
+  local -a cmdlist
+  { read; while read -A hline; do
+  [[ $hline =~ 'help keyword' ]] && continue
+  [[ $hline[1] == 'cd' ]] && continue
+  [[ -z $hline ]] && continue
+  cmdlist=( $cmdlist "$hline[1]:$hline[2,-1]" )
+  done; }  < <(_call_program help-commands virsh help)
+  _describe -t virsh-commands 'virsh subcommands' cmdlist
+fi
