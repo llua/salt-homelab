@@ -1,33 +1,60 @@
 mergeconfs() {
 # search for .{pac,rpm}new files and diff them againist the original.
-
-  local new old answer prefix pkgmgr key value
+  local diff='' diffopts new confs answer prefix pkgmgr key value 
   setopt localoptions globassign 
-
+  
+  : ${diff:=vimdiff}; diffopts=()
   typeset -A pkgmgr prefix
   pkgmgr=( 
            pacman pac 
            rpm rpm 
          )
+  
+  sudo() {
+    # wrapper function to use sudo for non-root users, fails sliently if sudo isn't installed.
+    if (( UID != 0 )); then
+      if (( $+commands[sudo] )); then
+        command sudo $@
+      else
+        $@
+      fi
+    else
+      $@ 
+    fi
+  }
 
+  # check possible package managers just in case you have mulitple ones installed.(for whatever weird reason)
   for key value in ${(kv)pkgmgr}; do
      (( $+commands[$key] )) && (( ++prefix[$value] ))
   done
 
-  (( $+prefix )) || { print -- "Can't find a package manager i know of" >&2; exit 1; }
+  (( $+prefix )) || { print '%s\n' "Can't find a package manager i know of" >&2; return 1; }
 
-  new=( /(etc|boot)/**/*.${(k)^prefix[@]}new(DN.) )
-  if (( $#new[@] )); then
-    printf '%s\n' "Files to merge:" "$new[*]"
+  confs=( /(etc|boot)/**/*.${(k)^prefix[@]}new(DN.) )
+  if (( $#confs[@] )); then
+    printf '%s\n%s\n\n' "Files to merge:" "$confs[*]" 
     sleep 5s
-    for old in $new[@]; do
-      printf 'About to merge: %s & %s\n' ${old%.???*new} $old
+    for new in $confs[@]; do
+
+      if ! [[ -f ${new%.???new} ]]; then
+        printf '%s\n' "$new exist, but ${new%.???new} does not, would you like to remove it?" >&2
+        read -k 1 -s answer
+        if [[ $answer:l == "y" ]]; then
+          sudo rm -f $new
+        fi
+        continue
+      fi
+
+      printf 'About to merge: %s & %s\n' ${new%.???new} $new
       sleep 3s
-      sudo vimdiff ${old%.???*new} $old
-      print "Delete ${old}?" ; read -k 1 -s answer
-      if [[ $answer:l == "y" ]]; then
-        sudo rm $old
+      if sudo $diff $diffopts[@] ${new%.???new} $new; then
+        print "Delete ${new}?" ; read -k 1 -s answer
+        if [[ $answer:l == "y" ]]; then
+          sudo rm -f $new
+        fi
       fi
     done
   fi
-} 
+
+  unfunction sudo
+}   
