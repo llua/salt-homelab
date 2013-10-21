@@ -82,14 +82,14 @@ autoload -U compinit
 compinit
 
 # help
-unalias  run-help 2>/dev/null || true
+unalias  run-help 2>/dev/null
 autoload run-help
 
 # stalk other users on the system
 watch=(notme)
 
 # Don't use zsh builtin which
-alias which >/dev/null && unalias which
+(( $+aliases[which] )) && unalias which
 
 # Suffix alias
 
@@ -102,8 +102,6 @@ hypertxt=( html htm org com net)
 for ext in $hypertxt ; do
   alias -s ${ext}=${BROWSER:-firefox}
 done
-
-unset mod hypertext ptxt ext 
 
 # keybinds
 bindkey -v
@@ -178,4 +176,4 @@ bind2maps       viins vicmd -- Right      vi-forward-char
 bind2maps       viins       -- BackSpace  backward-delete-char
 
 unfunction bind2maps
-
+unset mod hypertext ptxt ext key 
