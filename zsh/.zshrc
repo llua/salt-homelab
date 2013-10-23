@@ -63,7 +63,7 @@ zstyle ':completion:*' group-name ''
 # if there are atleast 0 matches, use menu selection (will always be true)
 zstyle ':completion:*' menu select=0
 # set colors for files/directories to be the same as ls(1)
-hash dircolors 2>/dev/null && eval $(dircolors -b)
+(( $+commands[dircolors] )) && eval $(dircolors -b)
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # everything else normal colors
 zstyle ':completion:*' list-colors ''
@@ -75,6 +75,7 @@ zstyle ':completion:*:(scp|ssh|rsync|telnet):*' hosts umbra corbenik netslum log
 zstyle ':completion:*:(kill|strace):*' command 'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o comm'
+zstyle ':completion:*' insert-tab false
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
