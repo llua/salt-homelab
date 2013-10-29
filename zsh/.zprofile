@@ -1,4 +1,7 @@
 setopt globassign extendedglob
-path+=(~/(|.local/)#bin(/N) "$path[@]")
+
+path=(~/(|.local/)#bin(/N) "$path[@]")
 typeset -U path 
 export EDITOR='vim' PAGER='less' PATH
+
+unsetopt globassign extendedglob
