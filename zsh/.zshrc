@@ -32,7 +32,7 @@ READNULLCMD=less
 autoload -U colors && colors
 
 # Prompt stuff
-PROMPT="[%{$fg[cyan]%}%n%{$reset_color%}::%{$fg[cyan]%}%m%{$reset_color%}]%# "
+PROMPT="(%{$fg[cyan]%}%n%{$reset_color%}::%{$fg[cyan]%}%m%{$reset_color%})%# "
 RPROMPT="%B%{$fg[cyan]%}%~%{$reset_color%}%b"
 
 # run-help's HELPDIR
@@ -180,3 +180,4 @@ bind2maps       viins       -- BackSpace  backward-delete-char
 
 unfunction bind2maps
 unset mod hypertext ptxt ext key 
+unsetopt globassign
