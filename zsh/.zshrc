@@ -29,7 +29,9 @@ mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 
 READNULLCMD=less
 # colourssssssssssssssssssssssssssssssssssssss
-autoload -U colors && colors
+autoload -Uz colors && colors
+(( $+commands[dircolors] )) && eval $(dircolors -b)
+ZLS_COLORS=${LS_COLORS//cd=40;33;01/cd=40;01;36} LS_COLORS=${ZLS_COLORS}
 
 # Prompt stuff
 PROMPT="(%{$fg[cyan]%}%n%{$reset_color%}::%{$fg[cyan]%}%m%{$reset_color%})%# "
@@ -63,7 +65,6 @@ zstyle ':completion:*' group-name ''
 # if there are atleast 0 matches, use menu selection (will always be true)
 zstyle ':completion:*' menu select=0
 # set colors for files/directories to be the same as ls(1)
-(( $+commands[dircolors] )) && eval $(dircolors -b)
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # everything else normal colors
 zstyle ':completion:*' list-colors ''
@@ -114,6 +115,7 @@ bindkey -M vicmd 'D' vi-kill-eol
 bindkey -M vicmd 'K' run-help
 bindkey -M vicmd '\e/' 'undefined-key'
 bindkey -M viins '\e.' insert-last-word
+bindkey -M viins '^Xm' _most_recent_file
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 if [[ -n ${terminfo[kLFT]} ]] {
   bindkey -M viins "${terminfo[kLFT]}" vi-backward-word
