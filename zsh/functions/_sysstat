@@ -1,0 +1,116 @@
+#compdef -P mpstat (|cifs)iostat isag sadf sar
+#(sysstat-|)nfsiostat sa(r|df) pidstat isag
+# -V can appear with other options, so (- *) isn't needed.
+#TODO:
+# finish sadf, needs to complete sar(1) options, interval, count, datafile
+# /usr/bin/pidstat
+# /usr/bin/sar
+# /usr/bin/sysstat-nfsiostat
+(( $+functions[_mpstat] )) ||
+_mpstat() {
+  # TODO: think of a clever way of finding the ammount of cores for -P
+  local ret=1
+  _arguments -A "-*" : \
+    '-A[Equivalent to -u -I ALL -P ALL]' \
+    '-I[Report interrupt statistics]:interrupts:(SUM CPU SCPU ALL)' \
+    '-P[Specify processor number]:processor number(zero indexed), ON or ALL:(ON ALL)' \
+    '-u[Report CPU utilization]' \
+    '-V[Print version number]' \
+    ':interval:' \
+    ':count:' && ret=1
+  return ret
+}
+
+(( $+functions[_iostat] )) ||
+_iostat() {
+  local ret=1
+  _arguments -A "-*" : \
+    '-c[Display CPU utilization report]' \
+    '-d[Display device utilization report]' \
+    '-T[Only display global statistics for group_name]' \
+    '-g[Display statistics for a group of devices]:group name:' \
+    '-h[Human readable device utilization report]' \
+    '-j[Display persistent device name]' \
+    '( -m )-k[Display statistics in kB/s]' \
+    '( -k )-m[Display statistics in MB/s]' \
+    '-N[Display registered device mapper names]' \
+    ':interval:' \
+    ':count:' && ret=0
+  return ret
+}
+
+(( $+functions[_cifsiostat] )) ||
+_cifsiostat() {
+  local ret=1
+  _arguments -A "-*" : \
+    '-h[Human readable]' \
+    '(-m)-k[Display statistics in kB/s]' \
+    '(-k)-m[Display statistics in MB/s]' \
+    '-t[Print timestamp for each report]' \
+    '-V[Print version number]' \
+    ':interval:' \
+    ':count:' && ret=0
+  return ret
+}
+
+(( $+functions[_isag] )) ||
+_isag() {
+  local ret=1 
+  _arguments : \
+    '-p[Pathname to daily data files]:data files: _files -/' \
+    '-c[Specify configuration file]:configuration file: _files' \
+    '-ght[Specify height of the chart]:height:' \
+    '-gwd[Specify width of the chart]:width:' && ret=0
+  return ret
+}
+
+(( $+functions[_sadf] )) ||
+_sadf() {
+  local ret=1
+  if ! [[ " $words[*] " == *" -- "* ]]; then
+    _arguments : \
+      '-C[Display comments in file]' \
+      '(-j -p -x)-d[Output file in SQL format]' \
+      '-e[Set ending time of report]:ending time: _message "ending time in localtime(HH:MM:SS 24-hour format)"' \
+      '-H[Display only the header of the report]' \
+      '(-j -p -x)-h[Print on a single line when used with -d]' \
+      '(-d -p -x)-j[Output file in JSON]' \
+      '-P[Restrict processor dependant statistics]:processor number(zero indexed) or ALL:(ALL)' \
+      '(-j -x -d)-p[Print in format parsable by tools like awk]' \
+      '-s[Set starting time of report]:starting time: _message "starting time in localtime(HH:MM:SS 24-hour format)"' \
+      '(-t -U)-T[Display timestamp in local time]' \
+      '(-T -U)-t[Display timestamp in file\''s original localtime]' \
+      '(-t -T)-U[Display in seconds from epoch(UTC)]' \
+      '-V[Print version number]' \
+      '(-j -d -p)-x[Output file in XML]' && ret=0
+  fi
+
+  if [[ " $words[*] " == *" -- "* ]]; then
+    _sar
+  fi
+
+  return ret
+}
+
+(( $+functions[_sar] )) ||
+_sar() {
+  local ret=1
+  _arguments : \
+    '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
+    '-B[report paging statistics]' \
+    '-b[report I/O and transfer rate statistics]' \
+    '-C[display comments from sadc]' \
+    '-d[report activity for each block device]' \
+    '-e[set ending time of report]:ending time: _message "ending time in (HH:MM:SS 24-hour format)"' \
+    '-F[display statistics for mounted filesystems]' && ret=0
+
+  return ret
+}
+
+_sysstat() {
+  local ret=1                 
+  _call_function ret _$service
+  return ret                  
+}                             
+
+_sysstat "$@"
