@@ -83,9 +83,7 @@ _sadf() {
       '(-t -T)-U[Display in seconds from epoch(UTC)]' \
       '-V[Print version number]' \
       '(-j -d -p)-x[Output file in XML]' && ret=0
-  fi
-
-  if [[ " $words[*] " == *" -- "* ]]; then
+  else
     _sar
   fi
 
@@ -96,7 +94,7 @@ _sadf() {
 _sar() {
   local ret=1
   _arguments : \
-    '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
+    '-A[select all possible activities]' \
     '-B[report paging statistics]' \
     '-b[report I/O and transfer rate statistics]' \
     '-C[display comments from sadc]' \
