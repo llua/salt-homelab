@@ -1,0 +1,3 @@
+bashpf() {
+  w3m 'http://mywiki.wooledge.org/BashPitfalls'
+}

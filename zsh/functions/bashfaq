@@ -1,0 +1,3 @@
+bashfaq() {
+  w3m 'http://mywiki.wooledge.org/BashFAQ'
+}
