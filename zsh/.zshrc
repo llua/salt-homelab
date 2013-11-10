@@ -1,6 +1,7 @@
 # load wanted modules
 for mod in 'pcre' 'net/tcp' 'complist'; do
   [[ -e $MODULE_PATH/zsh/$mod.so ]] && zmodload zsh/$mod
+  unset mod
 done
 
 # Set/unset  shell options
@@ -28,8 +29,10 @@ MAILCHECK=1
 mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 
 READNULLCMD=less
+
 # colourssssssssssssssssssssssssssssssssssssss
 autoload -Uz colors && colors
+typeset -T ZLS_COLORS zls_colors
 (( $+commands[dircolors] )) && eval $(dircolors -b)
 ZLS_COLORS=${LS_COLORS//cd=40;33;01/cd=40;01;36} LS_COLORS=${ZLS_COLORS}
 
@@ -65,7 +68,7 @@ zstyle ':completion:*' group-name ''
 # if there are atleast 0 matches, use menu selection (will always be true)
 zstyle ':completion:*' menu select=0
 # set colors for files/directories to be the same as ls(1)
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:default' list-colors "$zls_colors[@]"
 # everything else normal colors
 zstyle ':completion:*' list-colors ''
 # username completion
@@ -97,14 +100,14 @@ watch=(notme)
 
 # Suffix alias
 
-ptxt=( txt conf )
-for ext in $ptxt ; do
+for ext in txt conf; do
   alias -s ${ext}=${EDITOR:-vim}
+  unset ext
 done
 
-hypertxt=( html htm org com net)
-for ext in $hypertxt ; do
+for ext in html htm org com net; do
   alias -s ${ext}=${BROWSER:-firefox}
+  unset ext
 done
 
 # keybinds
@@ -180,6 +183,5 @@ bind2maps emacs             -- Right      forward-char
 bind2maps       viins vicmd -- Right      vi-forward-char
 bind2maps       viins       -- BackSpace  backward-delete-char
 
-unfunction bind2maps
-unset mod hypertext ptxt ext key 
+unfunction bind2maps; unset key 
 unsetopt globassign
