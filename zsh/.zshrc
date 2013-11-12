@@ -50,7 +50,8 @@ autoload -Uz ${ZDOTDIR}/functions/**/[^_]*(N.:t) zmv 2>/dev/null
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 # separate man page completion by section.
-zstyle ':completion:*:manuals' separate-sections true 
+zstyle ':completion:*:manuals.*'  insert-sections   true
+zstyle ':completion:*:manuals'    separate-sections true 
 # per-match descriptions (if available)
 zstyle ':completion:*' verbose true
 # descriptions of commands (if available)
