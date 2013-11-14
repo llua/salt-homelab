@@ -37,7 +37,7 @@ typeset -T ZLS_COLORS zls_colors
 ZLS_COLORS=${LS_COLORS//cd=40;33;01/cd=40;01;36} LS_COLORS=${ZLS_COLORS}
 
 # Prompt stuff
-PROMPT="(%{$fg[cyan]%}%n%{$reset_color%}::%{$fg[cyan]%}%m%{$reset_color%})%# "
+PROMPT="(%{$fg[cyan]%}%m%{$reset_color%})%# "
 RPROMPT="%B%{$fg[cyan]%}%~%{$reset_color%}%b"
 
 # run-help's HELPDIR
