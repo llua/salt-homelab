@@ -10,7 +10,7 @@ setopt   ExtendedGlob  GlobAssign
 # Misc
 setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst
 # History 
-setopt   ExtendedHistory HistIgnoredUps AppendHistory HistExpiredUpsFirst HistNoStore IncAppendHistory ShareHistory
+setopt   ExtendedHistory HistIgnoreAllDups AppendHistory HistNoStore IncAppendHistory ShareHistory
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Completion
