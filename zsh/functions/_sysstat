@@ -3,7 +3,6 @@
 # -V can appear with other options, so (- *) isn't needed.
 #TODO:
 # interval & count could appear anywhere on the line it seems.(man page doesn't mention it)
-# `Completing no more arguments' appears when using mpstat & sar
 # finish sadf, interval, count, datafile
 # mpstat, -P arguments can be delimited by `,'
 # sar, (-I|-m|-n|-P)'s arguments can be delimited by `,'. -I can appear multiple times
