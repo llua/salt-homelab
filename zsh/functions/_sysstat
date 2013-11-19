@@ -10,7 +10,6 @@
 # /usr/bin/sysstat-nfsiostat
 (( $+functions[_mpstat] )) ||
 _mpstat() {
-  # TODO: think of a clever way of finding the ammount of cores for -P
   local ret=1
   _arguments -A "-*" : \
     '-A[Equivalent to -u -I ALL -P ALL]' \
@@ -70,22 +69,22 @@ _isag() {
 _sadf() {
   local ret=1
   # any options after `--' are for sar(1)
-  if ! [[ " $words[*] " == *" -- "* ]]; then
+  if ! (( CURRENT > $words[(i)--] )); then
     _arguments : \
-      '-C[Display comments in file]' \
-      '(-j -p -x)-d[Output file in SQL format]' \
-      '-e[Set ending time of report]:ending time: _message "ending time in localtime(HH:MM:SS 24-hour format)"' \
-      '-H[Display only the header of the report]' \
-      '(-j -p -x)-h[Print on a single line when used with -d]' \
-      '(-d -p -x)-j[Output file in JSON]' \
-      '-P[Restrict processor dependant statistics]:processor number(zero indexed) or ALL:(ALL)' \
-      '(-j -x -d)-p[Print in format parsable by tools like awk]' \
-      '-s[Set starting time of report]:starting time: _message "starting time in localtime(HH:MM:SS 24-hour format)"' \
-      '(-t -U)-T[Display timestamp in local time]' \
-      '(-T -U)-t[Display timestamp in file\''s original localtime]' \
-      '(-t -T)-U[Display in seconds from epoch(UTC)]' \
-      '-V[Print version number]' \
-      '(-j -d -p)-x[Output file in XML]' && ret=0
+      '-C[display comments in file]' \
+      '(-j -p -x)-d[output file in SQL format]' \
+      '-e[set ending time of report]:ending time: _message "ending time in localtime(HH\:MM\:SS 24-hour format)"' \
+      '-H[display only the header of the report]' \
+      '(-j -p -x)-h[print on a single line when used with -d]' \
+      '(-d -p -x)-j[output file in JSON]' \
+      '-P[restrict processor dependant statistics]:processor number(zero indexed) or ALL:(ALL)' \
+      '(-j -x -d)-p[print in format parsable by tools like awk]' \
+      '-s[set starting time of report]:starting time: _message "starting time in localtime(HH\:MM\:SS 24-hour format)"' \
+      '(-t -U)-T[display timestamp in local time]' \
+      '(-T -U)-t[display timestamp in file\''s original localtime]' \
+      '(-t -T)-U[display in seconds from epoch(UTC)]' \
+      '-V[print version number]' \
+      '(-j -d -p)-x[output file in XML]' && ret=0
   else
     (( $+functions[_sar] )) && _sar
   fi
@@ -95,14 +94,15 @@ _sadf() {
 
 (( $+functions[_sar] )) ||
 _sar() {
-  local ret=1
+  local ret=1 #curcontext=${curcontext%:*:*}:sar
+  #(( CURRENT == 1 )); shift $(( $#words - 1 ))  words
   _arguments \
     '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
     '-B[report paging statistics]' \
     '-b[report I/O and transfer rate statistics]' \
     '-C[display comments from sadc]' \
     '-d[report activity for each block device]' \
-    '-e[set ending time of report]:ending time: _message "ending time (HH:MM:SS 24-hour format)"' \
+    '-e[set ending time of report]:ending time: _message "ending time (HH\:MM\:SS 24-hour format)"' \
     '-F[display statistics for mounted filesystems]' \
     '-f[extract records from file]:record:_files' \
     '-H[report hugepages utilization]' \
@@ -118,7 +118,7 @@ _sar() {
     '-R[report memory statistics]' \
     '-r[report memory utilization statistics]' \
     '-S[report swap space utilization]' \
-    '-s[set starting time of report]:start time: _message "start time (HH:MM:SS 24-hour format)"' \
+    '-s[set starting time of report]:start time: _message "start time (HH\:MM\:SS 24-hour format)"' \
     '-u[report CPU utilization]: :(ALL)' \
     '-V[print version number]' \
     '-v[report status of kernel tables]' \
@@ -126,7 +126,7 @@ _sar() {
     '-w[report task creation and system switching activity]' \
     '-y[report TTY device activity]' \
     ':interval:' \
-    ':count:' && ret=1
+    ':count:' && ret=0
 
   return ret
 }
