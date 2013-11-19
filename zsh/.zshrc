@@ -16,7 +16,7 @@ setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Completion
 setopt	 Zle AutoMenu
 # Stuff we don't want
-unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList
+unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
 # Set fpath
 fpath=( ~/.config/functions(N) /usr/(local/)#share/zsh/($ZSH_VERSION/)#(site-)#functions/(*/)#(N/) )
@@ -113,24 +113,25 @@ done
 
 # keybinds
 bindkey -v
-bindkey 'OQ' history-incremental-search-backward # F2
-bindkey -M vicmd 'dd' vi-kill-line
-bindkey -M vicmd 'D' vi-kill-eol
-bindkey -M vicmd 'K' run-help
-bindkey -M vicmd '\e/' 'undefined-key'
-bindkey -M viins '\e.' insert-last-word
-bindkey -M viins '^Xm' _most_recent_file
-bindkey -M menuselect '^[[Z' reverse-menu-complete
-if [[ -n ${terminfo[kLFT]} ]] {
-  bindkey -M viins "${terminfo[kLFT]}" vi-backward-word
-  bindkey -M vicmd "${terminfo[kLFT]}" vi-backward-word
-}
-if [[ -n ${terminfo[kLFT]} ]] { 
-  bindkey -M viins "${terminfo[kRIT]}" vi-forward-word
-  bindkey -M vicmd "${terminfo[kRIT]}" vi-forward-word
-}
-bindkey -M emacs '^[ ' magic-space
-bindkey -M emacs '^[!' expand-history
+bindkey 'OQ'                          history-incremental-search-backward # F2
+bindkey -M vicmd 'dd'                   vi-kill-line
+bindkey -M vicmd 'D'                    vi-kill-eol
+bindkey -M vicmd 'K'                    run-help
+bindkey -M vicmd '\e/'                  'undefined-key'
+bindkey -M viins '^H'                   backward-delete-char
+bindkey -M viins '\e.'                  insert-last-word
+bindkey -M viins '^Xm'                  _most_recent_file
+bindkey -M menuselect '^[[Z'            reverse-menu-complete
+if [[ -n ${terminfo[kLFT]} ]]; then 
+  bindkey -M viins "${terminfo[kLFT]}"  vi-backward-word
+  bindkey -M vicmd "${terminfo[kLFT]}"  vi-backward-word
+fi
+if [[ -n ${terminfo[kLFT]} ]]; then
+  bindkey -M viins "${terminfo[kRIT]}"  vi-forward-word
+  bindkey -M vicmd "${terminfo[kRIT]}"  vi-forward-word
+fi
+bindkey -M emacs '^[ '                  magic-space
+bindkey -M emacs '^[!'                  expand-history
 bindkey '^Z' undo
 # code from ft of #zsh & the debian project to bind keys consistently.
 typeset -A key
