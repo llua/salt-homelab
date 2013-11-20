@@ -1,20 +1,18 @@
-#compdef -P mpstat (|cifs)iostat isag sadf sar
-#(sysstat-|)nfsiostat pidstat
+#compdef -P mpstat (|cifs)iostat isag sadf sar pidstat
+
 # -V can appear with other options, so (- *) isn't needed.
 #TODO:
 # interval & count could appear anywhere on the line it seems.(man page doesn't mention it)
-# finish sadf, interval, count, datafile
-# mpstat, -P arguments can be delimited by `,'
-# sar, (-I|-m|-n|-P)'s arguments can be delimited by `,'. -I can appear multiple times
-# /usr/bin/pidstat
-# /usr/bin/sysstat-nfsiostat
+# sadf, find a way to call _sar from it.
+# sysstat-nfsiostat - there seems to be two nfsiostat(1)s. one from whoracle and one by redhat.
+
 (( $+functions[_mpstat] )) ||
 _mpstat() {
   local ret=1
   _arguments -A "-*" : \
     '-A[Equivalent to -u -I ALL -P ALL]' \
     '-I[Report interrupt statistics]:interrupts:(SUM CPU SCPU ALL)' \
-    '-P[Specify processor number]:processor number(zero indexed), ON or ALL:(ON ALL)' \
+    '-P[Specify processor number]:processor: _values -s "," processor ON ALL' \
     '-u[Report CPU utilization]' \
     '-V[Print version number]' \
     ':interval:' \
@@ -84,9 +82,41 @@ _sadf() {
       '(-T -U)-t[display timestamp in file\''s original localtime]' \
       '(-t -T)-U[display in seconds from epoch(UTC)]' \
       '-V[print version number]' \
-      '(-j -d -p)-x[output file in XML]' && ret=0
+      '(-j -d -p)-x[output file in XML]' \
+      ':interval:' \
+      ':count:' && ret=0
   else
-    (( $+functions[_sar] )) && _sar
+    _arguments \
+      '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
+      '-B[report paging statistics]' \
+      '-b[report I/O and transfer rate statistics]' \
+      '-C[display comments from sadc]' \
+      '-d[report activity for each block device]' \
+      '-e[set ending time of report]:ending time: _message "ending time (HH\:MM\:SS 24-hour format)"' \
+      '-F[display statistics for mounted filesystems]' \
+      '-f[extract records from file]:record:_files' \
+      '-H[report hugepages utilization]' \
+      '-h[display help]' \
+      '*-I[report statistics for interrupts]:interrupts: _values -s "," interrupts 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 SUM ALL XALL' \
+      '-i[select records as close as possible to interval]:interval:' \
+      '-j[display persistent device names]:type:(ID LABEL PATH UUID)' \
+      '-m[report power management statistics]:keywords: _values -s "," keywords CPU FAN FREQ IN TEMP USB ALL' \
+      '-n[report network statistics]:keywords: _values -s "," keywords DEV EDEV NFS NFSD SOCK IP EIP ICMP EICMP TCP ETCP UDP SOCK6 IP6 EIP6 ICMP6 EICMP6 UDP6 ALL' \
+      '-P[report per-processor statistics]:processor: _values -s "," processors ALL' \
+      '-p[pretty-print device names]' \
+      '-q[report queue length and load averages]' \
+      '-R[report memory statistics]' \
+      '-r[report memory utilization statistics]' \
+      '-S[report swap space utilization]' \
+      '-s[set starting time of report]:start time: _message "start time (HH\:MM\:SS 24-hour format)"' \
+      '-u[report CPU utilization]: :(ALL)' \
+      '-V[print version number]' \
+      '-v[report status of kernel tables]' \
+      '-W[report swapping statistics]' \
+      '-w[report task creation and system switching activity]' \
+      '-y[report TTY device activity]' \
+      ':interval:' \
+      ':count:' && ret=0
   fi
 
   return ret
@@ -94,8 +124,7 @@ _sadf() {
 
 (( $+functions[_sar] )) ||
 _sar() {
-  local ret=1 #curcontext=${curcontext%:*:*}:sar
-  #(( CURRENT == 1 )); shift $(( $#words - 1 ))  words
+  local ret=1 
   _arguments \
     '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
     '-B[report paging statistics]' \
@@ -107,12 +136,12 @@ _sar() {
     '-f[extract records from file]:record:_files' \
     '-H[report hugepages utilization]' \
     '-h[display help]' \
-    '-I[report statistics for interrupts]:interrupts:(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 SUM ALL XALL)' \
+    '*-I[report statistics for interrupts]:interrupts: _values -s "," interrupts 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 SUM ALL XALL' \
     '-i[select records as close as possible to interval]:interval:' \
     '-j[display persistent device names]:type:(ID LABEL PATH UUID)' \
-    '-m[report power management statistics]:keywords:(CPU FAN FREQ IN TEMP USB ALL)' \
-    '-n[report network statistics]:keywords:(DEV EDEV NFS NFSD SOCK IP EIP ICMP EICMP TCP ETCP UDP SOCK6 IP6 EIP6 ICMP6 EICMP6 UDP6 ALL)' \
-    '-P[report per-processor statistics]:processor:(ALL)' \
+    '-m[report power management statistics]:keywords: _values -s "," keywords CPU FAN FREQ IN TEMP USB ALL' \
+    '-n[report network statistics]:keywords: _values -s "," keywords DEV EDEV NFS NFSD SOCK IP EIP ICMP EICMP TCP ETCP UDP SOCK6 IP6 EIP6 ICMP6 EICMP6 UDP6 ALL' \
+    '-P[report per-processor statistics]:processor: _values -s "," processors ALL' \
     '-p[pretty-print device names]' \
     '-q[report queue length and load averages]' \
     '-R[report memory statistics]' \
@@ -127,6 +156,29 @@ _sar() {
     '-y[report TTY device activity]' \
     ':interval:' \
     ':count:' && ret=0
+
+  return ret
+}
+
+(( $+functions[_pidstat] )) ||
+_pidstat() {
+  local ret=1
+  _arguments \
+    '-C[filter tasks by string]:task: _message "string or regex"' \
+    '-d[report I/O statistics]' \
+    '-h[display on horizontally]' \
+    '-I[divide CPU usage by number of processors]' \
+    '-l[display process name along with arguments]' \
+    '-p[select pid]:pid: _values -s "," pids SELF ALL ${(onf)$(ps ax -o pid)[2,-1]}' \
+    '-r[report page faults and memory]' \
+    '-s[report stack utilization]' \
+    '-T[specifies what to monitor]:type:(TASK CHILD ALL)' \
+    '-t[display statistics for threads]' \
+    '-U[display real username of tasks]::username:_users' \
+    '-u[report cpu utilization]' \
+    '-V[print version number]' \
+    '-v[display values from kernel table]' \
+    '-w[report task switching activity]' && ret=0
 
   return ret
 }
