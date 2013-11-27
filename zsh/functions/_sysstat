@@ -1,5 +1,8 @@
 #compdef -P mpstat (|cifs)iostat isag sadf sar pidstat
 
+# author:     eric cook 
+# legalstuff: http://www.wtfpl.net/txt/copying/ 
+
 # -V can appear with other options, so (- *) isn't needed.
 #TODO:
 # interval & count could appear anywhere on the line it seems.(man page doesn't mention it)
