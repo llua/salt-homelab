@@ -44,7 +44,7 @@ RPROMPT="%B%{$fg[cyan]%}%~%{$reset_color%}%b"
 HELPDIR=~/.cache/zsh-help(N)
 
 # autoload my functions in .config/functions/ and zmv
-autoload -Uz ${ZDOTDIR}/functions/**/[^_]*(N.:t) zmv 2>/dev/null
+autoload -Uz ${ZDOTDIR}/functions/**/[^_]*(N.:t) zmv edit-command-line 2>/dev/null
 
 # Completion settings zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
@@ -184,6 +184,8 @@ bind2maps       viins vicmd -- Left       vi-backward-char
 bind2maps emacs             -- Right      forward-char
 bind2maps       viins vicmd -- Right      vi-forward-char
 bind2maps       viins       -- BackSpace  backward-delete-char
+
+zle -N edit-command-line; bindkey '^E' edit-command-line
 
 unfunction bind2maps; unset key 
 unsetopt globassign
