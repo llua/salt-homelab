@@ -114,13 +114,15 @@ done
 # keybinds
 bindkey -v
 bindkey 'OQ'                          history-incremental-search-backward # F2
-bindkey -M vicmd 'dd'                   vi-kill-line
+bindkey -M vicmd 'd-d'                  kill-line
 bindkey -M vicmd 'D'                    vi-kill-eol
 bindkey -M vicmd 'K'                    run-help
 bindkey -M vicmd '\e/'                  'undefined-key'
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e.'                  insert-last-word
 bindkey -M viins '^Xm'                  _most_recent_file
+bindkey -M viins '^?'                   backward-delete-char
+bindkey -M viins '^H'                   backward-delete-char
 bindkey -M menuselect '^[[Z'            reverse-menu-complete
 if [[ -n ${terminfo[kLFT]} ]]; then 
   bindkey -M viins "${terminfo[kLFT]}"  vi-backward-word
@@ -133,6 +135,7 @@ fi
 bindkey -M emacs '^[ '                  magic-space
 bindkey -M emacs '^[!'                  expand-history
 bindkey '^Z' undo
+zle -N edit-command-line; bindkey '^E' edit-command-line
 # code from ft of #zsh & the debian project to bind keys consistently.
 typeset -A key
 key=(
@@ -185,7 +188,6 @@ bind2maps emacs             -- Right      forward-char
 bind2maps       viins vicmd -- Right      vi-forward-char
 bind2maps       viins       -- BackSpace  backward-delete-char
 
-zle -N edit-command-line; bindkey '^E' edit-command-line
 
 unfunction bind2maps; unset key 
 unsetopt globassign
