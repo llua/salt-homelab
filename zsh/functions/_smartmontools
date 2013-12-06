@@ -56,7 +56,7 @@ _smartctl() {
 		'(-n --nocheck)'{-n,--nocheck}'[No check if MODE]:MODE:(never sleep standby idle)' \
 		\
 		'(-s --smart)'{-s,--smart}'[Enable/disable SMART on device]:VALUE:(on off)' \
-		'(-o --offlineauto)'{-s,--smart}'[Enable/disable automatic offline testing on device]:VALUE:(on off)' \
+		'(-o --offlineauto)'{-o,--offlineauto}'[Enable/disable automatic offline testing on device]:VALUE:(on off)' \
 		'(-S --saveauto)'{-S,--saveauto}'[Enable/disable attribute autosave on device]:VALUE:(on off)' \
 		\
 		'(-H --health)'{-H,--health}'[Show device SMART health status]' \

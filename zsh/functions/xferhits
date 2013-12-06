@@ -1,0 +1,4 @@
+xferloghits() {
+ # FIXME: options to control when date to search for
+  zegrep "${year:-$(date +%Y)}:[0-9]+:" "$@" | awk '{ seen[substr($4, 2, length($4) - 4)]++ }; END{ for (a in seen) print a, seen[a], "hits"}' | sort
+}
