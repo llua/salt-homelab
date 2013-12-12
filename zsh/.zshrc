@@ -117,7 +117,7 @@ bindkey 'OQ'                          history-incremental-search-backward # F2
 bindkey -M vicmd 'd-d'                  kill-line
 bindkey -M vicmd 'D'                    vi-kill-eol
 bindkey -M vicmd 'K'                    run-help
-bindkey -M vicmd '\e/'                  'undefined-key'
+bindkey -M viins -r '\e/'
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e.'                  insert-last-word
 bindkey -M viins '^Xm'                  _most_recent_file
@@ -180,8 +180,8 @@ bind2maps emacs viins       -- Insert     overwrite-mode
 bind2maps             vicmd -- Insert     vi-insert
 bind2maps emacs             -- Delete     delete-char
 bind2maps       viins vicmd -- Delete     vi-delete-char
-bind2maps emacs viins vicmd -- Up         up-line-or-history
-bind2maps emacs viins vicmd -- Down       down-line-or-history
+bind2maps emacs viins vicmd -- Up         up-line-or-search
+bind2maps emacs viins vicmd -- Down       down-line-or-search
 bind2maps emacs             -- Left       backward-char
 bind2maps       viins vicmd -- Left       vi-backward-char
 bind2maps emacs             -- Right      forward-char
