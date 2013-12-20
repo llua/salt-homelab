@@ -122,12 +122,16 @@ bindkey -M viins '\e.'                  insert-last-word
 bindkey -M viins '^Xm'                  _most_recent_file
 bindkey -M viins '^?'                   backward-delete-char
 bindkey -M viins '^H'                   backward-delete-char
+bindkey -M viins '\e[d'                 vi-backward-word
+bindkey -M vicmd '\e[d'                 vi-backward-word
+bindkey -M viins '\e[c'                 vi-forward-word
+bindkey -M vicmd '\e[c'                 vi-forward-word
 bindkey -M menuselect '^[[Z'            reverse-menu-complete
-if [[ -n ${terminfo[kLFT]} ]]; then 
+if (( $+terminfo[kLFT] )); then 
   bindkey -M viins "${terminfo[kLFT]}"  vi-backward-word
   bindkey -M vicmd "${terminfo[kLFT]}"  vi-backward-word
 fi
-if [[ -n ${terminfo[kLFT]} ]]; then
+if (( $+terminfo[kLFT] )); then
   bindkey -M viins "${terminfo[kRIT]}"  vi-forward-word
   bindkey -M vicmd "${terminfo[kRIT]}"  vi-forward-word
 fi
@@ -136,19 +140,31 @@ bindkey -M emacs '^[!'                  expand-history
 bindkey '^Z' undo
 zle -N edit-command-line; bindkey '^E' edit-command-line
 # code from ft of #zsh & the debian project to bind keys consistently.
+# the urxvt entries are for when i have urxvt set TERM to xterm-256color
 typeset -A key
 key=(
-  Home      "${terminfo[khome]}"
-  End       "${terminfo[kend]}"
-  Insert    "${terminfo[kich1]}"
-  Delete    "${terminfo[kdch1]}"
-  Up        "${terminfo[kcuu1]}"
-  Down      "${terminfo[kcud1]}"
-  Left      "${terminfo[kcub1]}"
-  Right     "${terminfo[kcuf1]}"
-  PageUp    "${terminfo[kpp]}"
-  PageDown  "${terminfo[knp]}" 
-  BackSpace "${terminfo[kbs]}"
+  Home              "${terminfo[khome]}"
+  End               "${terminfo[kend]}"
+  Insert            "${terminfo[kich1]}"
+  Delete            "${terminfo[kdch1]}"
+  Up                "${terminfo[kcuu1]}"
+  Down              "${terminfo[kcud1]}"
+  Left              "${terminfo[kcub1]}"
+  Right             "${terminfo[kcuf1]}"
+  PageUp            "${terminfo[kpp]}"
+  PageDown          "${terminfo[knp]}" 
+  BackSpace         "${terminfo[kbs]}"
+  urxvt-Home        '\e[7~'
+  urxvt-End         '\e[8~'
+  urxvt-Insert      '\e[2~'
+  urxvt-Delete      '\e[3~'
+  urxvt-Up          '\e[A'
+  urxvt-Down        '\e[B'
+  urxvt-Left        '\e[D'
+  urxvt-Right       '\e[C'
+  urxvt-PageUp      '\e[5~'
+  urxvt-PageDown    '\e[6~'
+  urxvt-BackSpace   '^H'
 )
 
 function bind2maps () {
@@ -171,22 +187,36 @@ function bind2maps () {
   done
 }
 
-bind2maps emacs             -- Home       beginning-of-line
-bind2maps       viins vicmd -- Home       vi-beginning-of-line
-bind2maps emacs             -- End        end-of-line
-bind2maps       viins vicmd -- End        vi-end-of-line
-bind2maps emacs viins       -- Insert     overwrite-mode
-bind2maps             vicmd -- Insert     vi-insert
-bind2maps emacs             -- Delete     delete-char
-bind2maps       viins vicmd -- Delete     vi-delete-char
-bind2maps emacs viins vicmd -- Up         up-line-or-search
-bind2maps emacs viins vicmd -- Down       down-line-or-search
-bind2maps emacs             -- Left       backward-char
-bind2maps       viins vicmd -- Left       vi-backward-char
-bind2maps emacs             -- Right      forward-char
-bind2maps       viins vicmd -- Right      vi-forward-char
-bind2maps       viins       -- BackSpace  backward-delete-char
-
+bind2maps emacs             -- Home             beginning-of-line
+bind2maps emacs             -- urxvt-Home       beginning-of-line
+bind2maps       viins vicmd -- Home             vi-beginning-of-line
+bind2maps       viins vicmd -- urxvt-Home       vi-beginning-of-line
+bind2maps emacs             -- End              end-of-line
+bind2maps emacs             -- urxvt-End        end-of-line
+bind2maps       viins vicmd -- End              vi-end-of-line
+bind2maps       viins vicmd -- urxvt-End        vi-end-of-line
+bind2maps emacs viins       -- Insert           overwrite-mode
+bind2maps emacs viins       -- urxvt-Insert     overwrite-mode
+bind2maps             vicmd -- Insert           vi-insert
+bind2maps             vicmd -- urxvt-Insert     vi-insert
+bind2maps emacs             -- Delete           delete-char
+bind2maps emacs             -- urxvt-Delete     delete-char
+bind2maps       viins vicmd -- Delete           vi-delete-char
+bind2maps       viins vicmd -- urxvt-Delete     vi-delete-char
+bind2maps emacs viins vicmd -- Up               up-line-or-search
+bind2maps emacs viins vicmd -- urxvt-Up         up-line-or-search
+bind2maps emacs viins vicmd -- Down             down-line-or-search
+bind2maps emacs viins vicmd -- urxvt-Down       down-line-or-search
+bind2maps emacs             -- Left             backward-char
+bind2maps emacs             -- urxvt-Left       backward-char
+bind2maps       viins vicmd -- Left             vi-backward-char
+bind2maps       viins vicmd -- urxvt-Left       vi-backward-char
+bind2maps emacs             -- Right            forward-char
+bind2maps emacs             -- urxvt-Right      forward-char
+bind2maps       viins vicmd -- Right            vi-forward-char
+bind2maps       viins vicmd -- urxvt-Right      vi-forward-char
+bind2maps       viins       -- BackSpace        backward-delete-char
+bind2maps       viins       -- urxvt-BackSpace  backward-delete-char
 
 unfunction bind2maps; unset key 
 unsetopt globassign
