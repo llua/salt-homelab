@@ -1,7 +1,7 @@
 #compdef -P mpstat (|cifs)iostat isag sadf sar pidstat
 
 # author:     eric cook 
-# legalstuff: http://www.wtfpl.net/txt/copying/ 
+# boringlegalstuff: http://www.wtfpl.net/txt/copying/ 
 
 # -V can appear with other options, so (- *) isn't needed.
 #TODO:
@@ -13,11 +13,11 @@
 _mpstat() {
   local ret=1
   _arguments -A "-*" : \
-    '-A[Equivalent to -u -I ALL -P ALL]' \
-    '-I[Report interrupt statistics]:interrupts:(SUM CPU SCPU ALL)' \
-    '-P[Specify processor number]:processor: _values -s "," processor ON ALL' \
-    '-u[Report CPU utilization]' \
-    '-V[Print version number]' \
+    '-A[equivalent to -u -I ALL -P ALL]' \
+    '-I[report interrupt statistics]:interrupts:(SUM CPU SCPU ALL)' \
+    '-P[specify processor number]:processor: _values -s "," processor ON ALL' \
+    '-u[report CPU utilization]' \
+    '-V[print version number]' \
     ':interval:' \
     ':count:' && ret=1
   return ret
@@ -27,15 +27,15 @@ _mpstat() {
 _iostat() {
   local ret=1
   _arguments -A "-*" : \
-    '-c[Display CPU utilization report]' \
-    '-d[Display device utilization report]' \
-    '-T[Only display global statistics for group_name]' \
-    '-g[Display statistics for a group of devices]:group name:' \
-    '-h[Human readable device utilization report]' \
-    '-j[Display persistent device name]' \
-    '(-m)-k[Display statistics in kB/s]' \
-    '(-k)-m[Display statistics in MB/s]' \
-    '-N[Display registered device mapper names]' \
+    '-c[display CPU utilization report]' \
+    '-d[display device utilization report]' \
+    '-T[only display global statistics for group_name]' \
+    '-g[display statistics for a group of devices]:group name:' \
+    '-h[human readable device utilization report]' \
+    '-j[display persistent device name]' \
+    '(-m)-k[display statistics in kB/s]' \
+    '(-k)-m[display statistics in MB/s]' \
+    '-N[display registered device mapper names]' \
     ':interval:' \
     ':count:' && ret=0
   return ret
@@ -45,11 +45,11 @@ _iostat() {
 _cifsiostat() {
   local ret=1
   _arguments -A "-*" : \
-    '-h[Human readable]' \
-    '(-m)-k[Display statistics in kB/s]' \
-    '(-k)-m[Display statistics in MB/s]' \
-    '-t[Print timestamp for each report]' \
-    '-V[Print version number]' \
+    '-h[human readable]' \
+    '(-m)-k[display statistics in kB/s]' \
+    '(-k)-m[display statistics in MB/s]' \
+    '-t[print timestamp for each report]' \
+    '-V[print version number]' \
     ':interval:' \
     ':count:' && ret=0
   return ret
