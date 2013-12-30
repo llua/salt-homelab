@@ -18,8 +18,8 @@ _mpstat() {
     '-P[specify processor number]:processor: _values -s "," processor ON ALL' \
     '-u[report CPU utilization]' \
     '-V[print version number]' \
-    ':interval:' \
-    ':count:' && ret=1
+    ':interval:_guard "[0-9]##" "interval"' \
+    ':count:_guard "[0-9]##" "count"' && ret=1
   return ret
 }
 
@@ -36,8 +36,8 @@ _iostat() {
     '(-m)-k[display statistics in kB/s]' \
     '(-k)-m[display statistics in MB/s]' \
     '-N[display registered device mapper names]' \
-    ':interval:' \
-    ':count:' && ret=0
+    ':interval:_guard "[0-9]##" "interval"' \
+    ':count:_guard "[0-9]##" "count"' && ret=0
   return ret
 }
 
@@ -50,8 +50,8 @@ _cifsiostat() {
     '(-k)-m[display statistics in MB/s]' \
     '-t[print timestamp for each report]' \
     '-V[print version number]' \
-    ':interval:' \
-    ':count:' && ret=0
+    ':interval:_guard "[0-9]##" "interval"' \
+    ':count:_guard "[0-9]##" "count"' && ret=0
   return ret
 }
 
@@ -86,8 +86,8 @@ _sadf() {
       '(-t -T)-U[display in seconds from epoch(UTC)]' \
       '-V[print version number]' \
       '(-j -d -p)-x[output file in XML]' \
-      ':interval:' \
-      ':count:' && ret=0
+      ':interval:_guard "[0-9]##" "interval"' \
+      ':count:_guard "[0-9]##" "count"' && ret=0
   else
     _arguments \
       '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
@@ -118,8 +118,8 @@ _sadf() {
       '-W[report swapping statistics]' \
       '-w[report task creation and system switching activity]' \
       '-y[report TTY device activity]' \
-      ':interval:' \
-      ':count:' && ret=0
+      ':interval:_guard "[0-9]##" "interval"' \
+      ':count:_guard "[0-9]##" "count"' && ret=0
   fi
 
   return ret
@@ -157,8 +157,8 @@ _sar() {
     '-W[report swapping statistics]' \
     '-w[report task creation and system switching activity]' \
     '-y[report TTY device activity]' \
-    ':interval:' \
-    ':count:' && ret=0
+    ':interval:_guard "[0-9]##" "interval"' \
+    ':count:_guard "[0-9]##" "count"' && ret=0
 
   return ret
 }
