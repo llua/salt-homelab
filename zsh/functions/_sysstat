@@ -1,13 +1,8 @@
 #compdef -P mpstat (|cifs)iostat isag sadf sar pidstat
-
-# author:     eric cook 
-# boringlegalstuff: http://www.wtfpl.net/txt/copying/ 
-
 # -V can appear with other options, so (- *) isn't needed.
 #TODO:
-# sysstat-nfsiostat - there seems to be two nfsiostat(1)s. one from whoracle and one by redhat.
+# sysstat-nfsiostat - there seems to be two nfsiostat(1)s. one from oracle and one by redhat.
 
-(( $+functions[_mpstat] )) ||
 _mpstat() {
   local ret=1
   _arguments : \
@@ -16,12 +11,11 @@ _mpstat() {
     '-P[specify processor number]:processor: _values -s "," processor ON ALL' \
     '-u[report CPU utilization]' \
     '-V[print version number]' \
-    '1:interval:_guard "[0-9]##" "interval"' \
-    '2:count:_guard "[0-9]##" "count"' && ret=1
+    '1:interval:_guard "[0-9]#" "interval"' \
+    '2:count:_guard "[0-9]#" "count"' && ret=1
   return ret
 }
 
-(( $+functions[_iostat] )) ||
 _iostat() {
   local ret=1
   _arguments : \
@@ -39,7 +33,6 @@ _iostat() {
   return ret
 }
 
-(( $+functions[_cifsiostat] )) ||
 _cifsiostat() {
   local ret=1
   _arguments : \
@@ -53,7 +46,6 @@ _cifsiostat() {
   return ret
 }
 
-(( $+functions[_isag] )) ||
 _isag() {
   local ret=1 
   _arguments : \
@@ -64,7 +56,6 @@ _isag() {
   return ret
 }
 
-(( $+functions[_sadf] )) ||
 _sadf() {
   local ret=1 line state context expl
   typeset -A opt_args
@@ -93,7 +84,6 @@ _sadf() {
   return ret
 }
 
-(( $+functions[_sar] )) ||
 _sar() {
   local ret=1 
   _arguments : \
@@ -130,7 +120,6 @@ _sar() {
   return ret
 }
 
-(( $+functions[_pidstat] )) ||
 _pidstat() {
   local ret=1
   _arguments : \
