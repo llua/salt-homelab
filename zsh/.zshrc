@@ -76,7 +76,7 @@ zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users eric llua arx root
 # hostname completion
 zstyle ':completion:*:(scp|ssh|rsync|telnet):*' hosts umbra corbenik netslum login1 login2
 # completion of pids owned by $USER
-zstyle ':completion:*:(kill|strace):*' command 'ps -u $USER -o pid,cmd,tty'
+zstyle ':completion:*:(kill|strace|pidstat):*' command 'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o comm'
 zstyle ':completion:*' insert-tab false
