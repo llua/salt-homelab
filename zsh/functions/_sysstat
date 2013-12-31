@@ -12,21 +12,21 @@
 (( $+functions[_mpstat] )) ||
 _mpstat() {
   local ret=1
-  _arguments -A "-*" : \
+  _arguments : \
     '-A[equivalent to -u -I ALL -P ALL]' \
     '-I[report interrupt statistics]:interrupts:(SUM CPU SCPU ALL)' \
     '-P[specify processor number]:processor: _values -s "," processor ON ALL' \
     '-u[report CPU utilization]' \
     '-V[print version number]' \
-    ':interval:_guard "[0-9]##" "interval"' \
-    ':count:_guard "[0-9]##" "count"' && ret=1
+    '1:interval:_guard "[0-9]##" "interval"' \
+    '2:count:_guard "[0-9]##" "count"' && ret=1
   return ret
 }
 
 (( $+functions[_iostat] )) ||
 _iostat() {
   local ret=1
-  _arguments -A "-*" : \
+  _arguments : \
     '-c[display CPU utilization report]' \
     '-d[display device utilization report]' \
     '-T[only display global statistics for group_name]' \
@@ -36,22 +36,22 @@ _iostat() {
     '(-m)-k[display statistics in kB/s]' \
     '(-k)-m[display statistics in MB/s]' \
     '-N[display registered device mapper names]' \
-    ':interval:_guard "[0-9]##" "interval"' \
-    ':count:_guard "[0-9]##" "count"' && ret=0
+    '1:interval:_guard "[0-9]#" "interval"' \
+    '2:count:_guard "[0-9]#" "count"' && ret=0
   return ret
 }
 
 (( $+functions[_cifsiostat] )) ||
 _cifsiostat() {
   local ret=1
-  _arguments -A "-*" : \
+  _arguments : \
     '-h[human readable]' \
     '(-m)-k[display statistics in kB/s]' \
     '(-k)-m[display statistics in MB/s]' \
     '-t[print timestamp for each report]' \
     '-V[print version number]' \
-    ':interval:_guard "[0-9]##" "interval"' \
-    ':count:_guard "[0-9]##" "count"' && ret=0
+    '1:interval:_guard "[0-9]#" "interval"' \
+    '2:count:_guard "[0-9]#" "count"' && ret=0
   return ret
 }
 
@@ -86,10 +86,10 @@ _sadf() {
       '(-t -T)-U[display in seconds from epoch(UTC)]' \
       '-V[print version number]' \
       '(-j -d -p)-x[output file in XML]' \
-      ':interval:_guard "[0-9]##" "interval"' \
-      ':count:_guard "[0-9]##" "count"' && ret=0
+      '1:interval:_guard "[0-9]#" "interval"' \
+      '2:count:_guard "[0-9]#" "count"' && ret=0
   else
-    _arguments \
+    _arguments : \
       '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
       '-B[report paging statistics]' \
       '-b[report I/O and transfer rate statistics]' \
@@ -118,8 +118,8 @@ _sadf() {
       '-W[report swapping statistics]' \
       '-w[report task creation and system switching activity]' \
       '-y[report TTY device activity]' \
-      ':interval:_guard "[0-9]##" "interval"' \
-      ':count:_guard "[0-9]##" "count"' && ret=0
+      '1:interval:_guard "[0-9]#" "interval"' \
+      '2:count:_guard "[0-9]#" "count"' && ret=0
   fi
 
   return ret
@@ -128,7 +128,7 @@ _sadf() {
 (( $+functions[_sar] )) ||
 _sar() {
   local ret=1 
-  _arguments \
+  _arguments : \
     '-A[equivalent to -bBdFHqrRSuvwWy -I SUM -I XALL -m ALL -n ALL -u ALL -P ALL]' \
     '-B[report paging statistics]' \
     '-b[report I/O and transfer rate statistics]' \
@@ -157,8 +157,8 @@ _sar() {
     '-W[report swapping statistics]' \
     '-w[report task creation and system switching activity]' \
     '-y[report TTY device activity]' \
-    ':interval:_guard "[0-9]##" "interval"' \
-    ':count:_guard "[0-9]##" "count"' && ret=0
+    '1:interval:_guard "[0-9]#" "interval"' \
+    '2:count:_guard "[0-9]#" "count"' && ret=0
 
   return ret
 }
@@ -166,7 +166,7 @@ _sar() {
 (( $+functions[_pidstat] )) ||
 _pidstat() {
   local ret=1
-  _arguments \
+  _arguments : \
     '-C[filter tasks by string]:task: _message "string or regex"' \
     '-d[report I/O statistics]' \
     '-h[display on horizontally]' \
