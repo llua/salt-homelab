@@ -9,7 +9,7 @@ _mpstat() {
   _arguments : \
     '-A[equivalent to -u -I ALL -P ALL]' \
     '-I[report interrupt statistics]:interrupts:(SUM CPU SCPU ALL)' \
-    '-P[specify processor number]:processor: _values -s "," processor ON ALL ${nproc+{0..$(( $(nproc) - 1 ))}}' \
+    '-P[specify processor number]:processor: _values -s "," processor ON ALL ${nproc+{0..$(( $(command nproc) - 1 ))}}' \
     '-u[report CPU utilization]' \
     '-V[print version number]' \
     '1:interval:_guard "[0-9]#" "interval"' \
@@ -70,7 +70,7 @@ _sadf() {
       '-H[display only the header of the report]' \
       '(-j -p -x)-h[print on a single line when used with -d]' \
       '(-d -p -x)-j[output file in JSON]' \
-      '-P[restrict processor dependant statistics]:processor: _values -s "," processor ON ALL ${nproc+{0..$(( $(nproc) - 1 ))}}' \
+      '-P[restrict processor dependant statistics]:processor: _values -s "," processor ON ALL ${nproc+{0..$(( $(command nproc) - 1 ))}}' \
       '(-j -x -d)-p[print in format parsable by tools like awk]' \
       '-s[set starting time of report]:starting time: _message "starting time in localtime(HH\:MM\:SS 24-hour format)"' \
       '(-t -U)-T[display timestamp in local time]' \
@@ -105,7 +105,7 @@ _sar() {
     '-j[display persistent device names]:type:(ID LABEL PATH UUID)' \
     '-m[report power management statistics]:keywords: _values -s "," keywords CPU FAN FREQ IN TEMP USB ALL' \
     '-n[report network statistics]:keywords: _values -s "," keywords DEV EDEV NFS NFSD SOCK IP EIP ICMP EICMP TCP ETCP UDP SOCK6 IP6 EIP6 ICMP6 EICMP6 UDP6 ALL' \
-    '-P[report per-processor statistics]:processor: _values -s "," processor ON ALL ${nproc+{0..$(( $(nproc) - 1 ))}}' \
+    '-P[report per-processor statistics]:processor: _values -s "," processor ON ALL ${nproc+{0..$(( $(command nproc) - 1 ))}}' \
     '-p[pretty-print device names]' \
     '-q[report queue length and load averages]' \
     '-R[report memory statistics]' \
