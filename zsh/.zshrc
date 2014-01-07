@@ -95,21 +95,6 @@ autoload run-help
 # stalk other users on the system
 watch=(notme)
 
-# Don't use zsh builtin which
-(( $+aliases[which] )) && unalias which
-
-# Suffix alias
-
-for ext in txt conf; do
-  alias -s ${ext}=${EDITOR:-vim}
-  unset ext
-done
-
-for ext in html htm org com net; do
-  alias -s ${ext}=${BROWSER:-firefox}
-  unset ext
-done
-
 # keybinds
 bindkey -v
 bindkey 'OQ'                          history-incremental-search-backward # F2
