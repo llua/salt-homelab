@@ -82,7 +82,7 @@ zstyle ':completion:*:killall:*' command 'ps -u $USER -o comm'
 zstyle ':completion:*' insert-tab false
 zstyle ':completion:*' list-dirs-first  true
 zstyle ':completion:*' accept-exact false
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
 autoload -U compinit
