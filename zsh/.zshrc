@@ -1,6 +1,6 @@
 # load wanted modules
 for mod in 'pcre' 'net/tcp' 'complist'; do
-  [[ -e $MODULE_PATH/zsh/$mod.so ]] && zmodload zsh/$mod
+  [[ -e $module_path[1]/zsh/$mod.so ]] && zmodload zsh/$mod
   unset mod
 done
 
@@ -19,7 +19,7 @@ setopt	 Zle AutoMenu
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
 # Set fpath
-fpath=( ~/.config/functions(N) /usr/(local/)#share/zsh/($ZSH_VERSION/)#(site-)#functions/(*/)#(N/) )
+fpath=( ~/.config/functions(/N) $fpath[@] )
 
 # History & mail stuff
 HISTFILE=~/(.config/)#.zsh_history(N[1])
@@ -64,12 +64,10 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 # group completions by type
 zstyle ':completion:*' group-name ''
-# zstyle ':completion:*' menu select=long
 # if there are atleast 0 matches, use menu selection (will always be true)
 zstyle ':completion:*' menu select=0
-# set colors for files/directories to be the same as ls(1)
+# COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
 zstyle ':completion:*:default' list-colors "${(s.:.)ZLS_COLORS}"
-# everything else normal colors
 zstyle ':completion:*' list-colors ''
 # username completion
 zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users eric llua arx root
@@ -85,7 +83,7 @@ zstyle ':completion:*' accept-exact false
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
-autoload -U compinit
+autoload -Uz compinit
 compinit
 
 # help
@@ -97,7 +95,6 @@ watch=(notme)
 
 # keybinds
 bindkey -v
-bindkey 'OQ'                          history-incremental-search-backward # F2
 bindkey -M vicmd 'd-d'                  kill-line
 bindkey -M vicmd 'D'                    vi-kill-eol
 bindkey -M vicmd 'K'                    run-help
