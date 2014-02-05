@@ -48,40 +48,40 @@ autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_]*(N.:t) zmv edit-command
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 # separate man page completion by section.
-zstyle ':completion:*:manuals.*'  insert-sections   true
-zstyle ':completion:*:manuals'    separate-sections true 
+zstyle ':completion:*:manuals.*'                insert-sections   true
+zstyle ':completion:*:manuals'                  separate-sections true 
 # per-match descriptions (if available)
-zstyle ':completion:*' verbose true
+zstyle ':completion:*'                          verbose           true
 # descriptions of commands (if available)
-zstyle ':completion:*' extra-verbose true
+zstyle ':completion:*'                          extra-verbose     true
 # if a description isn't defined, use the option's description (from -h|--help)
-zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*'                          auto-description  'specify: %d'
 # default seperator between option -- description
-zstyle ':completion:*' list-separator '::'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*'                          list-separator    '::'
+zstyle ':completion:*'                          completer         _expand _complete _correct _approximate
 # message telling you what you are completing
-zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*'                          format            'Completing %d'
 # group completions by type
-zstyle ':completion:*' group-name ''
+zstyle ':completion:*'                          group-name        ''
 # if there are atleast 0 matches, use menu selection (will always be true)
-zstyle ':completion:*' menu select=0
+zstyle ':completion:*'                          menu              select=0
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:default'                  list-colors       "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*'                          list-colors       ''
 # username completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users eric llua arx root
+zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users             eric llua arx root
 # hostname completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet):*' hosts umbra corbenik netslum login1 login2
+zstyle ':completion:*:(scp|ssh|rsync|telnet):*' hosts             umbra corbenik netslum login1 login2
 # completion of pids owned by $USER
-zstyle ':completion:*:(kill|strace|pidstat):*' command 'ps -u $USER -o pid,cmd,tty'
+zstyle ':completion:*:(kill|strace|pidstat):*'  command           'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
-zstyle ':completion:*:killall:*' command 'ps -u $USER -o comm'
-zstyle ':completion:*' insert-tab false
-zstyle ':completion:*' list-dirs-first true
-zstyle ':completion:*' accept-exact false
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
+zstyle ':completion:*:killall:*'                command           'ps -u $USER -o comm'
+zstyle ':completion:*'                          insert-tab        false
+zstyle ':completion:*'                          list-dirs-first   true
+zstyle ':completion:*'                          accept-exact      false
+zstyle ':completion:*'                          matcher-list      '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
+zstyle ':completion:*'                          select-prompt     %SScrolling active: current selection at %p%s
+zstyle ':completion:*'                          use-compctl       false
 autoload -Uz compinit
 compinit
 
