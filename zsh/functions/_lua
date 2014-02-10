@@ -1,4 +1,4 @@
-#compdef lua
+#compdef lua lua5.1 lua51 lua-5.1 lua5.2 lua52 lua-5.2
 # TODO: don't ignore /usr/share/lua/5.2/?/init.lua
 local context state state_descr line
 typeset -A opt_args
@@ -15,5 +15,5 @@ _arguments -A "-*" : \
   '*:arguments: _message "arguments"'
 
 if (( $+state )); then
-    compadd -- ${(@)~^${(s.;.)"$(lua -e 'print(package.path)')"}/\?/*}~*init.lua(N:t:s/.lua//)
+    compadd -- ${(@)~^${(s.;.)"$($service -e 'print(package.path)')"}/\?/*}~*init.lua(N:t:s/.lua//)
 fi
