@@ -1,0 +1,19 @@
+#compdef lua
+# TODO: don't ignore /usr/share/lua/5.2/?/init.lua
+local context state state_descr line
+typeset -A opt_args
+
+_arguments -A "-*" : \
+  '-e[execute statement]:statement: _message "statement"' \
+  '-i[enter interactive mode after executing script]' \
+  '-l[load module before executing script]:module:->module' \
+  '-v[show version number]' \
+  '-E[ignore environment variables]' \
+  '--[end of options]' \
+  '-[end of options and execute stdin as a script]' \
+  '1:script:_files' \
+  '*:arguments: _message "arguments"'
+
+if (( $+state )); then
+    compadd -- ${(@)~^${(s.;.)"$(lua -e 'print(package.path)')"}/\?/*}~*init.lua(N:t:s/.lua//)
+fi
