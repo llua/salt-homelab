@@ -3,10 +3,12 @@
 local context state state_descr line
 typeset -A opt_args
 
+#zstyle -s ":completion:${curcontext}:*" lua-module-path  
+
 _arguments -A "-*" : \
-  '-e[execute statement]:statement: _message "statement"' \
+  '-e[execute statement]:statement:' \
   '-i[enter interactive mode after executing script]' \
-  '-l[load module before executing script]:module:->module' \
+  '*-l[load module before executing script]:module:->module' \
   '-v[show version number]' \
   '-E[ignore environment variables]' \
   '--[end of options]' \
