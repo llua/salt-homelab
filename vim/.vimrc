@@ -46,12 +46,7 @@ set foldlevel=1         "this is just what i use
 "zR - open all
 "zM - close all
 
-" enable backups: if both are enabled, keeps backup even after successful overwrite
-"set backup
-set writebackup
-
-" store backup files here in one directory
-set backupdir=~/.cache/vim
+nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 " jump to the line you was previously at after opening a file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
