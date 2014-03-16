@@ -27,7 +27,7 @@ HISTSIZE=15000
 SAVEHIST=15000
 MAILCHECK=1
 mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
-manpath=( ~/.local/share/man(/N) )
+[[ $ZSH_VERSION == *(-)#dev* ]] && manpath=( ~/.local/share/man(/N) )
 
 READNULLCMD=less
 
@@ -71,7 +71,7 @@ zstyle ':completion:*'                          group-name        ''
 # if there are atleast 0 matches, use menu selection (will always be true)
 zstyle ':completion:*'                          menu              select=0
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default'                  list-colors       "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:default'                  list-colors       "${(s.:.)LS_COLORS}"
 zstyle ':completion:*'                          list-colors       ''
 # username completion
 zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users             eric llua arx root
