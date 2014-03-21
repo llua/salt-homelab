@@ -4,7 +4,7 @@ for mod in 'pcre' 'net/tcp' 'complist'; do
   unset mod
 done
 
-# Set/unset  shell options
+# options
 # Globbing
 setopt   ExtendedGlob GlobAssign
 # Misc
@@ -13,7 +13,7 @@ setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst
 setopt   ExtendedHistory HistIgnoreAllDups AppendHistory HistNoStore IncAppendHistory ShareHistory
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
-# Completion
+# misc
 setopt	 AutoMenu
 # Stuff we don't want
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
@@ -37,11 +37,11 @@ LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;01:cd=4
 
 # Prompt stuff
 if (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
-  PROMPT="(%{$fg[cyan]%}%m%{$reset_color%})%# "
+  PROMPT="%F{6}%m%f%# "
 else
   PROMPT='%% '
 fi
-RPROMPT="%B%{$fg[cyan]%}%~%{$reset_color%}%b"
+RPROMPT="%F{14}%~%f"
 
 # run-help's HELPDIR
 HELPDIR=~/.cache/zsh-help(N)
@@ -68,13 +68,13 @@ zstyle ':completion:*'                          completer         _expand _compl
 zstyle ':completion:*'                          format            'Completing %d'
 # group completions by type
 zstyle ':completion:*'                          group-name        ''
-# if there are atleast 0 matches, use menu selection (will always be true)
+# if there are atleast 0 matches, use menu selection
 zstyle ':completion:*'                          menu              select=0
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
 zstyle ':completion:*:default'                  list-colors       "${(s.:.)LS_COLORS}"
 zstyle ':completion:*'                          list-colors       ''
 # username completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users             eric llua arx root
+zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users             llua arx root
 # hostname completion
 zstyle ':completion:*:(scp|ssh|rsync|telnet):*' hosts             umbra corbenik netslum login1 login2
 # completion of pids owned by $USER
@@ -126,8 +126,7 @@ bindkey -M emacs '^[ '                  magic-space
 bindkey -M emacs '^[!'                  expand-history
 bindkey '^Z' undo
 zle -N edit-command-line; bindkey '^E' edit-command-line
-# code from ft of #zsh & the debian project to bind keys consistently.
-# the urxvt entries are for when i have urxvt set TERM to xterm-256color
+# ft's function
 typeset -A key
 key=(
   Home              "${terminfo[khome]}"
