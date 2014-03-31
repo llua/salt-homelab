@@ -1,0 +1,14 @@
+#compdef setsebool
+
+_setsebool() {
+  local bool __ stat state curstate context expl ret=1
+  local -a args
+  typeset -A opt_args val_args
+
+        getsebool -a | while read -r bool __ stat; do
+          args+=( "$bool:boolean $bool (currently $stat):"'(1 0)' )
+        done
+        _values -s ' ' -w boolean $args[@]
+  return ret
+ # '-P[set permanently]' '-V[verbose]'
+}
