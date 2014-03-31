@@ -41,7 +41,7 @@ if (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
 else
   PROMPT='%% '
 fi
-RPROMPT="%F{14}%~%f"
+RPROMPT="%B%F{6}%~%f%b"
 
 # run-help's HELPDIR
 HELPDIR=~/.cache/zsh-help(N)
