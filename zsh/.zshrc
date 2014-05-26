@@ -90,6 +90,15 @@ zstyle ':completion:*'                          use-compctl       false
 autoload -Uz compinit
 compinit
 
+# generate completions from gnu tool's --help
+if [[ $OSTYPE == linux-gnu ]]; then
+  for cmd in sed comm ss netstat tail head grep auditctl virt-{install,clone,convert,xml} 
+  do
+    compdef _gnu_generic $cmd
+    unset cmd
+  done
+fi
+
 # help
 unalias  run-help 2>/dev/null
 autoload run-help
