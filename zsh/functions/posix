@@ -1,0 +1,5 @@
+posix() {
+  if (( $+commands[w3m] )); then
+    w3m 'http://pubs.opengroup.org/cgi/kman4.cgi?value='${1:-sh}
+  fi
+} 
