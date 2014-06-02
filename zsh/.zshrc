@@ -92,7 +92,7 @@ compinit
 
 # generate completions from gnu tool's --help
 if [[ $OSTYPE == linux-gnu ]]; then
-  for cmd in sed comm ss netstat tail head grep auditctl virt-{install,clone,convert,xml} 
+  for cmd in sed comm ss netstat tail head {z,e,f,}grep date vmstat auditctl virt-{install,clone,convert,xml} 
   do
     compdef _gnu_generic $cmd
     unset cmd
