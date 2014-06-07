@@ -115,6 +115,8 @@ bindkey -M viins -r '\e/'
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e.'                  insert-last-word
 bindkey -M viins '^Xm'                  _most_recent_file
+bindkey -M viins '^X?'                  _complete_help
+bindkey -M viins '^Xh'                  _complete_debug
 bindkey -M viins '^?'                   backward-delete-char
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e[d'                 vi-backward-word
