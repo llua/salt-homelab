@@ -8,7 +8,7 @@ unset mod
 # Globbing
 setopt   ExtendedGlob GlobAssign
 # Misc
-setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst AutoMenu CompleteInMenu
+setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst AutoMenu CompleteInWord
 # History 
 setopt   ExtendedHistory HistIgnoreAllDups AppendHistory HistNoStore IncAppendHistory ShareHistory
 # pushd settings
