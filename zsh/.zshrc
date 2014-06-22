@@ -1,20 +1,18 @@
 # load wanted modules
 for mod in 'pcre' 'net/tcp' 'complist'; do
   [[ -e $module_path[1]/zsh/$mod.so ]] && zmodload zsh/$mod
-  unset mod
 done
+unset mod
 
 # options
 # Globbing
 setopt   ExtendedGlob GlobAssign
 # Misc
-setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst
+setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst AutoMenu CompleteInMenu
 # History 
 setopt   ExtendedHistory HistIgnoreAllDups AppendHistory HistNoStore IncAppendHistory ShareHistory
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
-# misc
-setopt	 AutoMenu
 # Stuff we don't want
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
@@ -74,9 +72,9 @@ zstyle ':completion:*'                          menu              select=0
 zstyle ':completion:*:default'                  list-colors       "${(s.:.)LS_COLORS}"
 zstyle ':completion:*'                          list-colors       ''
 # username completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users             llua arx root
+zstyle ':completion:*:(scp|ssh|rsync|telnet|qemu-system-*):*' users             llua arx root
 # hostname completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet):*' hosts             umbra corbenik netslum login1 login2
+zstyle ':completion:*:(scp|ssh|rsync|telnet|qemu-system-*):*' hosts             umbra corbenik netslum login1 login2
 # completion of pids owned by $USER
 zstyle ':completion:*:(kill|strace|pidstat):*'  command           'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
