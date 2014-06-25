@@ -73,13 +73,15 @@ zstyle ':completion:*'                          menu              select=0
 zstyle ':completion:*:default'                  list-colors       "${(s.:.)LS_COLORS}"
 zstyle ':completion:*'                          list-colors       ''
 # username completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet|qemu-system-*):*' users             llua arx root
+zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' users             llua arx root
 # hostname completion
-zstyle ':completion:*:(scp|ssh|rsync|telnet|qemu-system-*):*' hosts             umbra corbenik netslum login1 login2
+zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' hosts             umbra corbenik netslum login1 login2
 # completion of pids owned by $USER
 zstyle ':completion:*:(kill|strace|pidstat):*'  command           'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
 zstyle ':completion:*:killall:*'                command           'ps -u $USER -o comm'
+zstyle ':completion:*'                          cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
+zstyle ':completion:*'                          use-cache         true
 zstyle ':completion:*'                          insert-tab        false
 zstyle ':completion:*'                          list-dirs-first   true
 zstyle ':completion:*'                          accept-exact      false
