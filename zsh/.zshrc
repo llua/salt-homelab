@@ -25,7 +25,7 @@ HISTSIZE=15000
 SAVEHIST=15000
 MAILCHECK=1
 mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
-[[ $ZSH_VERSION == *(-)#dev* ]] && manpath=( ~/.local/share/man(/N) )
+[[ $ZSH_VERSION == *-dev* ]] && manpath=( ~/.local/share/man(/N) )
 
 READNULLCMD=less
 
@@ -36,9 +36,9 @@ typeset +x LS_COLORS
 
 # Prompt stuff
 if (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
-  PROMPT="%F{6}%m%f%# "
+  PROMPT="(%F{6}%m%f)%# "
 else
-  PROMPT='%% '
+  PROMPT="%% "
 fi
 RPROMPT="%B%F{6}%~%f%b"
 
