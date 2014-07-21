@@ -36,7 +36,11 @@ LS_COLORS=$ZLS_COLORS
 
 # Prompt stuff
 if (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
-  PROMPT="(%F{6}%m%f)%# "
+  if (( UID == 0 )); then
+    PROMPT="%F{1}%B(%b%F{6}%m%F{1}%B)%#%f%b "
+  else
+    PROMPT="(%F{6}%m%f)%# "
+  fi
 else
   PROMPT="%% "
 fi
