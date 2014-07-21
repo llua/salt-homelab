@@ -84,7 +84,7 @@ zstyle ':completion:*:(kill|strace|pidstat):*'  command           'ps -u $USER -
 # completion of process names 
 zstyle ':completion:*:killall:*'                command           'ps -u $USER -o comm'
 zstyle ':completion:*'                          cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
-zstyle ':completion:*'                          use-cache         true
+zstyle ':completion:*:mpc:*'                    use-cache         true
 zstyle ':completion:*'                          insert-tab        false
 zstyle ':completion:*'                          list-dirs-first   true
 zstyle ':completion:*'                          accept-exact      false
