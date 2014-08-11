@@ -49,6 +49,11 @@ RPROMPT="%B%F{6}%~%f%b"
 # run-help's HELPDIR
 HELPDIR=~/.cache/zsh-help(N)
 
+# hashed directories
+hash -d dotfiles=$HOME/src/dotfiles/
+hash -d zsh=$HOME/src/zsh/
+hash -d build=$HOME/build/
+
 # autoload my functions in .config/functions/ and zmv
 autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_]*(N.:t) zmv edit-command-line 2>/dev/null
 
