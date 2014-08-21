@@ -1,14 +1,49 @@
-#compdef setsebool
+#compdef setsebool getsebool
+
+_sebooleans() {
+  # use local, typeset or etc to scope `selinux_booleans' in the calling function.
+  # this prevents the array from staying defined after compsys is done.
+  typeset -Ax selinux_booleans
+  selinux_booleans=( ${(m)$(getsebool -a)#-->} )
+}
 
 _setsebool() {
-  local bool __ stat state curstate context expl ret=1
-  local -a args
-  typeset -A opt_args val_args
+  local state state_descr context expl line ret=1
+  typeset -A opt_args val_args selinux_booleans
 
-        getsebool -a | while read -r bool __ stat; do
-          args+=( "$bool:boolean $bool (currently $stat):"'(1 0)' )
-        done
-        _values -s ' ' -w boolean $args[@]
+  _arguments : \
+    '-P[set permanently]' '-V[verbose]' \
+    '*: :->booleans' && ret=0
+
+  if [[ $state == booleans ]]; then
+    local -a args; local bool boolstatus
+
+    _sebooleans
+    for bool boolstat in ${(kv)selinux_booleans}; do
+      args+=( "$bool:boolean $bool (currently $boolstat):"'(1 0)' )
+    done
+
+    _values -s ' ' -w boolean $args[@]
+  fi
+
   return ret
- # '-P[set permanently]' '-V[verbose]'
 }
+
+_getsebool() {
+  local state state_descr context expl line ret=1
+  typeset -A opt_args selinux_booleans
+
+  _sebooleans
+  _arguments : \
+    '(*)-a[print all booleans]' \
+    '(-a)*: :( ${(k)selinux_booleans} )' && ret=1
+
+  return ret
+}
+
+_selinux() {
+  local ret=1
+  _call_function ret _$service
+  return ret
+}
+_selinux "$@"
