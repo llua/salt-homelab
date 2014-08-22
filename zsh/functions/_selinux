@@ -3,7 +3,7 @@
 _sebooleans() {
   # use local, typeset or etc to scope `selinux_booleans' in the calling function.
   # this prevents the array from staying defined after compsys is done.
-  typeset -Ax selinux_booleans
+  typeset -Ag selinux_booleans
   selinux_booleans=( ${(m)$(getsebool -a)#-->} )
 }
 
