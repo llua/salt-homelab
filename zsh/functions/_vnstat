@@ -1,0 +1,38 @@
+#compdef vnstat
+
+local state state_descr context expl line ret=1
+typeset -A opt_args
+
+_arguments : \
+  '--cleartop[remove top 10 entries]' \
+  '--config[specify config file]:config file:_files' \
+  {-d,--days}'[show traffic by days]' \
+  '--dbdir[specify database directory]:db directory:_files -/' \
+  {-D,--debug}'[show debug output]' \
+  '--delete[delete database]' \
+  '--dumpdb[print parseable format]' \
+  '--enable[enable monitoring]' '--disable[disable monitoring]' \
+  {-h,--hours}'[show last 24 hours of traffic]' \
+  {-i,--iface}'[select interface]:interface: _net_interfaces' \
+  '--iflist[show available interfaces]' \
+  {-l,--live}'[monitor current traffic]' \
+  '--locale[specify locale]:locale:_locales' \
+  {-m,--months}'[show traffic by months]' \
+  '--nick[set nickname for interface]:nick:' \
+  '--oneline[print parseable oneline format]' \
+  {-q,--query}'[force database query mode]' \
+  {-r,--reset}'[reset internal counters for interface]' \
+  '--rebuildtotal[reset traffic counters]' \
+  {-ru,--rateunit}'[swap rate unit]' \
+  '--savemerged[save results]' \
+  {-s,--short}'[use short output mode]' \
+  '--style[pretty print data]:style:(0 1 2 3 4)' \
+  '--sync[sync counters]' \
+  '--testkernel[test if kernel boot time information always stay the same]' \
+  {-t,--top10}'[show top 10 traffic days of all time]' \
+  '-tr[calculate throughput during N seconds]' \
+  {-u,--update}'[update database(s)]' \
+  {-v,--version}'[show current version]' \
+  {-w,--weeks}'[show traffic of the past 14 days]' \
+  '--xml[print in xml format]' \
+  {-\?,--help,--longhelp}'[show help]'
