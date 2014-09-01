@@ -10,11 +10,8 @@ set expandtab       " Forgot tbh
 filetype indent on  " Indenting
 
 "Color theme
+if &term =~ 'xterm\|screen'
 color vif-lua
-if &term =~ "xterm"
-set t_Co=256
-endif
-if &term =~ "screen"
 set t_Co=256
 endif
 
