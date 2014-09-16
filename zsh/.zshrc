@@ -83,11 +83,21 @@ zstyle ':completion:*:default'                  list-colors       "${(s.:.)ZLS_C
 # username completion
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' users             llua arx root
 # hostname completion
-zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' hosts             umbra corbenik netslum login1 login2
+zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' hosts             umbra corbenik netslum nypumi login1 login2
 # completion of pids owned by $USER
 zstyle ':completion:*:(kill|strace|pidstat):*'  command           'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
 zstyle ':completion:*:killall:*'                command           'ps -u $USER -o comm'
+# grouping stuff menu selection mostly
+zstyle ':completion::complete:-subscript-::'    tag-order         'indexes association-keys'
+zstyle ':completion:*:*:configure:*'            tag-order         'options:-enable:enable\ feature options:-other options:-disable:disable\ feature'
+zstyle ':completion:*:configure:*:options-enable'  ignored-patterns '^--enable-*'
+zstyle ':completion:*:configure:*:options-other'   ignored-patterns '--(dis|en)able-*'
+zstyle ':completion:*:configure:*:options-disable' ignored-patterns '^--disable-*'
+zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*'     file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
+# avoiding _perl's restrictive _files glob
+zstyle ':completion:*:*:perl:*:*'               file-patterns     '*(-/):directories:directories %p:globbed-files:perl\ scripts ^%p:other-files:other\ files'
+# misc stuff
 zstyle ':completion:*'                          cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
 zstyle ':completion:*:mpc:*'                    use-cache         true
 zstyle ':completion:*'                          insert-tab        false
@@ -101,7 +111,7 @@ compinit
 
 # generate completions from gnu tool's --help
 if [[ $OSTYPE == linux-gnu ]]; then
-  for cmd in sed comm ss netstat tail head {z,e,f,}grep date vmstat auditctl virt-{install,clone,convert,xml} \
+  for cmd in sed comm netstat tail head {z,e,f,}grep date vmstat auditctl virt-{install,clone,convert,xml} \
     lxc-{start,stop,create,clone,autostart,cgroup,checkconfig,console,destroy,device,execute,freeze,info,ls} \
     lxc-{monitor,snapshot,start-ephemeral,top,unfreeze,unshare,attach,top,usernsexec,wait}
   do
