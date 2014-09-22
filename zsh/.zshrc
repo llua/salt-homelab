@@ -10,14 +10,14 @@ setopt   ExtendedGlob GlobAssign
 # Misc
 setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst InteractiveComments CompleteInWord
 # History 
-setopt   ExtendedHistory HistIgnoreAllDups AppendHistory HistNoStore IncAppendHistory ShareHistory
+setopt   ExtendedHistory HistIgnoreAllDups HistNoStore IncAppendHistory ShareHistory
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Stuff we don't want
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
 # Set fpath
-fpath=( ~/.config/functions(/N) $^fpath[@](N) )
+fpath=( ~/.config/functions(/N) /usr/share/zsh/site-functions(/N) $^fpath[@](N) )
 
 # History & mail stuff
 HISTFILE=~/(.config/)#.zsh_history(N[1])
@@ -61,51 +61,64 @@ autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_]*(N.:t) zmv edit-command
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 # separate man page completion by section.
-zstyle ':completion:*:manuals.*'                insert-sections   true
-zstyle ':completion:*:manuals'                  separate-sections true 
+zstyle ':completion:*:manuals.*'    insert-sections   true
+zstyle ':completion:*:manuals'      separate-sections true 
 # per-match descriptions (if available)
-zstyle ':completion:*'                          verbose           true
+zstyle ':completion:*'              verbose           true
 # descriptions of commands (if available)
-zstyle ':completion:*'                          extra-verbose     true
+zstyle ':completion:*'              extra-verbose     true
 # if a description isn't defined, use the option's description (from -h|--help)
-zstyle ':completion:*'                          auto-description  'specify: %d'
+zstyle ':completion:*'              auto-description  'specify: %d'
 # default seperator between option -- description
-zstyle ':completion:*'                          list-separator    '::'
-zstyle ':completion:*'                          completer         _expand _complete _correct _approximate
+zstyle ':completion:*'              list-separator    '::'
+zstyle ':completion:*'              completer         _expand _complete _correct _approximate
 # message telling you what you are completing
-zstyle ':completion:*'                          format            'Completing %d'
+zstyle ':completion:*'              format            'Completing %d'
 # group completions by type
-zstyle ':completion:*'                          group-name        ''
+zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
-zstyle ':completion:*'                          menu              select
+zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default'                  list-colors       "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:default'      list-colors       "${(s.:.)ZLS_COLORS}"
 # username completion
-zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' users             llua arx root
+zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
+                                    users             llua arx root
 # hostname completion
-zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' hosts             umbra corbenik netslum nypumi login1 login2
+zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
+                                    hosts             umbra corbenik netslum nypumi login1 login2
 # completion of pids owned by $USER
-zstyle ':completion:*:(kill|strace|pidstat):*'  command           'ps -u $USER -o pid,cmd,tty'
+zstyle ':completion:*:(kill|strace|pidstat):*' \
+                                    command           'ps -u $USER -o pid,cmd,tty'
 # completion of process names 
-zstyle ':completion:*:killall:*'                command           'ps -u $USER -o comm'
+zstyle ':completion:*:killall:*'    command           'ps -u $USER -o comm'
 # grouping stuff menu selection mostly
-zstyle ':completion::complete:-subscript-::'    tag-order         'indexes association-keys'
-zstyle ':completion:*:*:configure:*'            tag-order         'options:-enable:enable\ feature options:-other options:-disable:disable\ feature'
-zstyle ':completion:*:configure:*:options-enable'  ignored-patterns '^--enable-*'
-zstyle ':completion:*:configure:*:options-other'   ignored-patterns '--(dis|en)able-*'
-zstyle ':completion:*:configure:*:options-disable' ignored-patterns '^--disable-*'
-zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*'     file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
+zstyle ':completion::complete:-subscript-::' \
+                                    tag-order         'indexes association-keys'
+zstyle ':completion:*:*:configure:*' \
+                                    tag-order         'options:-enable:enable\ feature options:-other options:-disable:disable\ feature'
+zstyle ':completion:*:configure:*:options-enable' \
+                                    ignored-patterns  '^--enable-*'
+zstyle ':completion:*:configure:*:options-other' \
+                                    ignored-patterns  '--(dis|en)able-*'
+zstyle ':completion:*:configure:*:options-disable' \
+                                    ignored-patterns  '^--disable-*'
+zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
+                                    file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
 # avoiding _perl's restrictive _files glob
-zstyle ':completion:*:*:perl:*:*'               file-patterns     '*(-/):directories:directories %p:globbed-files:perl\ scripts ^%p:other-files:other\ files'
+zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories %p:globbed-files:perl\ scripts ^%p:other-files:other\ files'
 # misc stuff
-zstyle ':completion:*'                          cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
-zstyle ':completion:*:mpc:*'                    use-cache         true
-zstyle ':completion:*'                          insert-tab        false
-zstyle ':completion:*'                          list-dirs-first   true
-zstyle ':completion:*'                          accept-exact      false
-zstyle ':completion:*'                          matcher-list      '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
-zstyle ':completion:*'                          select-prompt     %SScrolling active: current selection at %p%s
-zstyle ':completion:*'                          use-compctl       false
+zstyle :completion::complete:-tilde-:: \
+                                    group-order       named-directories users
+zstyle ':completion::complete:journalctl:option-b-1:' \
+                                    sort              false
+zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
+zstyle ':completion:*:mpc:*'        use-cache         true
+zstyle ':completion:*'              insert-tab        false
+zstyle ':completion:*'              list-dirs-first   true
+zstyle ':completion:*'              accept-exact      false
+zstyle ':completion:*'              matcher-list      '' 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
+zstyle ':completion:*'              select-prompt     %SScrolling active: current selection at %p%s
+zstyle ':completion:*'              use-compctl       false
 autoload -Uz compinit
 compinit
 
