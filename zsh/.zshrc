@@ -42,7 +42,11 @@ if (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
     PROMPT="(%F{6}%m%f)%# "
   fi
 else
-  PROMPT="%% "
+  if (( UID == 0 )); then
+    PROMPT="%F{1}%B%%%f%b "
+  else
+    PROMPT="%% "
+  fi
 fi
 RPROMPT="%B%F{6}%~%f%b"
 
