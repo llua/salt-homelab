@@ -7,6 +7,7 @@ set laststatus=2    " Bottom bar with filename in it
 set incsearch       " Incremental Search
 set hlsearch        " Highlight strings found in search
 set expandtab       " Forgot tbh
+set backspace=indent,eol,start
 filetype indent on  " Indenting
 
 "Color theme
