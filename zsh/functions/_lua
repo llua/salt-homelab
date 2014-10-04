@@ -3,7 +3,14 @@
 local context state state_descr line
 typeset -A opt_args
 
-#zstyle -s ":completion:${curcontext}:*" lua-module-path  
+_lua_normal() {
+  local expl
+  if [[ -z "$opt_args[(I)-e]" ]]; then
+    shift words
+    (( CURRENT-- ))
+  fi
+  _normal && ret=0
+}
 
 _arguments -S -A '-*' : \
   '-e[execute statement]:statement:' \
@@ -12,8 +19,10 @@ _arguments -S -A '-*' : \
   '-v[show version number]' \
   '-E[ignore environment variables]' \
   '1:lua script: _files' \
-  '*: :_files'
+  '*:: := _lua_normal'
 
 if [[ $state == module ]]; then
-    compadd -- ${(@)~^${(s.;.)"$($service -e 'print(package.path)')"}/\?/*}~*init.lua(N:t:s/.lua//)
+  local expl
+  _wanted modules expl 'Modules' \
+    compadd - ${(@)~^${(s.;.)"$($service -e 'print(package.path)')"}/\?/*}~*init.lua(N:t:s/.lua//)
 fi
