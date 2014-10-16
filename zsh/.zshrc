@@ -126,16 +126,8 @@ zstyle ':completion:*'              use-compctl       false
 autoload -Uz compinit
 compinit
 
-# generate completions from gnu tool's --help
-if [[ $OSTYPE == linux-gnu ]]; then
-  for cmd in sed comm netstat tail head {z,e,f,}grep date vmstat auditctl virt-{install,clone,convert,xml} \
-    lxc-{start,stop,create,clone,autostart,cgroup,checkconfig,console,destroy,device,execute,freeze,info,ls} \
-    lxc-{monitor,snapshot,start-ephemeral,top,unfreeze,unshare,attach,top,usernsexec,wait}
-  do
-    compdef _gnu_generic $cmd
-  done
-  unset cmd
-fi
+# try to generate completions from --help for any command without a _handler
+[[ $OSTYPE == linux-gnu ]] && compdef _gnu_generic -default-
 
 # help
 unalias  run-help 2>/dev/null
