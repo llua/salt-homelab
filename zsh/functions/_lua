@@ -13,9 +13,9 @@ _lua_normal() {
 }
 
 _arguments -S -A '-*' : \
-  '-e[execute statement]:statement:' \
+  '-e+[execute statement]:statement:' \
   '-i[enter interactive mode after executing script]' \
-  '*-l[load module before executing script]:module:->module' \
+  '*-l+[load module before executing script]:module:->module' \
   '-v[show version number]' \
   '-E[ignore environment variables]' \
   '1:lua script: _files' \
