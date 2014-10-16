@@ -108,6 +108,8 @@ zstyle ':completion:*:configure:*:options-disable' \
                                     ignored-patterns  '^--disable-*'
 zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
                                     file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
+zstyle ':completion::complete:pacman:argument-rest:' \
+                                    group-order       repo_packages packages
 # avoiding _perl's restrictive _files glob
 zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories %p:globbed-files:perl\ scripts ^%p:other-files:other\ files'
 # misc stuff
