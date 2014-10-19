@@ -129,7 +129,8 @@ autoload -Uz compinit
 compinit
 
 # try to generate completions from --help for any command without a _handler
-[[ $OSTYPE == linux-gnu ]] && compdef _gnu_generic -default-
+[[ $OSTYPE == linux-gnu ]] &&
+  compdef '(( $+commands[$words[1]] )) && _arguments "*:arg: _default" --' -default-
 
 # help
 unalias  run-help 2>/dev/null
