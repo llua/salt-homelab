@@ -83,7 +83,7 @@ zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
 zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default'      list-colors       "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:default'      list-colors       'ma=01;07;35' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
 # username completion
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
                                     users             llua arx root
