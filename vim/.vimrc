@@ -9,6 +9,8 @@ set hlsearch        " Highlight strings found in search
 set expandtab       " Forgot tbh
 set backspace=indent,eol,start
 filetype indent on  " Indenting
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
 
 "Color theme
 if &term =~ 'xterm\|screen'
@@ -32,6 +34,9 @@ highlight SpellLocal term=underline cterm=underline
 
 " where it should get the dictionary files
 let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
+
+"let g:lua_complete_omni = 1
+"let g:lua_define_completefunc = 1
 
 "folding settings
 set foldmethod=indent   "fold based on indent
