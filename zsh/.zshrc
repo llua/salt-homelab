@@ -111,7 +111,7 @@ zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
 zstyle ':completion::complete:pacman:argument-rest:' \
                                     group-order       repo_packages packages
 # avoiding _perl's restrictive _files glob
-zstyle ':completion:*:*:perl:*:*' file-patterns '*(-/):directories:directories *.(p[ml]|PL|t)(-.):globbed-files:perl\ scripts *~*.(p[ml]|PL|t)(^/):other-files:other\ files'
+zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories *.(p[ml]|PL|t)(-.):globbed-files:perl\ scripts *~*.(p[ml]|PL|t)(^/):other-files:other\ files'
 # misc stuff
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
