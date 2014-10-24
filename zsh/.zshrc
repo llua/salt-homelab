@@ -130,7 +130,7 @@ compinit
 
 # try to generate completions from --help for any command without a _handler
 [[ $OSTYPE == linux-gnu ]] &&
-  compdef '(( $+commands[$words[1]] )) && _arguments "*:arg: _default" --' -default-
+  compdef '(( $+commands[$words[1]] )) && _arguments "*:arg: _default" -- || _files' -default-
 
 # help
 unalias  run-help 2>/dev/null
