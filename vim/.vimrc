@@ -22,6 +22,12 @@ endif
 nn <F7> :setlocal spell! spelllang=en_us<CR>
 imap <F7> <C-o>:setlocal spell! spelllang=en_us<CR>
 
+" c-<arrow> for tmux
+map <ESC>[D <C-Left>
+map <ESC>[C <C-Right>
+map! <ESC>[D <C-Left>
+map! <ESC>[C <C-Right>
+
 " Spelling
 highlight clear SpellBad
 highlight SpellBad term=standout ctermfg=1 term=underline cterm=underline
