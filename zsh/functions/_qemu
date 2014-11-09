@@ -1,5 +1,132 @@
-#compdef -P qemu(|-system-*)
+#compdef -P qemu(|-system-*) qemu-img
 
+(( $+functions[_qemu-img] )) ||
+_qemu-img () {
+  local curcontext=$curcontext subcmd ret=1
+
+  if (( CURRENT == 2 )); then
+    _describe 'qemu-img subcommands' '(
+    check:"perform a consistency check"
+    create:"create image" 
+    commit:"commit changes to base image"
+    compare:"compare content of two images"
+    convert:"convert image format"
+    info:"print image information"
+    map:"print metadata of image(and chain)" 
+    snapshot:"snapshot management"
+    rebase:"change backing file of image"
+    resize:"resize image"
+    amend:"append options to image"
+    )' && ret=0
+  else
+    shift words; (( CURRENT-- ))
+    subcmd=$words[1]
+    curcontext=${curcontext%:*}-$service:
+    local -a args
+
+    case $subcmd in
+      check)
+        args=(
+          '-q[quiet]'
+          '-f[format]:format:(qcow2 qed)'
+          '--output=-[output format]:output format:(human json)'
+          '-r[repair]::repair:(leaks all)'
+          '1: :_files'
+          )
+          ;;
+      create)
+        args=(
+          '-q[quiet]'
+          '-f[format]:format:(vpc vhdx vdi raw host_cdrom host_floppy file qed 
+            qcow2 qcow cow)'
+          '-o[options]:format options:( \? )'
+          '1: :_files'
+          '2:size:'
+          )
+          ;;
+      commit)
+        args=(
+          '-f[format]:format:(qed qcow2)' # raw)' not sure if raw does snapshots
+          '-t[cache mode]:cache mode:(none writeback unsafe directsync writethrough)'
+          '1: :_files'
+          )
+          ;;
+      compare)
+        args=(
+          '-f[format of file1]:format:(raw qed qcow2 qcow cow)'
+          '-F[format of file2]:format:(raw qed qcow2 qcow cow)'
+          '-q[quiet]'
+          '-p[display progress]'
+          '-s[strict mode]'
+          '1: :_files'
+          '2: :_files'
+          )
+          ;;
+      convert)
+        args=(
+          '-p[display progress]'
+          '-s[snapshot id]:snapshot id:'
+          '-n[skip target creation]'
+          '-o[options]:format options:( \? )'
+          '-f[input format]:format:(vpc vhdx vdi raw host_cdrom host_floppy file qed 
+            qcow2 qcow cow rbd)'
+          '-O[output format]:format:(raw qcow2 qcow cow rbd)'
+          '-c[compress]'
+          '-l[snapshot id]:snapshot id or name:'
+          '-S[sparse size]:size:'
+          '*: :_files'
+          )
+          ;;
+      info|map)
+        args=(
+          '-f[format]:format:(raw qcow2 qcow cow)'
+          '--output=-[output format]:format:(human json)'
+          '1:image:_files'
+          )
+          [[ $subcmd == info ]] &&
+            args+=( '--backing-chain[display the complete chain]' )
+          ;;
+      snapshot)
+        args=(
+          '(-a -c -d)-l[list snapshots]'
+          '(-l -c -d)-a[apply snapshot]:snapshot:'
+          '(-l -a -d)-c[create snapshot]:snapshot name:'
+          '(-l -a -c)-d[delete snapshot]:snapshot:'
+          '1: :_files'
+          )
+          ;;
+      rebase)
+        args=(
+          '-f[format]:format:(qcow2 qed)'
+          '-t[cache mode]:cache mode:(none writeback unsafe directsync writethrough)'
+          '-p[display progress]'
+          '-u[unsafe mode]'
+          '-b[backing file]:backing file:_files'
+          '-F[backing format]:backing_fmt:' # not too sure what this is, but may just need (qcow2 qed) as the action
+          '1: :_files'
+          )
+          ;;
+      resize)
+        args=(
+          '1: :_files'
+          '2:size \(+more -less\):'
+          )
+          ;;
+      amend)
+        args=(
+          '-f[format]:format:(qcow2)'
+          '-o[options]:format options:( \? )'
+          '1: :_files'
+          )
+          ;;          
+    esac
+    _arguments : "$args[@]" && ret=0
+  fi
+
+  return ret
+}
+
+(( $+functions[_qemu_log_items] )) ||
 _qemu_log_items () {
   local -a opts hline
   $service -d \? | while read -A hline; do
@@ -9,47 +136,287 @@ _qemu_log_items () {
   _values -s , 'log items' $opts
 }
 
-local _qemu_machines
+(( $+functions[_qemu_device_drivers] )) ||
+_qemu_device_drivers () {
+  # TODO: refactor, so completing driver properties is possible.
+  local field1 field2 REPLY prop properties \
+    state state_descr line context driver
+  typeset -A val_args
+  typeset -a dev
+  #parsing out driver names
+  $service -device help 2>&1 | while read -r field1 field2 REPLY; do
+    if [[ $field1 == name ]]; then
+      dev+=( ${${field2%\",}#\"} )
+    fi
+  done
+  compadd -qS , -a dev
+  # parsing out driver properties. commented out since drivers are allowed to have commas in them, breaking this hack.
+  #driver=${PREFIX%,}
+  #$service -device $driver,help 2>&1 | while read -r prop; do 
+  #  properties+=( "${${prop#$driver.}%=*}:${prop#*=}:" )
+  #done
+  # not sure why this works, but it ignores the 'driver,' parts and lists properties.
+  #compset -P '*,'
+  #_values -s , properties $properties[@]
+}
 
-_qemu_machines=(${${${(f)"$($service -M \?)"}[2,-1]}%% *})
+(( $+functions[_qemu_device_urls] )) ||
+_qemu_device_urls() {
+  local expl
 
-_arguments \
-  '-'{fda,fdb,hda,hdb,hdc,hdd,cdrom}':disk image:_files' \
-  '-M[target machine]:machine:('"${_qemu_machines:-none}"')' \
-  '-boot[specify which image to boot from]:boot device:((a\:floppy\ image\ a c\:hard\ disk d\:cdrom))' \
-  '-snapshot[write to temporary files instead of disk image files]' \
-  '-no-fd-bootchk[disable boot sig checking for floppies in Bochs BIOS]' \
-  '-m[virtual RAM size (default=128)]:megs:' \
-  '-smp[set the number of CPUs (default=1)]:number of CPUs:' \
-  '-nographic[disable graphical output]' \
-  '-vnc[listen on VNC display]:display:' \
-  '-k[use keyboard layout]:keyboard layout language:(ar de-ch es fo fr-ca hu ja mk no pt-br sv da en-gb et fr fr-ch is lt nl pl ru th de en-us fi fr-be hr it lv nl-be pt sl tr)' \
-  '-audio-help[show audio subsystem help]' \
-  '-soundhw[enable audio and selected sound hardware]:cards to enable:(all)' \
-  '-localtime[set rtc to local time]' \
-  '-full-screen[start in full screen]' \
-  '-pidfile:pidfile:_files' \
-  '-win2k-hack' \
-  '-usb[enable USB driver]' \
-  '-usbdevice:usb device:' \
-  '-net:net config:(none)' \
-  '-tftp[allow tftp access to files starting with prefix]:tftp prefix:_files' \
-  '-smb[allow SMB access to files in specified directory]:samba directory:_path_files -/' \
-  '-redir[redirect TCP or UDP connections from host to guest]:redirection: ' \
-  '-kernel[boot specified linux kernel]:kernel image:_files' \
-  '-append[use specified kernel command line]:command line: ' \
-  '-initrd[use specified initial ram disk]:ram disk:_files' \
-  '-serial:dev:(vc stdio pty null /dev/ttyS0 /dev/partport0)' \
-  '-parallel:dev:(vc stdio pty null /dev/ttyS0 /dev/partport0)' \
-  '-monitor:dev:(vc stdio pty null /dev/ttyS0 /dev/partport0)' \
-  '-s[wait gdb connection to port 1234]' \
-  '-p[change gdb connection port]:port:_ports' \
-  '-S[do not start CPU at startup]' \
-  '-d[output log in /tmp/qemu.log]:log items:_qemu_log_items' \
-  '-hdachs[force hard disk 0 geometry (usually qemu can guess it)]:hd0 geometry c,h,s:' \
-  '-std-vga[simulate standard VGA]' \
-  '-no-acpi[disable ACPI]' \
-  '-loadvm[start right away with a saved state]:file:_files' \
-  '-g[set initial graphic mode]:graphic mode:' \
-  ':disk image:_files'
+  if compset -P '*:(|//)~(iscsi|ssh)*'; then
+    _wanted hosts expl 'remote hosts' _hosts -qS '/' -r '/\t\n\-' &&
+  elif [[ $PREFIX == 'iscsi://'(|*) ]]; then
+    if compset -P '*%*@'; then
+      # an escaped % will be replaced with %, need to stop that.
+      _hosts -S '/'
+    elif compset -P 'iscsi://'; then
+      _alternative 'hosts:hosts:_hosts -S "/"' "auth:authentication: _message -e auth 'user%%password'"
+    fi
+  elif [[ $PREFIX == 'ssh://'(|*) ]]; then
+    if compset -S '@*'; then
+      compset -P 'ssh://'
+      _users 
+    elif compset -P 'ssh://*@'; then
+      _hosts -S '/'
+    else
+      compset -P 'ssh://'
+      _alternative 'users:users:_users -S "@"' 'hosts:hosts:_hosts -S "/"'
+    fi
+  else
+    compadd -S '://' -X 'device urls' -- 'iscsi' 'ssh' 'sheepdog' 'sheepdog+tcp' 'sheepdog+unix' 'gluster' 'gluster+transport'
+    compadd -S ':' -X 'device urls' -- 'nbd' 'nbd:unix'
+  fi
 
+}
+
+(( $+functions[_qemu_display_vnc] )) ||
+_qemu_display_vnc() {
+  if compset -P 1 '*,'; then
+    _values -s ',' 'vnc options' 'reverse[connect to reverse VNC connection]' 'websocket[open additional websocket]:TCP port:_ports' \
+      'password[enable password authentication]' 'tls[require TLS connection]' \
+      x509{,verify}'[specify x509 certificate directory]:x509 certificate path:_files -/' \
+      'sasl[require SASL authenticate]' 'acl[enable ACLs of client x509 certs]' \
+      'lossy[lossy compression]' 'non-adaptive[disable adaptive encodings]' \
+      'share[display sharing policy]:policy:( allow-exclusive force-shared ignore )'
+  elif [[ $PREFIX != *, ]]; then
+    local -a suf
+    suf=( -qS, )
+    _alternative -O suf 'host:hosts: _message "host:port"' \
+      'socket:unix socket:_files -P "unix:" -g "*(=)" -r "^(,| |\t|\n|\-)"' 'none:none:(none)'
+  fi
+} 
+
+(( $+functions[_$service] )) ||
+_$service () {
+  local args context state state_descr line ret=1
+  typeset -A val_args opt_args
+  _arguments -A '-*' \
+    '-'{fda,fdb,hda,hdb,hdc,hdd,cdrom}':disk image\(deprecated\):_files' \
+    '-'{mtdblock,sd,pflash}':disk image:_files' \
+    '-M[target machine]:machine: compadd -- ${${(@)${${(f)"$($service -M \?)"}[2,-1]}%% *}\:-none}' \
+    '-machine[target machine]:machine:->machine'\
+    '-boot[specify which image to boot from]:boot device:->boot' \
+    '-balloon[virtio ballon device]:balloondev:->balloon' \
+    '-enable-kvm[enable kvm]' \
+    '-snapshot[write to temporary files instead of disk image files]' \
+    '-no-fd-bootchk[disable boot sig checking for floppies in Bochs BIOS]' \
+    '*-device[add device driver]:device: _qemu_device_drivers' \
+    '*-drive[define a drive]:drive:->drive' \
+    '-m[virtual RAM size (default=128)]:megs:' \
+    '-mem-path[allocate RAM from temp file]:mem-path: _files' \
+    '-mem-prealloc[preallocate memory from -mem-path]' \
+    '-cpu[CPU model]:cpumodel:->cpu' \
+    '-numa[simulate a multi node NUMA system]:numa:' \
+    '-name[set name of guest]:name:' \
+    '-uuid[set uuid of guest]:uuid:' \
+    '-add-fd[add file descriptor to a fd set]:fd:->fd' \
+    '-smp[set the number of CPUs (default=1)]:number of CPUs:->smp' \
+    '-set[parameter]:parameter: _message "parameter (group.id.arg=value)"' \
+    '-global[default value of a driver property]:property: _message "driver property value (driver.prop=value)"' \
+    '-nographic[disable graphical output]' \
+    '-vnc[listen on VNC display]:display: _qemu_display_vnc' \
+    '-spice[enable spice protocol]:spice:->spice' \
+    '-display[type of display to use]:display type:(sdl curses none gtk vnc)' \
+    '-curses[use curses/ncurses for display]' \
+    '-portrait[rotate graphical output 90 degrees left]' \
+    '-rotate[rotate graphical output to left]:degrees:' \
+    '-no-frame[do not draw WM border]' \
+    '-alt-grab[use ctrl-alt-shit to grab mouse]' \
+    '-ctrl-grab[use right-ctrl to grab mouse]' \
+    '-sdl[enable SDL]' \
+    '-no-quit[disable SDL windows close capability]' \
+    '-k[use keyboard layout]:keyboard layout language:(ar de-ch es fo fr-ca hu ja mk no pt-br sv da en-gb et fr fr-ch is lt nl pl ru th de en-us fi fr-be hr it lv nl-be pt sl tr)' \
+    '-audio-help[show audio subsystem help]' \
+    '-soundhw[enable audio and selected sound hardware]:cards to enable:->soundhw' \
+    '-localtime[set rtc to local time]' \
+    '-full-screen[start in full screen]' \
+    '-pidfile:pidfile:_files' \
+    '*-fsdev[define filesystem device]:share:->fsdev' \
+    '*-virtfs[define filesystem device]:share:->virtfs' \
+    '*-virtfs_synth[define synthetic filesystem image]' \
+    '-win2k-hack' \
+    '-usb[enable USB driver]' \
+    '*-usbdevice[define USB device]:usb device:->usbdevice' \
+    '*-net:net config:(none)' \
+    '-tftp[allow tftp access to files starting with prefix]:tftp prefix:_files' \
+    '-smb[allow SMB access to files in specified directory]:samba directory:_path_files -/' \
+    '*-redir[redirect TCP or UDP connections from host to guest\(deprecated\)]:redirection: ' \
+    '-kernel[boot specified linux kernel]:kernel image:_files' \
+    '-append[use specified kernel command line]:command line: ' \
+    '-initrd[use specified initial ram disk]:ram disk:_files' \
+    '-serial:dev:(vc stdio pty null /dev/ttyS0 /dev/partport0)' \
+    '-parallel:dev:(vc stdio pty null /dev/ttyS0 /dev/partport0)' \
+    '-monitor:dev:(vc stdio pty null /dev/ttyS0 /dev/partport0)' \
+    '-s[wait gdb connection to port 1234]' \
+    '-p[change gdb connection port]:port:_ports' \
+    '-S[do not start CPU at startup]' \
+    '-d[output log in /tmp/qemu.log]:log items:_qemu_log_items' \
+    '-hdachs[force hard disk 0 geometry (usually qemu can guess it)]:hd0 geometry c,h,s:' \
+    '-vga[define vga card]:VGA card type:(cirrus std vmware qxl xenfb tcx cg3 none)' \
+    '-no-acpi[disable ACPI]' \
+    '-loadvm[start right away with a saved state]:file:_files' \
+    '-g[set initial graphic mode]:graphic mode:' \
+    ':disk image: _alternative "file:file:_files" "uri:uri:_qemu_device_urls"' &&
+    ret=0
+
+  while (( $#state )); do
+    local -a suf
+    local curstate=$state sep
+    shift state
+    case $curstate in
+      ("machine")
+        args=(  
+          'accel[accelerator]:accel:(tcg kvm xen)' 
+          'kernel_irqchip[in-kernel irqchip support]:irqchip:(on off)' 
+          'kvm_shadow_size[KVM shadow MMU]:size: _message "size"' 
+          'dump-guest-core[add guest memory to coredump]:coredump:(on off)' 
+          'mem-merge[memory merge support]:mem-merge:(on off)'
+          )
+        ;;
+      ("smp")
+        args=(
+          'cpus[number of CPUS]:cpus: _message "number of CPUS"'
+          'cores[cores per socket]:socket: _message "number of cores per socket"'
+          'threads[threads per core]:threads: _message "number of threads per core"'
+          'sockets[total number of sockets]:sockets: _message "number of sockets"'
+          'maxcpus[max number of hotpluggable CPUs]:hotplug: _message "number of hotpluggable CPUS"'
+          )
+        ;;
+      ("fd")
+        args=(
+          'fd[file descriptor to duplicate]:fd:"'
+          'set[define ID of fd set]:ID:'
+          'opaque[free-form string for defining a fd]:opaque:'
+          )
+        ;;
+      ("boot")
+        args=(
+          'order[boot order]:boot order:((a\:floppy\ image\ a c\:hard\ disk d\:cdrom))'
+          'once[one time boot order]:tmp boot:((a\:floppy\ image\ a c\:hard\ disk d\:cdrom))'
+          'menu[display boot menus]:menu:(on off)'
+          'splash[display splash logo during POST]:logo: _files'
+          'splash-time[splash logo duration]:duration:'
+          'reboot-timeout[retry after failed boot]:timer: _message "time (milliseconds)"'
+          'strict[do strict boot]:strict boot:(yes no)'
+          )
+        ;;
+      ("soundhw")
+        args=(
+          'all' ${${(@)${${(f)"$($service -soundhw help)"}[2,-2]}%% *}\:-none} # pretty sure this isn't only eval'd when state=soundhw
+          )
+        ;;
+      ("balloon")
+        args=(
+          '(virtio)none'
+          '(none)virtio'
+          #'addr:addr: _message "address"' # need a way to only show if virtio is chosen.
+          )
+        ;;
+      ("drive")
+        args=(
+          'file[disk image to use]:image: _alternative "file:file:_files -S , -r  /\t\n\-" "uri:uri:_qemu_device_urls"'
+          'if[interface to connect to]:interface:(ide scsi sd mtd floppy pflash virtio)'
+          'bus[bus number]:bus number:'
+          'unit[unit id]:unit id:'
+          'index[index number for interface]:index:'
+          'media[media type]:media type:(cdrom disk)'
+          'cyls[number of cylinders]:cylinders:'
+          'heads[number of heads]:heads:'
+          'secs[number of sectors]:sectors:'
+          'trans[BIOS translation mode]:BIOS translation mode:(none lba auto)'
+          'snapshot[allow snapshots for drive]:snapshot:(on off)'
+          'cache[type of caching to use]:caching type:(none writeback unsafe directsync writethrough)'
+          'aio[asynchronous I/O operations]:aio:(threads native)'
+          'discard[allow discard (known as trim or unmap)]:discard:(( ignore\:"off" off\:"off"  unmap\:"on" on\:"on"))'
+          'format[specify the disk image format]:disk format:(raw cloop cow qcow qcow2 vmdk vdi)'
+          'serial[specify serial number for drive]:serial number:'
+          "addr[specify controller's PCI address (if=virtio only)]:PCI address:"
+          'rerror[perform action on read error]:rerror:(( ignore\:"ignore and continue" stop\:"pause qemu" report\:"report error to guest" enospc\:"only pause when host is full, report otherwise" ))'
+          'werror[perform action on write error]:werror:(( ignore\:"ignore and continue" stop\:"pause qemu" report\:"report error to guest" enospc\:"only pause when host is full, report otherwise" ))'
+          'readonly[open drive in ro]'
+          'copy-on-read[copy read backing file sectors into image file]:copy-on-read:(on off)'
+          )
+        ;;
+      ("fsdev"|"virtfs")
+        # TODO: local, handle or proxy has to appear first. pretty sure _values can't do it.
+        args=(
+          '(handle proxy)local'
+          '(proxy local)handle'
+          '(local handle)proxy'
+          'id[identifier for this device]:id:'
+          'path[export path]:path:_files -/ -S , -r " /\t\n\-"'
+          'security_model[security model for exported path]:security model:(passthrough mapped-xattr mapped-file none)'
+          'writeout[write notification]:writeout:(immediate)'
+          'readonly[export share as readonly]'
+          'socket[socket file for virtfs-proxy-helper]:socket:_files -S , -r " /\t\n\-"'
+          'sock_fd[socket fs for virtfs-proxy-helper]:socket fd:'
+          )
+          [[ $curstate == virtfs ]] && args+=( 'mount_tag[tag name to be used by the guest to mount this export point]:mount tag:' )
+        ;;
+      ("usbdevice")
+        sep=":"
+        args=(
+          'mouse[virtual mouse]'
+          'tablet[pointer dev that uses absolute coordinates]'
+          'disk[file based mass storage device]:UMS:_files -S , -r " /\t\n\-"' # optional format= option can be used format:file
+          'host[host device passthrough]:bus.addr or vendorid\:productid:'
+          'serial[serial to host char dev converter]:serial:(vc stdio pty null /dev/ttyS0 /dev/partport0)' # optional vendorid= and productid= options
+          'braille[braille device]'
+          'net[network adapter]:options:' # man page doesn't show possible options
+          )
+        ;;
+      ("spice")
+        args=(
+          'port[bind to TCP port]:TCP port:' # can't use names that _port outputs
+          'addr[bind to ip address]:ip address:_bind_addresses'
+          'ipv'{4,6}'[force IP version]'
+          'password[set password need to auth]:password:'
+          'sasl[require client to use SASL]'
+          'disable-ticketing[allow connections without authentication]'
+          'disable-copy-paste[disallow copy/paste between client and guest]'
+          'disable-agent-file-xfer[disallow spice-vdagent file-xfer]'
+          'tls-port[bind to TCP port\(for encrypted channels\)]:TCP port:'
+          'x509-dir[set x509 directory]:directory:_files -/ -S , -r " /\t\n\-"'
+          'x509-'{key,cert,cacert,dh-key}'-file:file:_files -S , -r " /\t\n\-"' 'x509-key-password:file:_files -S , -r " /\t\n\-"'
+          'tls-ciphers[ciphers to use]:list:' # no list of possible ciphers in the man page
+          '*'{tls,plaintext}'-channel[force specific channel]:channel:(default main display cursor inputs record playback)'
+          'image-compression[set image compression algorithm]:compression algorithm:(auto_glz auto_lz quic glz lz off)'
+          {jpeg,zlib-glz}'-wan-compression[use compression for slow links]: :(auto never always)'
+          'streaming-video[set video stream detection]: :(off all filter)'
+          'agent-mouse[enable/disable passing mouse events]: :(on off)'
+          'playback-compression[enable/disable auto stream compression]: :(on off)'
+          'seamless-migration[enable/disable spice seamless migration]: :(on off)'
+          )
+    esac
+    _values -s ',' -S ${sep:-=} $curstate "$args[@]"
+  done
+}
+
+_qemu_call_function() {
+  local ret=1
+  _call_function ret _$service
+  return ret
+}
+
+_qemu_call_function "$@"
