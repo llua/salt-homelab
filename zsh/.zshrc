@@ -65,7 +65,7 @@ autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_]*(N.:t) zmv edit-command
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 # separate man page completion by section.
-zstyle ':completion:*:manuals.*'    insert-sections   true
+zstyle -e ':completion:*:manuals.*' insert-sections   'if [[ $OSTYPE = solaris* ]]; then reply=(false); else reply=(true); fi'
 zstyle ':completion:*:manuals'      separate-sections true 
 # per-match descriptions (if available)
 zstyle ':completion:*'              verbose           true
