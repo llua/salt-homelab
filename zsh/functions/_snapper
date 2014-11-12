@@ -1,0 +1,117 @@
+#compdef snapper
+# TODO: see if there is a way to complete options of `command' ran with --execute
+local curcontext="$curcontext" curstate state line expl cmds configs subcmds REPLY __ ret=1
+local -a args
+typeset -A subcmds
+
+subcmds=( 
+          'list-configs'  'List available configurations'
+          'create-config' 'Create a new configuration'
+          'delete-config' 'Delete a configuartion'
+          'list'          'List snapshots'
+          'create'        'Create a new snapshot'
+          'modify'        'Modify a snapshot' 
+          'delete'        'Delete a snapshot or a range of snapshots'
+          'mount'         'Mount a snapshot'
+          'umount'        'Unmount a snapshot'
+          'status'        'Compare snapshots'
+          'diff'          'Diff snapshots, or files from snapshots'
+          'undochange'    'Undo changes done between snapshots'
+          'cleanup'       'Run cleanup algorithm'
+        )
+
+if [[ $service == snapper ]]; then
+  _arguments -C -A "-*" \
+    '(- *)--version[Print version and exit]: :' \
+    {-q,--quiet}'[Suppress stdout]' \
+    {-v,--verbose}'[Increase verbosity]' \
+    {-c,--config}'[Use specified configuration]:configuration:( ${(@)${(M)${(f)"$(snapper -t 11 list-configs)"}##[^ ]##}[2,-1]} )' \
+    {-t,--table-style}'[Specifies table style]:table style:(0 1 2 3 4 5 6 7 8 9 10 11)' \
+    '*:: :->subcmd' && return 0
+  if (( CURRENT == 1 )); then
+    _wanted commands expl "snapper subcommands" compadd -k subcmds
+    return 0
+  fi
+  service=$words[1]
+  curcontext="${curcontext%:*}-$service:"
+fi
+
+case $state in
+  commands)
+    _arguments ':commands:_command_names'
+  ;;
+  subcmds)
+   : # find out when this action is eval
+  ;;
+esac
+
+case $service in
+
+  list-configs)
+  _message 'nothing'
+  ;;
+
+  create-config)
+    _arguments -A "-*" \
+      {-f,--fstype}'[Maunally set filesystem type]:filesystem:(btrfs ext4 lvm)' \
+      {-t,--template}'[Template for new configuration file]:template:_files' \
+      ':subvolume:_files -/'
+  ;;
+
+  list)
+    _arguments -A "-*" \
+      {-t,--type}'[Type of snapshots to list]:type:(all single pre-post)'
+  ;;
+
+  create)
+    _arguments -A "-*" \
+      {-t,--type}'[Type of snapshots to create]:type:(single pre post)' \
+      '--pre-number:number:' \
+      {-p,--print-number}'[Print snapshot number]:number:' \
+      {-d,--description}'[Set description]:description:' \
+      {-c,--cleanup-algorithm}'[Set cleanup-algorithm]:algorithm:(number timeline empty-pre-post)' \
+      {-u,--userdata}'[Set userdata]:userdata:' \
+      '--command[Run command between pre and post snapshot]:command: _command_names'
+  ;;
+
+  modify)
+    _arguments -A "-*" \
+      {-d,--description}'[New description]:description:' \
+      {-c,--cleanup-algorithm}'[New cleanup algorithm]:algorithm:(number timeline empty-pre-post)' \
+      {-u,--userdata}'[New userdata]:userdata:' \
+      ':snapshot number:->snapshots'
+  ;;
+
+  delete)
+    : hack to find snapshots for config (1 number or a range)
+  ;;
+  
+  mount)
+    : find snapshots
+  ;;
+
+  umount)
+    : umount a snapshot
+  ;;
+
+  status)
+    _arguments -A "-*" \
+      {-o,--output}'[Write output to file]:file:_files'
+#  : <number1>..<number2>
+  ;;
+
+  diff)
+    # _arguments -A "-*" \
+    : it takes options, but doesnt say what
+  ;;
+
+  undochange)
+    _arguments -A "-*" \
+      {-i,--input}'[undo changes for filenames in input file]:file:_files'
+  ;;
+
+  cleanup)
+    _arguments ':algorithm:(number timeline empty-pre-post)'
+  ;;
+
+esac

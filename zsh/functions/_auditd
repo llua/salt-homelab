@@ -1,0 +1,66 @@
+#compdef aureport aulast auditctl
+
+_aureport() {
+  _arguments -A "-*" : \
+    {-au,--auth}'[authentication report]' \
+    {-a,--avc}'[avc report]' \
+    {-c,--config}'[configuration change report]' \
+    {-cr,--crypto}'[crypto report]' \
+    {-e,--event}'[event report]' \
+    {-f,--file}'[file activity report]' \
+    '--failed[select failed entries]' \
+    {-h,--host}'[host report]' \
+    '--help[command summary]' \
+    {-i,--interpret}'[interpret numeric entities into text]' \
+    {-if,--input}'[input file]:input:_files' \
+    '--input-logs[use log file specified in auditd.conf]' \
+    {-k,--key}'[report audit rule keys]' \
+    {-l,--login}'[login report]' \
+    {-m,--mods}'[account modification report]' \
+    {-ma,--mac}'[Mandatory Access Control report]' \
+    {-n,--anomaly}'[anomaly report]' \
+    '--node[select events from node]:node: _message "node"' \
+    {-p,--pid}'[processes report]' \
+    {-r,--response}'[anomaly responses report]' \
+    {-s,--syscall}'[syscall report]' \
+    '--success[select  successful entries]' \
+    '--summary[summary report]' \
+    {-t,--log}'[report start and end times]' \
+    '--tty[tty keystrokes reports]' \
+    {-te,--end}'[end time]:end:_message "end date"' \
+    {-tm,--terminal}'[terminal report]' \
+    {-ts,--start}'[start time]:start:_message "start date"' \
+    {-u,--user}'[user report]' \
+    {-v,--version}'[print version]' \
+    {-x,--executable}'[executables report]'
+}
+
+_aulast() {
+  _arguments -A "-*" : \
+    '--bad[bad login report]' \
+    '--extract[dump raw audit log]' \
+    '-f+[input file]:file:_files' \
+    '--proof[print event serial number]' \
+    '--stdin[read audit record from stdin]' \
+    '1:user:_users' \
+    '2:tty:_message "tty"'
+}
+
+_auditctl() {
+  _arguments -A "-*" : \
+    '-b[set buffer size]:buffer:_message "buffer"' \
+    '-e[set enabled flag]:flag:(( 0\:"disable auditing" 1\:"enable auditing" 2\:"lock config" ))' \
+    '-f[set failure flag]:flag:(( 0\:silent 1\:printk 2\:panic ))' \
+    '-h[help]' \
+    '-i[ignore errors from input file]' \
+    '-c[continue on failure]'
+  return ret
+}
+
+_auditd() {
+  local ret
+  _call_function ret _$service
+  return ret
+}
+
+_auditd "$@"

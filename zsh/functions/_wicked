@@ -1,0 +1,93 @@
+#compdef wicked wickedd
+
+local curcontext="$curcontext" state state_descr line expl
+typeset -A opt_args; local -a subcommands args
+subcommands=( ifup ifdown ifreload ifstatus ifcheck show-config convert show-xml xpath getnames )
+
+_arguments -C : \
+  '--config[alternative config file]:configuration file: _files' \
+  '--log-level[set log level]:log level:(error warning notice info debug)' \
+  '--log-target[set log target]:log target: _wicked-logtarget' \
+  '--debug[enable debugging]:facility:( ifconfig readwrite xpath extension wicked 
+                                        wicked-xml events dhcp autoip ipv6 socket 
+                                        dbus wireless xml objectmodel application 
+                                        modem lldp timer mini most all )' \
+  '--root-directory[alternative root directory]:alt root directory: _files -/' \
+  '--dry-run[prevent actual changes]' \
+  '--systemd[force syslog target]' \
+  '--transient[more verbose interface return codes]' \
+  '1:wicked subcommands:( $subcommands[@] )' \
+  '*:: :->commands'
+
+
+while (( $#state )); do
+  local curstate=$state
+  shift state
+  case $curstate in
+    commands)
+      local cmd=${subcommands[(r)$words[1]]};
+      local curcontext="${curcontext%:*:*}:$service-$cmd"
+      case $cmd in
+        # fallthroughs
+        (*) 
+          if (( $subcommands[(i)$cmd] < $#subcommands )); then
+            args+=( '--help[display help]' )
+          else
+            return 1
+          fi
+          ;|
+        (ifup|ifreload|ifstatus|ifcheck)
+          args+=( 
+            '--ifconfig:alternative interface configuration:{ compset -P "(compat|firmware)\:"; _files }' # edgecase of a directory or filename 'compat:' being in the cwd
+          );|
+        (ifstatus|ifcheck) args+=( '--quiet[quiet mode]' );|
+        (ifreload|ifcheck) args+=( '--persisent[persisent mode]' );|
+        (ifstate|ifcheck)
+          local -a ifstates
+          ifstates=( device-down device-exists device-up protocols-up 
+                     firewall-up link-up link-authenticated lldp-up )
+          [[ $cmd == ifcheck ]] && ifstates+=( none network-up )
+          ;|
+        (ifup|ifdown) args+=('--timeout: : _message "timeout (seconds)"');|
+        (ifup|ifdown|ifreload|ifstatus|ifcheck|show-xml) args+=( '1:interface:_net_interfaces' );|
+
+        # normal matches
+        (ifup)
+          args+=( 
+            '--mode[filter by mode element]: : _message "mode identifier"'
+            '--boot-stage[filter by boot-stage element]: _message "boot-stage element"'
+            '--skip-origin[ignore interfaces]: _message "config source"'
+            '--skip-active[ignore active interfaces]'
+          );;
+        (ifdown)
+          args+=(
+            '--force[forcefully put interface into state]:state:( $ifstates[@] )'
+            '(--no-delete)--delete[delete interface]'
+            '(--delete)--no-delete[set interface to device-exists state]'
+          );;
+        (ifstatus) args+=( '--brief[less verbose output]' );;
+        (ifcheck)
+          args+=(
+            '--missed[check to see if interface is missed]'
+            '--changed[check to see if the configuration changed]'
+            '--state[check for state]:state:( $ifstates[@] )'
+          );;
+        (show-config|convert)
+          args+=(
+            '--raw[filter metadata from config]'
+            '--output[output location]:files: _files'
+          )
+          [[ $cmd == show-config ]] && args+=( '1: :{ compset -P "(compat|firmware|wicked)\:"; _files }' )
+          [[ $cmd == convert ]] && args+=( '*: : _files' )
+          ;;
+        (show-xml) args+=('--raw[show raw dbus reply]');;
+        (getnames) args+=('1: : _message "mac address"');;
+        (xpath) 
+          args+=(
+            '--reference[reference expression]: : _message "xpath expression"' 
+            '--file[input XML file]: : _files' '1: : _message "format"'
+          );;
+      esac
+      _arguments -C : "$args[@]"
+  esac
+done
