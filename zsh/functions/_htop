@@ -1,0 +1,13 @@
+#compdef htop
+
+local context state state_descr line
+typeset -A opt_args
+
+_arguments -S : \
+  {-d+,--delay=}'[update frequency]: : _message "tenths of seconds"' \
+  {-C,--no-colo{,u}r}'[monochrome mode]' \
+  {-h,--help}'[display help]' \
+  {-p+,--pid=}'[show given pids]: : _values -s "," pids $(_pids)' \
+  {-s+,--sort-key=}'[sort by key]:key:{ compadd - ${(f)"$($service --sort-key help)"} }' \
+  {-u+,--user=}'[show processes of user]: :_users' \
+  {-v,--version}'[print version information]'
