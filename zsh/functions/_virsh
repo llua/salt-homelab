@@ -1,5 +1,5 @@
 #compdef virsh
-# first attempt at an completion script
+# first attempt at an completion script; no, i don't know what most of this do.
 
 if (( CURRENT > 2 )); then
   local subcmd=${words[2]}

@@ -1,9 +1,8 @@
-ninjaedit() {
-  local arg mtime atime
-  for arg ; do
+ninjaedit() (
+  for arg; do
     IFS='|' read mtime atime < <(stat -c '%y|%x' $arg)
     ${EDITOR:-vi} $arg
     touch -a --date=$atime $arg
     touch -m --date=$mtime $arg
   done
-}
+)

@@ -1,4 +1,4 @@
-mergeconfs() {
+mergeconfs() (
 # search for .{pac,rpm}new files and diff them againist the original.
   local diff='' diffopts new confs answer prefix pkgmgr key value 
   setopt localoptions globassign 
@@ -14,23 +14,23 @@ mergeconfs() {
     # wrapper function to use sudo for non-root users, fails sliently if sudo isn't installed.
     if (( UID != 0 )); then
       if (( $+commands[sudo] )); then
-        command sudo $@
+        command sudo "$@"
       else
-        $@
+        "$@"
       fi
     else
-      $@ 
+      "$@"
     fi
   }
 
-  # check possible package managers just in case you have mulitple ones installed.(for whatever weird reason)
+  # check possible package managers just in case i have mulitple installed for whatever weird reason
   for key value in ${(kv)pkgmgr}; do
      (( $+commands[$key] )) && (( ++prefix[$value] ))
   done
 
   (( $+prefix )) || { print '%s\n' "Can't find a package manager i know of" >&2; return 1; }
 
-  confs=( /(etc|boot)/**/*.${(k)^prefix[@]}new(DN.) )
+  confs=( /(etc|boot)/(^.snapshots/)#*.${(k)^prefix[@]}new(DN.) )
   if (( $#confs[@] )); then
     printf '%s\n%s\n\n' "Files to merge:" "$confs[*]" 
     sleep 5s
@@ -55,6 +55,4 @@ mergeconfs() {
       fi
     done
   fi
-
-  unfunction sudo
-}   
+)
