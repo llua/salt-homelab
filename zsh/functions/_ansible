@@ -1,0 +1,95 @@
+#compdef ansible ansible-doc ansible-playbook
+# poor man's attempt of parsing the hosts file, may do interesting things.
+# zstyle -e ':completion::complete:ansible*:*' hosts 'reply=( ${(m)${${${${(f)"$(</etc/ansible/hosts)"}%% *}#\[}%\]}%%*(:vars|=*)} )'
+
+__ansible() {
+  _arguments -s -w : \
+    '(-v --verbose)'{-v,--verbose}'[verbose mode]' \
+    '(-i --inventory)'{-i+,--inventory=-}'[specify inventory file]:inventory file:_files' \
+    '(-f --forks)'{-f+,--forks=-}'[level of parallelism]: : _message "number of concurrent runs"' \
+    '--private-key=-[authenticate key]: : _files' \
+    '(-m --module-name)'{-m+,--module-name=-}'[execute module]: :__ansible_modules' \
+    '(-M --module-path)'{-M+,--module-path=-}'[module path]:module path:_files -/' \
+    '(-a --args)'{-a+,--args=-}'[arguments for module]: : _message "arguments"' \
+    '(-k --ask-pass)'{-k,--ask-pass}'[prompt for ssh password]' \
+    '(-K --ask-sudo-pass)'{-K,--ask-sudo-pass}'[prompt for sudo password]' \
+    '(-o --one-line)'{-o,--one-line}'[output everything on one line]' \
+    '(-s --sudo)'{-s,--sudo}'[escalate privileges to root]' \
+    '(-t --tree)'{-t+,--tree=-}'[save contents in directory]: : _files -/' \
+    '(-T --timeout)'{-T+,--timeout=-}'[specify connection timeout]: : _message "timeout, in seconds"' \
+    '(-B --background)'{-B+,--background=-}'[run commands in background, with timeout]: : _message "timeout, in seconds"' \
+    '(-P --poll)'{-P+,--poll=-}'[poll background jobs]: : _message "polling rate, in seconds"' \
+    '(-u --user)'{-u+,--user=-}'[specify remote user]:remote user:_users' \
+    '(-U --sudo-user)'{-U+,--sudo-user=-}'[user to sudo to]: : _users' \
+    '(-c --connection)'{-c+,--connection=-}'[connection type]:connection type:(paramiko ssh local)' \
+    '(-l --limit)'{-l+,--limit=-}'[apply limits on host/group pattern]: : _message "subset or ~REGEX"' \
+    '1:host or group:_hosts'
+}
+
+__ansible-playbook() {
+  _arguments -s -w : \
+    '(-v --verbose)'{-v,--verbose}'[verbose mode]' \
+    '(-i --inventory)'{-i+,--inventory=-}'[specify inventory file]:inventory file:_files' \
+    '(-f --forks)'{-f+,--forks=-}'[level of parallelism]: : _message "number of concurrent runs"' \
+    '(-M --module-path)'{-M+,--module-path=-}'[module path]:module path:_files -/' \
+    '(-k --ask-pass)'{-k,--ask-pass}'[prompt for ssh password]' \
+    '(-K --ask-sudo-pass)'{-K,--ask-sudo-pass}'[prompt for sudo password]' \
+    '(-s --sudo)'{-s,--sudo}'[escalate privileges to root]' \
+    '(-t --tag)'{-t+,--tag=-}'[only run plays and tasks tagged with these values]: : _message "skip tags"' \
+    '(-T --timeout)'{-T+,--timeout=-}'[specify connection timeout]: : _message "timeout, in seconds"' \
+    '(-u --user)'{-u+,--user=-}'[specify default remote user]:remote user:_users' \
+    '(-U --sudo-user)'{-U+,--sudo-user=-}'[user to sudo to]: : _users' \
+    '(-c --connection)'{-c+,--connection=-}'[connection type]:connection type:(paramiko ssh local)' \
+    '(-l --limit)'{-l+,--limit=-}'[apply limits on host/group pattern]: : _message "subset"' \
+    '(-e --extra-vars)'{-e,--extra-vars}'[inject extra variables into playbook]: : _message "variables, key=value form"' \
+    '--skip-tags=-[run plays not matching this tag(s)]: : _message "tags"' \
+    '--check[test resources to see what might have changed]' \
+    '--syntax-check[look for syntax errors in the playbook, but not run anything]' \
+    '--diff[show the unified diffs of what changed in any templated files]' \
+    '*:ansible playbook:_files'
+}
+
+__ansible-doc() {
+  _arguments -s -w : \
+    '(-M --module-path)'{-M+,--module-path=-}'[module path]:module path:_files -/' \
+    '(-s --snippet)'{-s,--snippet}'[produce a snippet which can be copied into a playbook for modification]' \
+    '(-l --list)'{-l,--list}'[produce a terse listing of modules and a short description of each]' \
+    '*: :__ansible_modules'
+}
+    
+__ansible_modules() {
+  local mdir; local -a ansible_modules expl
+  expl=( "$@" )
+
+  if (( $words[(i)--module-path=*] <= $#words )); then
+    mdir=${words[(R)--module-path=*]#--module-path=}
+    ansible_modules=( $^mdir/*/*(.N) )
+  elif (( $words[(i)-M*] <= $#words )); then
+    if (( $#words[(R)-M*] > 2 )); then
+      mdir=${words[(R)-M*]#-M}
+    else
+      mdir=${words[words[(i)-M] + 1]}
+    fi
+    [[ -d $mdir ]] || return 1
+    ansible_modules=( $^mdir/*/*(.N) )
+  elif [[ -n $ANSIBLE_LIBRARY ]]; then
+    ansible_modules=( $ANSIBLE_LIBRARY/*/*(.N) )
+  elif zstyle -s ":completion:$curcontext:*" ansible_modules mdir && [[ -n $mdir ]]; then
+    ansible_modules=( $^mdir/*/*(.N) )
+  elif [[ -d /usr/share/ansible ]]; then
+    ansible_modules=( /usr/share/ansible/*/*(.N) )
+  elif [[ -d /usr/local/share/ansible ]]; then
+    ansible_modules=( /usr/local/share/ansible/*/*(.N) )
+  fi
+
+  if (( $#ansible_modules )); then
+    _values -O expl -w 'modules' "${ansible_modules[@]:t}"
+  fi
+}
+
+_ansible() {
+  local ret
+  _call_function ret "__$service" && return ret
+}
+
+_ansible "$@"
