@@ -1,4 +1,5 @@
 #compdef setsebool getsebool
+# thank god i don't have to deal with this often.
 
 _sebooleans() {
   # use local, typeset or etc to scope `selinux_booleans' in the calling function.
@@ -8,12 +9,12 @@ _sebooleans() {
 }
 
 _setsebool() {
-  local state state_descr context expl line ret=1
+  local state state_descr context expl line ret
   typeset -A opt_args val_args selinux_booleans
 
   _arguments : \
     '-P[set permanently]' '-V[verbose]' \
-    '*: :->booleans' && ret=0
+    '*: :->booleans'
 
   if [[ $state == booleans ]]; then
     local -a args; local bool boolstatus
@@ -23,26 +24,22 @@ _setsebool() {
       args+=( "$bool:boolean $bool (currently $boolstat):"'(1 0)' )
     done
 
-    _values -s ' ' -w boolean $args[@]
+    _values -w boolean "$args[@]"
   fi
-
-  return ret
 }
 
 _getsebool() {
-  local state state_descr context expl line ret=1
+  local state state_descr context expl line ret
   typeset -A opt_args selinux_booleans
 
   _sebooleans
   _arguments : \
     '(*)-a[print all booleans]' \
-    '(-a)*: :( ${(k)selinux_booleans} )' && ret=1
-
-  return ret
+    '(-a)*: :( ${(k)selinux_booleans} )'
 }
 
 _selinux() {
-  local ret=1
+  local ret
   _call_function ret _$service
   return ret
 }

@@ -2,37 +2,37 @@
 
 _aureport() {
   _arguments -A "-*" : \
-    {-au,--auth}'[authentication report]' \
-    {-a,--avc}'[avc report]' \
-    {-c,--config}'[configuration change report]' \
-    {-cr,--crypto}'[crypto report]' \
-    {-e,--event}'[event report]' \
-    {-f,--file}'[file activity report]' \
+    '(-au --auth)'{-au,--auth}'[authentication report]' \
+    '(-a --avc)'{-a,--avc}'[avc report]' \
+    '(-c --config)'{-c,--config}'[configuration change report]' \
+    '(-cr --crypto)'{-cr,--crypto}'[crypto report]' \
+    '(-e --event)'{-e,--event}'[event report]' \
+    '(-f --file)'{-f,--file}'[file activity report]' \
     '--failed[select failed entries]' \
-    {-h,--host}'[host report]' \
+    '(-h --host)'{-h,--host}'[host report]' \
     '--help[command summary]' \
-    {-i,--interpret}'[interpret numeric entities into text]' \
-    {-if,--input}'[input file]:input:_files' \
+    '(-i --interpret)'{-i,--interpret}'[interpret numeric entities into text]' \
+    '(-if --input)'{-if,--input}'[input file]:input:_files' \
     '--input-logs[use log file specified in auditd.conf]' \
-    {-k,--key}'[report audit rule keys]' \
-    {-l,--login}'[login report]' \
-    {-m,--mods}'[account modification report]' \
-    {-ma,--mac}'[Mandatory Access Control report]' \
-    {-n,--anomaly}'[anomaly report]' \
+    '(-k --key)'{-k,--key}'[report audit rule keys]' \
+    '(-l --login)'{-l,--login}'[login report]' \
+    '(-m --mods)'{-m,--mods}'[account modification report]' \
+    '(-ma --mac)'{-ma,--mac}'[Mandatory Access Control report]' \
+    '(-n --anomaly)'{-n,--anomaly}'[anomaly report]' \
     '--node[select events from node]:node: _message "node"' \
-    {-p,--pid}'[processes report]' \
-    {-r,--response}'[anomaly responses report]' \
-    {-s,--syscall}'[syscall report]' \
+    '(-p --pid)'{-p,--pid}'[processes report]' \
+    '(-r --response)'{-r,--response}'[anomaly responses report]' \
+    '(-s --syscall)'{-s,--syscall}'[syscall report]' \
     '--success[select  successful entries]' \
     '--summary[summary report]' \
-    {-t,--log}'[report start and end times]' \
+    '(-t --log)'{-t,--log}'[report start and end times]' \
     '--tty[tty keystrokes reports]' \
-    {-te,--end}'[end time]:end:_message "end date"' \
-    {-tm,--terminal}'[terminal report]' \
-    {-ts,--start}'[start time]:start:_message "start date"' \
-    {-u,--user}'[user report]' \
-    {-v,--version}'[print version]' \
-    {-x,--executable}'[executables report]'
+    '(-te --end)'{-te,--end}'[end time]::end date:(now recent today yesterday this-week week-ago this-month this-year):: : _message "end time"' \
+    '(-tm --terminal)'{-tm,--terminal}'[terminal report]' \
+    '(-ts --start)'{-ts,--start}'[start time]::start date:(now recent today yesterday this-week week-ago this-month this-year):: : _message "start time"' \
+    '(-u --user)'{-u,--user}'[user report]' \
+    '(-v --version)'{-v,--version}'[print version]' \
+    '(-x --executable)'{-x,--executable}'[executables report]'
 }
 
 _aulast() {

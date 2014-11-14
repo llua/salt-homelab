@@ -139,9 +139,7 @@ _qemu_log_items () {
 (( $+functions[_qemu_device_drivers] )) ||
 _qemu_device_drivers () {
   # TODO: refactor, so completing driver properties is possible.
-  local field1 field2 REPLY prop properties \
-    state state_descr line context driver
-  typeset -A val_args
+  local field1 field2 REPLY
   typeset -a dev
   #parsing out driver names
   $service -device help 2>&1 | while read -r field1 field2 REPLY; do
@@ -150,14 +148,6 @@ _qemu_device_drivers () {
     fi
   done
   compadd -qS , -a dev
-  # parsing out driver properties. commented out since drivers are allowed to have commas in them, breaking this hack.
-  #driver=${PREFIX%,}
-  #$service -device $driver,help 2>&1 | while read -r prop; do 
-  #  properties+=( "${${prop#$driver.}%=*}:${prop#*=}:" )
-  #done
-  # not sure why this works, but it ignores the 'driver,' parts and lists properties.
-  #compset -P '*,'
-  #_values -s , properties $properties[@]
 }
 
 (( $+functions[_qemu_device_urls] )) ||
@@ -414,7 +404,7 @@ _$service () {
 }
 
 _qemu_call_function() {
-  local ret=1
+  local ret
   _call_function ret _$service
   return ret
 }
