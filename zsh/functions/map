@@ -1,0 +1,8 @@
+map() { 
+  local arg cmd=$1; shift
+  for arg; do
+    () { 
+      eval ${(z)cmd}
+    } $arg
+  done
+}
