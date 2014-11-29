@@ -1,0 +1,9 @@
+#compdef nethogs
+
+_arguments : \
+  '-d+[refresh rate]: : _message "update interval (seconds)"' \
+  '-h[display help]' \
+  '-p[sniff in promiscious mode]' \
+  '-t[trace mode]' \
+  '-V[display version information]' \
+  '*: : _net_interfaces'
