@@ -1,0 +1,8 @@
+picstats() {
+  pushd ${1:-.} || return
+
+  typeset -Ag pictures
+  for x in *(.); (( pictures[${x%%<->.*}]++ ))
+  print -raC 2 - ${(kv)pictures} | sort -nk2
+  popd
+}

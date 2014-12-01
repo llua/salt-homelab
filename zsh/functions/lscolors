@@ -1,0 +1,7 @@
+# get an updated LS_COLORS value
+lscolors() (
+  source <(dircolors)
+  LS_COLORS=${LS_COLORS/bd=[^:]##:/bd=40;01:} 
+  LS_COLORS=${LS_COLORS/cd=[^:]##:/cd=01;30:}
+  typeset -p LS_COLORS 
+)
