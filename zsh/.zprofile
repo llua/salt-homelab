@@ -9,7 +9,7 @@ case $OSTYPE in
     export MANWIDTH=tty
   ;;
   openbsd*)
-    export "PKG_PATH=http://ftp.usa.openbsd.org/pub/OpenBSD/$(uname -r)/packages/$(uname -p)"
+    export "PKG_PATH=http://mirror.team-cymru.org/pub/OpenBSD/$(uname -r)/packages/$(uname -p)"
   ;;
 esac
 
