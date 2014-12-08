@@ -80,6 +80,7 @@ __ansible_modules() {
     [[ -d $ANSIBLE_LIBRARY ]] || return 1
     ansible_modules=( $ANSIBLE_LIBRARY/**/*(.N:t:r) )
   elif zstyle -s ":completion:$curcontext:*" ansible_modules mdir && [[ -n $mdir ]]; then
+    [[ -d $mdir ]] || return 1
     ansible_modules=( $mdir/**/*(.N:t:r) )
   elif [[ -d /usr/share/ansible ]]; then
     ansible_modules=( /usr/share/ansible/**/*(.N:t:r) )
@@ -87,7 +88,7 @@ __ansible_modules() {
     ansible_modules=( /usr/local/share/ansible/**/*(.N:t:r) )
   elif _cache_invalid ansible_modules || ! _retrieve_cache ansible_modules; then
       local k v
-      </dev/tty command ansible-doc -l | while read -r k v; do
+      </dev/tty 2>/dev/null command ansible-doc -l | while read -r k v; do
         [[ $k == (DEPRECATED:|) ]] && continue
         ansible_modules+=("${k}[$v]")
       done
