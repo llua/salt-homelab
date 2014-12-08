@@ -1,6 +1,4 @@
 #compdef ansible ansible-doc ansible-playbook
-# 1.7.2 and below, it should just work.
-# 1.8.x and above, to cache modules generated from `ansible-doc -l': zstyle :completion::complete:ansible:option-m-1: use-cache true
 # poor man's attempt of parsing the hosts file, may do interesting things.
 # zstyle -e ':completion::complete:ansible*:*' hosts 'reply=( ${(m)${${${${(f)"$(</etc/ansible/hosts)"}%% *}#\[}%\]}%%*(:vars|=*)} )'
 
@@ -67,18 +65,19 @@ __ansible_modules() {
     zstyle ":completion:$curcontext:" cache-policy _ansible_caching_policy
   fi
 
-  if (( $words[(i)--module-path=*] <= $#words )); then
+  if (( words[(I)--module-path=*] )); then
     mdir=${words[(R)--module-path=*]#--module-path=}
-    ansible_modules=( $mdir/**/*(.N) )
-  elif (( $words[(i)-M*] <= $#words )); then
+    ansible_modules=( $mdir/**/*(.N:t:r) )
+  elif (( words[(I)-M*] )); then
     if (( $#words[(R)-M*] > 2 )); then
       mdir=${words[(R)-M*]#-M}
     else
       mdir=${words[words[(i)-M] + 1]}
     fi
     [[ -d $mdir ]] || return 1
-    ansible_modules=( $mdir/**/*(.N) )
+    ansible_modules=( $mdir/**/*(.N:t:r) )
   elif [[ -n $ANSIBLE_LIBRARY ]]; then
+    [[ -d $ANSIBLE_LIBRARY ]] || return 1
     ansible_modules=( $ANSIBLE_LIBRARY/**/*(.N:t:r) )
   elif zstyle -s ":completion:$curcontext:*" ansible_modules mdir && [[ -n $mdir ]]; then
     ansible_modules=( $mdir/**/*(.N:t:r) )
@@ -87,10 +86,9 @@ __ansible_modules() {
   elif [[ -d /usr/local/share/ansible ]]; then
     ansible_modules=( /usr/local/share/ansible/**/*(.N:t:r) )
   elif _cache_invalid ansible_modules || ! _retrieve_cache ansible_modules; then
-    # 1.8.x moved them into site-packages :{
-    local k v
-    </dev/tty command ansible-doc -l | while read -r k v; do
-      [[ $k == (DEPRECATED:|) ]] && continue
+      local k v
+      </dev/tty command ansible-doc -l | while read -r k v; do
+        [[ $k == (DEPRECATED:|) ]] && continue
         ansible_modules+=("${k}[$v]")
       done
       _store_cache ansible_modules ansible_modules
