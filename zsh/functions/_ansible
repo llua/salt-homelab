@@ -58,12 +58,16 @@ __ansible-doc() {
 }
     
 __ansible_modules() {
-  local mdir; local -a ansible_modules expl
+  local mdir cachefn; local -a ansible_modules expl
   expl=( "$@" )
+  zstyle -s ":completion:$curcontext:" cache-policy cachefn
+  if [[ -z $cachefn ]]; then
+    zstyle ":completion:$curcontext:" cache-policy _ansible_caching_policy
+  fi
 
   if (( $words[(i)--module-path=*] <= $#words )); then
     mdir=${words[(R)--module-path=*]#--module-path=}
-    ansible_modules=( $^mdir/*/*(.N) )
+    ansible_modules=( $mdir/**/*(.N) )
   elif (( $words[(i)-M*] <= $#words )); then
     if (( $#words[(R)-M*] > 2 )); then
       mdir=${words[(R)-M*]#-M}
@@ -71,20 +75,34 @@ __ansible_modules() {
       mdir=${words[words[(i)-M] + 1]}
     fi
     [[ -d $mdir ]] || return 1
-    ansible_modules=( $^mdir/*/*(.N) )
+    ansible_modules=( $mdir/**/*(.N) )
   elif [[ -n $ANSIBLE_LIBRARY ]]; then
-    ansible_modules=( $ANSIBLE_LIBRARY/*/*(.N) )
+    ansible_modules=( $ANSIBLE_LIBRARY/**/*(.N:t:r) )
   elif zstyle -s ":completion:$curcontext:*" ansible_modules mdir && [[ -n $mdir ]]; then
-    ansible_modules=( $^mdir/*/*(.N) )
+    ansible_modules=( $mdir/**/*(.N:t:r) )
   elif [[ -d /usr/share/ansible ]]; then
-    ansible_modules=( /usr/share/ansible/*/*(.N) )
+    ansible_modules=( /usr/share/ansible/**/*(.N:t:r) )
   elif [[ -d /usr/local/share/ansible ]]; then
-    ansible_modules=( /usr/local/share/ansible/*/*(.N) )
+    ansible_modules=( /usr/local/share/ansible/**/*(.N:t:r) )
+  elif _cache_invalid ansible_modules || ! _retrieve_cache ansible_modules; then
+      local k v
+      </dev/tty command ansible-doc -l | while read -r k v; do
+        [[ $k == (DEPRECATED:|) ]] && continue
+        ansible_modules+=("${k}[$v]")
+      done
+      _store_cache ansible_modules ansible_modules
   fi
 
   if (( $#ansible_modules )); then
-    _values -O expl -w 'modules' "${ansible_modules[@]:t}"
+    typeset -U ansible_modules; ansible_modules=( ${(@m)ansible_modules##*__init__*} )
+    _values -O expl -w 'modules' "${ansible_modules[@]}"
   fi
+}
+
+_ansible_caching_policy() {
+  local -a oldp
+  oldp=( "$1"(Nm+7) )
+  (( $#oldp ))
 }
 
 _ansible() {
