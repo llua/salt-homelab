@@ -1,4 +1,6 @@
 #compdef ansible ansible-doc ansible-playbook
+# 1.7.2 and below, it should just work.
+# 1.8.x and above, to cache modules generated from `ansible-doc -l': zstyle :completion::complete:ansible:option-m-1: use-cache true
 # poor man's attempt of parsing the hosts file, may do interesting things.
 # zstyle -e ':completion::complete:ansible*:*' hosts 'reply=( ${(m)${${${${(f)"$(</etc/ansible/hosts)"}%% *}#\[}%\]}%%*(:vars|=*)} )'
 
