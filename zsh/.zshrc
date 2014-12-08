@@ -118,7 +118,7 @@ zstyle :completion::complete:-tilde-:: \
 zstyle ':completion::complete:journalctl:option-b-1:' \
                                     sort              false
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
-zstyle ':completion:*:mpc:*'        use-cache         true
+zstyle ':completion:*:(mpc|zypper|ansible(|-doc)):*'  use-cache         true
 zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true
 zstyle ':completion:*'              accept-exact      false
