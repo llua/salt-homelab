@@ -87,9 +87,10 @@ __ansible_modules() {
   elif [[ -d /usr/local/share/ansible ]]; then
     ansible_modules=( /usr/local/share/ansible/**/*(.N:t:r) )
   elif _cache_invalid ansible_modules || ! _retrieve_cache ansible_modules; then
-      local k v
-      </dev/tty command ansible-doc -l | while read -r k v; do
-        [[ $k == (DEPRECATED:|) ]] && continue
+    # 1.8.x moved them into site-packages :{
+    local k v
+    </dev/tty command ansible-doc -l | while read -r k v; do
+      [[ $k == (DEPRECATED:|) ]] && continue
         ansible_modules+=("${k}[$v]")
       done
       _store_cache ansible_modules ansible_modules
