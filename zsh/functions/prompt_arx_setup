@@ -6,7 +6,7 @@ eof
 
 prompt_arx_setup() {
   local localhost
-  zstyle -a ':theme:arx:' hosts localhost
+  zstyle -a ':prompt:arx:' hosts localhost
   if (( localhost[(I)$HOST] )); then
     if (( UID == 0 )); then
       PROMPT="%F{1}%B%%%f%b "
