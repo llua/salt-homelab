@@ -48,7 +48,7 @@ autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_]*(N.:t) zmv edit-command
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
-zstyle ':theme:arx:'                hosts             netslum megin-fi
+zstyle ':prompt:arx:'               hosts             netslum megin-fi
 # separate man page completion by section.
 zstyle -e ':completion:*:manuals.*' insert-sections   'if [[ $OSTYPE = solaris* ]]; then reply=(false); else reply=(true); fi'
 zstyle ':completion:*:manuals'      separate-sections true 
