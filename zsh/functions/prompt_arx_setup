@@ -1,0 +1,26 @@
+prompt_arx_help() {
+  cat <<\eof
+justdoit(tm)
+eof
+}
+
+prompt_arx_setup() {
+  local localhost
+  zstyle -a ':theme:arx:' hosts localhost
+  if (( localhost[(I)$HOST] )); then
+    if (( UID == 0 )); then
+      PROMPT="%F{1}%B%%%f%b "
+    else
+      PROMPT="%% "
+    fi
+  else
+    if (( UID == 0 )); then
+      PROMPT="%F{1}%B(%b%F{6}%m%F{1}%B)%#%f%b "
+    else
+      PROMPT="(%F{6}%m%f)%# "
+    fi
+  fi
+  RPROMPT="%B%F{6}%~%f%b"
+}
+
+prompt_arx_setup "$@"
