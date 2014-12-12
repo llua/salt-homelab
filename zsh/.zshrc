@@ -97,13 +97,16 @@ zstyle ':completion::complete:pacman:argument-rest:' \
                                     group-order       repo_packages packages
 # avoiding _perl's restrictive _files glob
 zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories *.(p[ml]|PL|t)(-.):globbed-files:perl\ scripts *~*.(p[ml]|PL|t)(^/):other-files:other\ files'
+zstyle ':completion::complete:perl:option-M-1:' \
+                                    use-cache         true
 # misc stuff
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
 zstyle ':completion::complete:journalctl:option-b-1:' \
                                     sort              false
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/.zcompcache
-zstyle ':completion:*:(mpc|zypper|ansible(|-doc)):*'  use-cache         true
+zstyle ':completion:*:(mpc|zypper|ansible(|-doc)):*' \
+                                    use-cache         true
 zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true
 zstyle ':completion:*'              accept-exact      false
