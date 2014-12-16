@@ -1,0 +1,26 @@
+#compdef vmstat
+
+local is_gnu args
+
+_pick_variant -r is_gnu gnu=procps-ng unix --version
+
+case $OSTYPE in
+  *linux*)
+    args=(
+      '(-a --active)'{-a,--active}'[active/inactive memory]'
+      '(-f --forks)'{-f,--forks}'[number of forks since boot]'
+      '(-m --slabs)'{-m,--slabs}'[slabinfo]'
+      '(-n --one-header)'{-n,--one-header}'[do not redisplay header]'
+      '(-s --stats)'{-s,--stats}'[event counter statistics]'
+      '(-d --disk)'{-d,--disk}'[disk statistics]'
+      '(-D --disk-sum)'{-D,--disk-sum}'[summarize disk statistics]'
+      '(-p --partition)'{-p,--partition}'[partition specific statistics]:partition:_files'
+      '(-S --unit)'{-S+,--unit}'[define display unit]:unit prefix:(( k\:1000 K\:1024 m\:1000000 M\:1048576 ))'
+      '(-w --wide)'{-w,--wide}'[wide output]'
+      '(-t --timestamp)'{-t,--timestamp}'[show timestamp]'
+      '1:delay' '2:count'
+    )
+  ;;
+esac
+
+_arguments -s -w -A "-*" : "$args[@]"
