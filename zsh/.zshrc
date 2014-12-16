@@ -122,7 +122,7 @@ prompt arx
 
 # generate completions from gnu tool's --help
 if [[ $OSTYPE == linux-gnu ]]; then
-  for cmd in sed comm netstat tail head {z,e,f,}grep date vmstat auditctl virt-{install,clone,convert,xml} \
+  for cmd in sed comm netstat tail head {z,e,f,}grep date auditctl virt-{install,clone,convert,xml} \
     lxc-{start,stop,create,clone,autostart,cgroup,checkconfig,console,destroy,device,execute,freeze,info,ls} \
     lxc-{monitor,snapshot,start-ephemeral,top,unfreeze,unshare,attach,top,usernsexec,wait}
   do
