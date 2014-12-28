@@ -1,0 +1,16 @@
+#compdef pmap
+
+_arguments -s -w -A "-*" : \
+  '(-x --extended)'{-x,--extended}'[extended format]' \
+  '(-d --device)'{-d,--device}'[device format]' \
+  '(-q --quiet)'{-q,--quiet}'[supress header or footer lines]' \
+  '(-A --range)'{-A,--range}'[address range limits]:address limit' \
+  '-X[extended smaps format]' '-XX[show everything the kernel provides]' \
+  '(-p --show-path)'{-p,--show-path}'[show full path to files in mapping column]' \
+  '(-c --read-rc)'{-c,--read-rc}'[read default configuration file]' \
+  '(-C --read-rc-from)'{-C,--read-rc-from}'[read configuration file]:configuration file:_files' \
+  '(-n --create-rc)'{-n,--create-rc}'[create new default configuration]' \
+  '(-N --create-rc-to)'{-N,--create-rc-to}'[save new default configuration]:configuration file:_files' \
+  '(-h --help)'{-h,--help}'[display help text]' \
+  '(-V --version)'{-V,--version}'[display version information]' \
+  '*: :_pids'
