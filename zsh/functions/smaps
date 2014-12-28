@@ -1,0 +1,14 @@
+#autoload +X
+# see: https://www.kernel.org/doc/Documentation/filesystems/proc.txt
+# a small function for systems that lack pmap's -X option
+
+[[ $OSTYPE != *linux* ]] && return
+
+local pid smaps
+for pid; do
+  if ! [[ -r ${smaps::=/proc/$pid/smaps} ]]; then
+    print >&2 "can't read /proc/$pid/smaps"
+    continue
+  fi
+  ${PAGER:-less} $smaps
+done
