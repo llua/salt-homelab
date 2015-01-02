@@ -1,9 +1,5 @@
 #compdef vmstat
 
-local is_gnu args
-
-_pick_variant -r is_gnu gnu=procps-ng unix --version
-
 case $OSTYPE in
   *linux*)
     _arguments -s -w -A "-*" : \
