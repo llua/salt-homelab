@@ -14,10 +14,12 @@ _wicked() {
     '--config[alternative config file]:configuration file: _files' \
     '--log-level[set log level]:log level:(error warning notice info debug)' \
     '--log-target[set log target]: : _wicked_logtarget' \
-    '--debug[enable debugging]:facility:( ifconfig readwrite xpath extension wicked 
-                                          wicked-xml events dhcp autoip ipv6 socket 
-                                          dbus wireless xml objectmodel application 
-                                          modem lldp timer mini most all )' \
+    '--debug[enable debugging]:facility:(
+      ifconfig readwrite xpath extension wicked 
+      wicked-xml events dhcp autoip ipv6 socket 
+      dbus wireless xml objectmodel application 
+      modem lldp timer mini most all
+    )' \
     '--root-directory[alternative root directory]:alt root directory: _files -/' \
     '--dry-run[prevent actual changes]' \
     '--systemd[force syslog target]' \
