@@ -1,11 +1,11 @@
 #compdef wicked wickedd
 
-_wicked_logtarget() {
+__wicked_logtarget() {
   _values -S : 'log target' 'stderr: :(pid)' \
     'syslog: :( user daemon local{0..7} )' # TODO: complete perror. _values can't do multiple argument completion
 }
 
-_wicked() {
+__wicked() {
   local curcontext="$curcontext" state state_descr line expl
   typeset -A opt_args; local -a subcommands args
   subcommands=( ifup ifdown ifreload ifstatus ifcheck show-config convert show-xml xpath getnames )
@@ -99,4 +99,38 @@ _wicked() {
         _arguments -C : "$args[@]"
     esac
   done
+}
+
+__wickedd() {
+  local curcontext="$curcontext" state state_descr line expl
+  typeset -A opt_args
+  _arguments -C -A "-*" : \
+    '--help[show available options]' \
+    '--version[show name and version]' \
+    '--config[specify configuration file]:config file:_files' \
+    '--debug[enable debugging]:facility:->debug' \
+    '--log-level[set log level]:level:(error warning notice info debug)' \
+    '--log-target[set log target]: : _wicked_logtarget' \
+    '--foreground[do not daemonize]' \
+    '--recover[load an save state]' \
+    '--system[use syslog for logging and not report transient return codes]'
+
+    if [[ $state == debug ]]; then
+      local ignore ret=1
+      # TODO: the character class seems to be ignored, so -ifconfig,<tab> will show ifconfig still
+      ignore=( '[-+]#'${(s:,:)^PREFIX} )
+      compset -P '*,'
+      compadd -M 'L:|[-+]=' -qS, -F ignore -- ifconfig readwrite xpath extension wicked \
+      wicked-xml events dhcp autoip ipv6 socket \
+      dbus wireless xml objectmodel application \
+      modem lldp timer mini most all && ret=0
+
+      return ret
+    fi
+}
+
+_wicked() {
+  local ret
+  _call_function ret "__$service"
+  return ret
 }
