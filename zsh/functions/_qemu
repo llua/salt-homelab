@@ -39,6 +39,7 @@ _qemu-img () {
           '-q[quiet]'
           '-f[format]:format:(vpc vhdx vdi raw host_cdrom host_floppy file qed 
             qcow2 qcow cow)'
+          '-b[backing file]:backing file:_files'
           '-o[options]:format options:( \? )'
           '1: :_files'
           '2:size:'
