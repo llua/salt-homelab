@@ -76,10 +76,10 @@ zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
                                     hosts             umbra corbenik netslum nypumi login1 login2
 # completion of pids owned by $USER
-zstyle ':completion:*:(kill|strace|pidstat):*' \
-                                    command           'ps -u $USER -o pid,cmd,tty'
+zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
+zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
 # completion of process names 
-zstyle ':completion:*:killall:*'    command           'ps -u $USER -o comm'
+zstyle ':completion:*:killall:*'    command           'ps -o comm -A'
 # grouping stuff menu selection mostly
 zstyle ':completion::complete:-subscript-::' \
                                     tag-order         'indexes association-keys'
