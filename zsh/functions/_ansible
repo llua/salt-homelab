@@ -1,4 +1,4 @@
-#compdef ansible ansible-doc ansible-playbook
+#compdef -P ansible(|-doc|-playbook|-pull)
 # poor man's attempt of parsing the hosts file, may do interesting things.
 # zstyle -e ':completion::complete:ansible*:*' hosts 'reply=( ${(m)${${${${(f)"$(</etc/ansible/hosts)"}%% *}#\[}%\]}%%*(:vars|=*)} )'
 
@@ -56,7 +56,20 @@ __ansible-doc() {
     '(-l --list)'{-l,--list}'[produce a terse listing of modules and a short description of each]' \
     '*: :__ansible_modules'
 }
-    
+
+__ansible-pull() {
+  _arguments -s -w : \
+    '(-d --directory)'{-d,--directory=-}'[destination for checked out repository]: : _files -/' \
+    '(-U --url)'{-u,--url=-}'[url of the playbook repository]: : _urls' \
+    '(-C --checkout)'{-C,--checkout=-}'[branch/tag/commit to checkout]:branch/tag/commit' \
+    '(-f --force)'{-f,--force}'[force the run of the playbook]' \
+    '(-i --inventory)'{-i+,--inventory=-}'[specify inventory file]:inventory file:_files' \
+    '--purge[purge the checkout after the playbook is ran]' \
+    '(-m --module-name)'{-m+,--module-name=-}'[module used to checkout playbook repository]: :__ansible_modules' \
+    '(-o --only-if-changed)'{-o,--only-if-changed}'[run the playbook only if the repository has changed]' \
+    '1:playbook:_files'
+}
+
 __ansible_modules() {
   local mdir cachefn; local -a ansible_modules expl
   expl=( "$@" )
@@ -75,13 +88,13 @@ __ansible_modules() {
       mdir=${words[words[(i)-M] + 1]}
     fi
     [[ -d $mdir ]] || return 1
-    ansible_modules=( $mdir/*(.N:t:r) )
+    ansible_modules=( $mdir/**/*(.N:t:r) )
   elif [[ -n $ANSIBLE_LIBRARY ]]; then
     [[ -d $ANSIBLE_LIBRARY ]] || return 1
-    ansible_modules=( $ANSIBLE_LIBRARY/*(.N:t:r) )
+    ansible_modules=( $ANSIBLE_LIBRARY/**/*(.N:t:r) )
   elif zstyle -s ":completion:$curcontext:*" ansible_modules mdir && [[ -n $mdir ]]; then
     [[ -d $mdir ]] || return 1
-    ansible_modules=( $mdir/*(.N:t:r) )
+    ansible_modules=( $mdir/**/*(.N:t:r) )
   elif [[ -d /usr/share/ansible ]]; then
     ansible_modules=( /usr/share/ansible/**/*(.N:t:r) )
   elif [[ -d /usr/local/share/ansible ]]; then
