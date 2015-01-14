@@ -88,13 +88,13 @@ __ansible_modules() {
       mdir=${words[words[(i)-M] + 1]}
     fi
     [[ -d $mdir ]] || return 1
-    ansible_modules=( $mdir/**/*(.N:t:r) )
+    ansible_modules=( $mdir/*(.N:t:r) )
   elif [[ -n $ANSIBLE_LIBRARY ]]; then
     [[ -d $ANSIBLE_LIBRARY ]] || return 1
-    ansible_modules=( $ANSIBLE_LIBRARY/**/*(.N:t:r) )
+    ansible_modules=( $ANSIBLE_LIBRARY/*(.N:t:r) )
   elif zstyle -s ":completion:$curcontext:*" ansible_modules mdir && [[ -n $mdir ]]; then
     [[ -d $mdir ]] || return 1
-    ansible_modules=( $mdir/**/*(.N:t:r) )
+    ansible_modules=( $mdir/*(.N:t:r) )
   elif [[ -d /usr/share/ansible ]]; then
     ansible_modules=( /usr/share/ansible/**/*(.N:t:r) )
   elif [[ -d /usr/local/share/ansible ]]; then
