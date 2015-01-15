@@ -99,6 +99,16 @@ zstyle ':completion::complete:pacman:argument-rest:' \
 zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories *.(p[ml]|PL|t)(-.):globbed-files:perl\ scripts *~*.(p[ml]|PL|t)(^/):other-files:other\ files'
 zstyle ':completion::complete:perl:option-M-1:' \
                                     use-cache         true
+zstyle ':completion:most-recent-file:*' \
+                                    match-original    both
+zstyle ':completion:most-recent-file:*' \
+                                    file-sort         modification
+zstyle ':completion:most-recent-file:*' \
+                                    file-patterns     '*:all\ files'
+zstyle ':completion:most-recent-file:*' \
+                                    hidden            all
+zstyle ':completion:most-recent-file:*' \
+                                    completer         _files
 # misc stuff
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
@@ -120,6 +130,7 @@ compinit
 autoload -Uz promptinit; promptinit
 prompt arx
 
+zle -C most-recent-file menu-complete _generic
 # generate completions from gnu tool's --help
 if [[ $OSTYPE == linux-gnu ]]; then
   for cmd in sed comm netstat tail head {z,e,f,}grep date auditctl virt-{install,clone,convert,xml} \
@@ -147,6 +158,7 @@ bindkey -M viins -r '\e/'
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e.'                  insert-last-word
 bindkey -M viins '^Xm'                  _most_recent_file
+bindkey -M viins "^N"                   most-recent-file
 bindkey -M viins '^Xh'                  _complete_help
 bindkey -M viins '^X?'                  _complete_debug
 bindkey -M viins '^P'                   push-line-or-edit
