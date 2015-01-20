@@ -139,16 +139,28 @@ _qemu_log_items () {
 
 (( $+functions[_qemu_device_drivers] )) ||
 _qemu_device_drivers () {
-  # TODO: refactor, so completing driver properties is possible.
-  local field1 field2 REPLY
-  typeset -a dev
-  #parsing out driver names
-  $service -device help 2>&1 | while read -r field1 field2 REPLY; do
-    if [[ $field1 == name ]]; then
-      dev+=( ${${field2%\",}#\"} )
-    fi
-  done
-  compadd -qS , -a dev
+  local ret=1
+  if [[ -z $PREFIX ]] || [[ ! -prefix *, ]]; then
+    local field1 field2
+    typeset -a dev
+    #parsing out driver names
+    $service -device help 2>&1 | while read -r field1 field2 _; do
+      if [[ $field1 == name ]]; then
+        dev+=( ${${field2%\",}#\"} )
+      fi
+    done
+    compadd -qS , -a dev && ret=0
+  else
+    local ignore prop dev
+    ignore=( ${(s:,:)^PREFIX} )
+    $service -device "$ignore[1],?" 2>&1 | while IFS=.= read -r _ prop _; do
+      dev+=("$prop")
+    done
+    compset -P '*,' # TODO: compadd's -F option does nothing since i just pushed everything into IPREFIX
+    compadd -F 'ignore[2,-1]' -S= - $dev && ret=0
+  fi
+
+  return ret
 }
 
 (( $+functions[_qemu_device_urls] )) ||
