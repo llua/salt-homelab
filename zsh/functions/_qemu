@@ -146,7 +146,7 @@ _qemu_device_drivers () {
     #parsing out driver names
     $service -device help 2>&1 | while read -r field1 field2 _; do
       if [[ $field1 == name ]]; then
-        dev+=( ${${field2%\",}#\"} )
+        dev+=( ${${field2%\",#}#\"} )
       fi
     done
     compadd -qS , -a dev && ret=0
