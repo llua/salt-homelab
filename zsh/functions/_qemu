@@ -152,12 +152,12 @@ _qemu_device_drivers () {
     compadd -qS , -a dev && ret=0
   else
     local ignore prop dev
-    ignore=( ${(s:,:)^PREFIX} )
-    $service -device "$ignore[1],?" 2>&1 | while IFS=.= read -r _ prop _; do
+    $service -device "${PREFIX%%,*},?" 2>&1 | while IFS=.= read -r _ prop _; do
       dev+=("$prop")
     done
-    compset -P '*,' # TODO: compadd's -F option does nothing since i just pushed everything into IPREFIX
-    compadd -F 'ignore[2,-1]' -S= - $dev && ret=0
+    compset -P '*,'
+    ignore=( ${${(s:,:)^IPREFIX}%%=*} )
+    compadd -F "( $ignore[2,-1] )" -S= - $dev && ret=0
   fi
 
   return ret
