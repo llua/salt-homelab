@@ -1,6 +1,10 @@
 #compdef -P ansible(|-doc|-playbook|-pull)
 # poor man's attempt of parsing the hosts file, may do interesting things.
 # zstyle -e ':completion::complete:ansible*:*' hosts 'reply=( ${(m)${${${${(f)"$(</etc/ansible/hosts)"}%% *}#\[}%\]}%%*(:vars|=*)} )'
+#
+# packaged versions of ansible 1.7.2 on FreeBSD and openSUSE should just work.
+# 1.8.x will resort to parsing ansible-doc for module names, which is slow but can be cached.
+# zstyle ':completion:*:ansible(|-doc):*' use-cache true
 
 __ansible() {
   _arguments -s -w : \
