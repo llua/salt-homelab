@@ -152,6 +152,7 @@ _qemu_device_drivers () {
     compadd -qS , -a dev && ret=0
   else
     local ignore prop dev
+    # TODO: SUNW,fdtwo and a few other devices won't work.
     $service -device "${PREFIX%%,*},?" 2>&1 | while IFS=.= read -r _ prop _; do
       dev+=("$prop")
     done
