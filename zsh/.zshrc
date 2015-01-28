@@ -260,5 +260,6 @@ bind2maps       viins vicmd -- urxvt-Right      vi-forward-char
 bind2maps       viins       -- BackSpace        backward-delete-char
 bind2maps       viins       -- urxvt-BackSpace  backward-delete-char
 
+stty start '' stop ''
 unfunction bind2maps; unset key 
 unsetopt globassign
