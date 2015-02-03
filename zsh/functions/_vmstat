@@ -51,6 +51,7 @@ case $OSTYPE in
       '-v[print more verbose information]'
       '-w[delay N seconds between each display]:delay'
       '-z[include statistics about all interrupts]'
+      '*:disks:_files'
     )
   ;;
 esac
