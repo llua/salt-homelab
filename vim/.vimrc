@@ -1,5 +1,6 @@
 "Features
 syntax on           " Syntax Highlighting
+set modeline        " :help modeline
 set number          " Line Numbers
 set tabstop=2       " Tab length (spaces)
 set shiftwidth=2    " Forgot tbh
