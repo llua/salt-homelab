@@ -128,7 +128,7 @@ compinit
 
 # Prompt stuff
 autoload -Uz promptinit; promptinit
-prompt arx 2>/dev/null
+prompt arx >/dev/null 2>&1
 
 zle -C most-recent-file menu-complete _generic
 # generate completions from gnu tool's --help
