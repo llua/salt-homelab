@@ -25,7 +25,7 @@ _qemu-img () {
     local -a args
 
     case $subcmd in
-      check)
+      ("check")
         args=(
           '-q[quiet]'
           '-f[format]:format:(qcow2 qed)'
@@ -33,8 +33,8 @@ _qemu-img () {
           '-r[repair]::repair:(leaks all)'
           '1: :_files'
           )
-          ;;
-      create)
+        ;;
+      ("create")
         args=(
           '-q[quiet]'
           '-f[format]:format:(vpc vhdx vdi raw host_cdrom host_floppy file qed 
@@ -44,15 +44,15 @@ _qemu-img () {
           '1: :_files'
           '2:size:'
           )
-          ;;
-      commit)
+        ;;
+      ("commit")
         args=(
           '-f[format]:format:(qed qcow2)' # raw)' not sure if raw does snapshots
           '-t[cache mode]:cache mode:(none writeback unsafe directsync writethrough)'
           '1: :_files'
           )
-          ;;
-      compare)
+        ;;
+      ("compare")
         args=(
           '-f[format of file1]:format:(raw qed qcow2 qcow cow)'
           '-F[format of file2]:format:(raw qed qcow2 qcow cow)'
@@ -62,8 +62,8 @@ _qemu-img () {
           '1: :_files'
           '2: :_files'
           )
-          ;;
-      convert)
+        ;;
+      ("convert")
         args=(
           '-p[display progress]'
           '-s[snapshot id]:snapshot id:'
@@ -77,8 +77,8 @@ _qemu-img () {
           '-S[sparse size]:size:'
           '*: :_files'
           )
-          ;;
-      info|map)
+        ;;
+      ("info"|"map")
         args=(
           '-f[format]:format:(raw qcow2 qcow cow)'
           '--output=-[output format]:format:(human json)'
@@ -86,8 +86,8 @@ _qemu-img () {
           )
           [[ $subcmd == info ]] &&
             args+=( '--backing-chain[display the complete chain]' )
-          ;;
-      snapshot)
+        ;;
+      ("snapshot")
         args=(
           '(-a -c -d)-l[list snapshots]'
           '(-l -c -d)-a[apply snapshot]:snapshot:'
@@ -95,8 +95,8 @@ _qemu-img () {
           '(-l -a -c)-d[delete snapshot]:snapshot:'
           '1: :_files'
           )
-          ;;
-      rebase)
+        ;;
+      ("rebase")
         args=(
           '-f[format]:format:(qcow2 qed)'
           '-t[cache mode]:cache mode:(none writeback unsafe directsync writethrough)'
@@ -106,20 +106,25 @@ _qemu-img () {
           '-F[backing format]:backing_fmt:' # not too sure what this is, but may just need (qcow2 qed) as the action
           '1: :_files'
           )
-          ;;
-      resize)
+        ;;
+      ("resize")
         args=(
           '1: :_files'
           '2:size \(+more -less\):'
           )
-          ;;
-      amend)
+        ;;
+      ("amend")
         args=(
           '-f[format]:format:(qcow2)'
           '-o[options]:format options:( \? )'
           '1: :_files'
           )
-          ;;          
+        ;;
+      *)
+        args=(
+          '*: : _message "unknown command"'
+          )
+        ;;
     esac
     _arguments : "$args[@]" && ret=0
   fi
