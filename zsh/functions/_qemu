@@ -1,4 +1,30 @@
-#compdef -P qemu(|-system-*) qemu-img
+#compdef -P qemu(|-system-*) qemu-img qemu-nbd
+
+(( $+functions[_qemu-nbd] )) ||
+_qemu-nbd () {
+  _arguments -s -w : \
+    '(-p --port)'{-p+,--port=-}'[port to listen on]:port' \
+    '(-o --offset)'{-o+,--offset=-}'[offset into the image]:offset' \
+    '(-b --bind)'{-b+,--bind=-}'[bind to address]:address' \
+    '(-k --socket)'{-k+,--socket=-}'[listen on UNIX socket]: : _files' \
+    '(-f --format)'{-f+,--format=-}'[specify image format]:image format:(qcow qcow2 raw qed)' \
+    '(-r --read-only)'{-r,--read-only}'[export image read-only]' \
+    '(-P --partition)'{-P+,--partition=-}'[only expose partition <num>]:partition' \
+    '(-s --snapshot)'{-s,--snapshot}'[create temporary image, using <filename> as backing file]' \
+    '(-l --load-snapshot)'{-l+,--load-snapshot=-}'[load internal snapshot]:snapshot' \
+    '(-n --nocache --cache)'{-n,--nocache}'[specify cache mode]' \
+    '(-n --nocache --cache)--cache[specify cache mode]:mode:(none writeback unsafe directsync writethrough)' \
+    '--aio=-[asynchronous I/O mode]:async mode:(native threads)' \
+    '--discard=-[toggle whether discard requests are ignored]: :(ignore unmap)' \
+    '(-c --connect)'{-c+,--connect=-}'[connect image to NBD device]:NBD device:_files' \
+    '(-d --disconnect)'{-d,--disconnect}'[disconnect the specified device]' \
+    '(-e --shared)'{-e+,--shared=-}'[device can shared by <number> of clients]:max clients' \
+    '(-t --persistent)'{-t,--persistent}'[do not exit after last connection ends]' \
+    {-v,--verbose}'[display extra debugging information]' \
+    '(-h --help)'{-h,--help}'[display help message]' \
+    '(-V --version)'{-V,--version}'[output version information]' \
+    '1: : _files'
+}
 
 (( $+functions[_qemu-img] )) ||
 _qemu-img () {
