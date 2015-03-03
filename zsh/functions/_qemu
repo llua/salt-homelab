@@ -251,7 +251,7 @@ _qemu_display_vnc() {
 _$service () {
   local args context state state_descr line
   typeset -A val_args opt_args
-  _arguments -A "-*" : \
+  _arguments : \
     '-'{fda,fdb,hda,hdb,hdc,hdd,cdrom}':disk image\(deprecated\):_files' \
     '-'{mtdblock,sd,pflash}':disk image:_files' \
     '-M[target machine]:machine: compadd -- ${${(@)${${(f)"$($service -M \?)"}[2,-1]}%% *}\:-none}' \
@@ -317,8 +317,7 @@ _$service () {
     '-no-acpi[disable ACPI]' \
     '-loadvm[start right away with a saved state]:file:_files' \
     '-g[set initial graphic mode]:graphic mode:' \
-    '1:disk image: _alternative "file:file:_files" "uri:uri:_qemu_device_urls"' \
-    '*:: : _normal'
+    '*:disk image: _alternative "file:file:_files" "uri:uri:_qemu_device_urls"'
 
   while (( $#state )); do
     local -a suf
