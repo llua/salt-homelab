@@ -58,6 +58,8 @@ set foldlevel=1         "this is just what i use
 
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
+au BufRead,BufNewFile *.sls setfiletype yaml
+au BufRead,BufNewFile *.yml setfiletype yaml
 " jump to the line you was previously at after opening a file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
