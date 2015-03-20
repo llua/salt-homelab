@@ -448,7 +448,7 @@ _$service () {
           'seamless-migration[enable/disable spice seamless migration]: :(on off)'
           )
     esac
-    _values -s ',' -S ${sep:-=} $curstate "$args[@]"
+    (( $#args )) && _values -s ',' -S ${sep:-=} $curstate "$args[@]"
   done
 }
 
