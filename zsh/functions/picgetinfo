@@ -1,0 +1,14 @@
+picgetinfo() { 
+  setopt localoptions globassign
+  local match
+  if    [[ $PWD == */new/# ]]; then
+    match=$HOME/Pictures/women/*/${${PWD:h}##*/}/*([-1])
+  elif  [[ $PWD == $HOME/.local/tmp/* ]]; then
+    match=$HOME/Pictures/women/*/${${PWD}##*/}/*([-1])
+  else
+    print >&2 i don\'t know where i am
+    return 1
+  fi
+  ethnic=${${match#$HOME/Pictures/women/}%%/*}
+  num=${${match##[[:alpha:]/_]##}%%.*}
+}
