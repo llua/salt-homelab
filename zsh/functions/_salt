@@ -3,9 +3,10 @@
 # or the directory salt is installed in.
 # you can cache those three with:
 # zstyle ':completion:*:salt(|-cp|-call):*' use-cache true
-# or cache minions and modules independently, if you want to cache just one.
-# zstyle ':completion::complete:salt(|-cp|-call):minions:' use-cache true
-# zstyle ':completion::complete:salt(|-cp|-call):modules:' use-cache true
+# or selectively:
+# zstyle ':completion::complete:salt(|-cp|-call):minions:'  use-cache true
+# zstyle ':completion::complete:salt(|-cp|-call):modules:'  use-cache true
+# zstyle ':completion::complete:salt(|-cp|-call):salt_dir:' use-cache true
 
 
 local state line curcontext="$curcontext" salt_dir cachefn
@@ -147,14 +148,17 @@ _salt_comp(){
     esac
 }
 
-zstyle -s ":completion:$curcontext:" cache-policy cachefn
-if [[ -z $cachefn ]]; then
-    zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
-fi
+() {
+    local curcontext=${curcontext%:*}:salt_dir
+    zstyle -s ":completion:$curcontext:" cache-policy cachefn
+    if [[ -z $cachefn ]]; then
+        zstyle ":completion:${curcontext%:*}:salt_dir:" cache-policy _salt_caching_policy
+    fi
 
-if _cache_invalid salt/salt_dir || ! _retrieve_cache salt/salt_dir; then
-    salt_dir="${$(python2 -c 'import salt; print(salt.__file__);')%__init__*}"
-    _store_cache salt/salt_dir salt_dir
-fi
+    if _cache_invalid salt/salt_dir || ! _retrieve_cache salt/salt_dir; then
+        salt_dir="${$(python2 -c 'import salt; print(salt.__file__);')%__init__*}"
+        _store_cache salt/salt_dir salt_dir
+    fi
+}
 
 _salt_comp "$@"
