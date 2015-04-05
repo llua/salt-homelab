@@ -1,1 +1,1 @@
-landscape() { source <(identify -format 'w=%w\nh=%h\n' $REPLY); (( h < w )); }
+landscape() { local h w; source <(identify -format 'w=%w\nh=%h\n' $REPLY); (( h < w )); }
