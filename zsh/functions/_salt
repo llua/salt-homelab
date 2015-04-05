@@ -16,12 +16,12 @@ _modules(){
 
     zstyle -s ":completion:$curcontext:" cache-policy cachefn
     if [[ -z $cachefn ]]; then
-      zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
+        zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
     fi
 
     if _cache_invalid salt/modules || ! _retrieve_cache salt/modules; then
-      _funcs=( ${(M)${(f)"$(command salt-call --local -d 2>/dev/null)"}##[[:alnum:]._]##} )
-      _store_cache salt/modules _funcs
+        _funcs=( ${(M)${(f)"$(command salt-call --local -d 2>/dev/null)"}##[[:alnum:]._]##} )
+        _store_cache salt/modules _funcs
     fi
 
     _wanted modules expl modules _multi_parts "$@" . _funcs
@@ -32,13 +32,13 @@ _minions(){
 
     zstyle -s ":completion:$curcontext:" cache-policy cachefn
     if [[ -z $cachefn ]]; then
-      zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
+        zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
     fi
 
     if _cache_invalid salt/minions || ! _retrieve_cache salt/minions; then
-      _peons=( ${(f)"$(command salt-key -l acc 2>/dev/null)"} )
-      _peons[(I)Accepted[[:space:]]Keys:]=()
-      _store_cache salt/minions _peons
+        _peons=( ${(f)"$(command salt-key -l acc 2>/dev/null)"} )
+        _peons[(I)Accepted[[:space:]]Keys:]=()
+        _store_cache salt/minions _peons
     fi
 
     _wanted minions expl minions compadd "$@" -a _peons
@@ -46,9 +46,9 @@ _minions(){
 
 (( $+functions[_salt_caching_policy] )) ||
 _salt_caching_policy() {
-  local -a oldp
-  oldp=( "$1"(Nm+7) )
-  (( $#oldp ))
+    local -a oldp
+    oldp=( "$1"(Nm+7) )
+    (( $#oldp ))
 }
 
 local -a _{target,master,logging,minion}_options _{common,out}_opts
