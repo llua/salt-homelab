@@ -17,5 +17,5 @@ if [[ $state == users ]]; then
   local -a ignore
   compset -P '*,'; compset -S ',*'
   ignore=( ${(s:,:)IPREFIX} ${(s:,:)ISUFFIX} )
-  _users -F ignore -S ,
+  _users -F ignore -qS ,
 fi
