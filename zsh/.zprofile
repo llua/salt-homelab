@@ -1,7 +1,13 @@
 () {
   setopt localoptions extendedglob
 
-  path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
+  if   [[ -f /etc/arch-release ]]; then
+    path=( /usr/local/{s,}bin /usr/bin ~/(|.local/)#bin(/N) )
+  elif [[ -f /etc/SuSE-release ]]; then
+    path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
+  else
+    path+=( ~/(|.local/)#bin(/N) )
+  fi
   typeset -gU path
   # the -g is needed to prevent the tied parameter from becoming empty
   export EDITOR='vim' PAGER='less' PATH LESS='-XR'
