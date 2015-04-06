@@ -2,7 +2,8 @@
   setopt localoptions extendedglob
 
   path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
-  typeset -U path 
+  typeset -gU path
+  # the -g is needed to prevent the tied parameter from becoming empty
   export EDITOR='vim' PAGER='less' PATH LESS='-XR'
 
   [[ -f /etc/SuSE-release ]] && export GROFF_NO_SGR=1
