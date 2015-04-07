@@ -1,9 +1,7 @@
 () {
   setopt localoptions extendedglob
 
-  if   [[ -f /etc/arch-release ]]; then
-    path=( /usr/local/{s,}bin /usr/bin ~/(|.local/)#bin(/N) )
-  elif [[ -f /etc/SuSE-release ]]; then
+  if [[ -f /etc/SuSE-release ]]; then
     path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
   else
     path+=( ~/(|.local/)#bin(/N) )
