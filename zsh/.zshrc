@@ -16,17 +16,14 @@ setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Stuff we don't want
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
-# Set fpath
 fpath=( ~/.config/functions(/N) /usr/share/zsh/site-functions(/N) $^fpath[@](N) )
-
-# History & mail stuff
 HISTFILE=~/(.config/)#.zsh_history(N[1])
 HISTSIZE=15000
 SAVEHIST=15000
 MAILCHECK=1
 mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 [[ $ZSH_VERSION == *-dev* ]] && manpath=( ~/.local/share/man(/N) )
-
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
 READNULLCMD=less
 
 # colourssssssssssssssssssssssssssssssssssssss
