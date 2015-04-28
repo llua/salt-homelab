@@ -38,7 +38,7 @@ __wicked() {
         case $cmd in
           # fallthroughs
           (*) 
-            if (( $subcommands[(i)$cmd] < $#subcommands )); then
+            if (( subcommands[(Ie)$cmd] )); then
               args+=( '--help[display help]' )
             else
               return 1
