@@ -295,7 +295,10 @@ _$service () {
     '*-fsdev[define filesystem device]:share:->fsdev' \
     '*-virtfs[define filesystem device]:share:->virtfs' \
     '*-virtfs_synth[define synthetic filesystem image]' \
-    '-win2k-hack' \
+    '-win2k-hack[avoid a disk full bug during install]' \
+    '-no-hpet[disable HPET support]' \
+    '-acpitable[add ACPI table with specified header fields and context]:ACPI table:->acpitable' \
+    '-smbios:SMBIOS:' \
     '-usb[enable USB driver]' \
     '*-usbdevice[define USB device]:usb device:->usbdevice' \
     '*-net:net config:(none)' \
@@ -328,9 +331,11 @@ _$service () {
         args=(  
           'accel[accelerator]:accel:(tcg kvm xen)' 
           'kernel_irqchip[in-kernel irqchip support]:irqchip:(on off)' 
+          'vmport[emulation of VMWare IO port]:on off auto:(on off auto)'
           'kvm_shadow_size[KVM shadow MMU]:size: _message "size"' 
           'dump-guest-core[add guest memory to coredump]:coredump:(on off)' 
           'mem-merge[memory merge support]:mem-merge:(on off)'
+          'iommu[emulate Intel IOMMU support]:on off:(on off)'
           )
         ;;
       ("smp")
@@ -447,6 +452,13 @@ _$service () {
           'playback-compression[enable/disable auto stream compression]: :(on off)'
           'seamless-migration[enable/disable spice seamless migration]: :(on off)'
           )
+        ;;
+      ("acpitable")
+        args=(
+          'sig' 'rev' 'oem_table_id' 'oem_rev'
+          'asl_compiler_rev' 'data:file:_files -qS : -r " /\t\n\-"'
+          )
+        ;;
     esac
     (( $#args )) && _values -s ',' -S ${sep:-=} $curstate "$args[@]"
   done
