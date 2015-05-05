@@ -143,7 +143,7 @@ _salt_comp(){
             ;;
         salt-cp)
             _arguments -C \
-                "${words[(r)$_target_opt_pat[2]]+!}:minions:_minions" \
+                "${words[(r)$_target_opt_pat[1]]+!}:minions:_minions" \
                 "$_target_options[@]" \
                 "$_common_opts[@]" \
                 "$_logging_options[@]" \
