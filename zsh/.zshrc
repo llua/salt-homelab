@@ -117,7 +117,7 @@ zstyle ':completion:*:(mpc|zypper|ansible(|-doc)|salt(|-cp|-call)):*' \
 zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true
 zstyle ':completion:*'              accept-exact      false
-zstyle ':completion:*'              matcher-list      'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|[._-]=** r:|=* l:|=*'
+zstyle ':completion:*'              matcher-list      '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=* l:|=*'
 zstyle ':completion:*'              select-prompt     %SScrolling active: current selection at %p%s
 zstyle ':completion:*'              use-compctl       false
 autoload -Uz compinit
