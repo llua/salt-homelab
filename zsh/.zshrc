@@ -6,7 +6,7 @@ unset mod
 
 # options
 # Globbing
-setopt   ExtendedGlob GlobAssign
+setopt   ExtendedGlob
 # Misc
 setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst InteractiveComments CompleteInWord
 # History 
@@ -17,7 +17,8 @@ setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
 fpath=( ~/.config/functions(/N) /usr/share/zsh/site-functions(/N) $^fpath[@](N) )
-HISTFILE=~/(.config/)#.zsh_history(N[1])
+HISTFILE=~/.zsh_history
+[[ -f ~/.config/.zsh_history ]] && HISTFILE=~/.config/.zsh_history
 HISTSIZE=15000
 SAVEHIST=15000
 MAILCHECK=1
@@ -259,4 +260,3 @@ bind2maps       viins       -- urxvt-BackSpace  backward-delete-char
 
 stty start '' stop ''
 unfunction bind2maps; unset key 
-unsetopt globassign
