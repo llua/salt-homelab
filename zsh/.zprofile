@@ -3,6 +3,7 @@
 
   if [[ -f /etc/SuSE-release ]]; then
     path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
+    unsetopt globalrcs
   else
     path+=( ~/(|.local/)#bin(/N) )
   fi
