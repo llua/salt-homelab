@@ -41,7 +41,7 @@ _minions(){
         _store_cache salt/minions _peons
     fi
 
-    _wanted minions expl minions compadd "$@" -M 'r:|.=* r:|.=*' -a _peons
+    _wanted minions expl minions compadd "$@" -M 'r:|.=* r:|=*' -a _peons
 }
 
 (( $+functions[_salt_caching_policy] )) ||
