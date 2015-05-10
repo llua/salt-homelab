@@ -138,6 +138,18 @@ if [[ $OSTYPE == *linux* ]]; then
     compdef _gnu_generic $cmd
   done
   unset cmd
+  if [[ -f /etc/arch-release ]]; then
+    AUTOREMOVE() sudo pacman -R ${(of)"$(pacman -Qdtq)"}
+    AUTOCLEAN() sudo pacman -Sc
+  fi
+fi
+
+if ! [[ $OSTYPE == (openbsd|solaris)* ]]; then
+  alias cp='cp -i'
+  alias mv='mv -i'
+  alias rm='rm -v'
+  alias du='du -h'
+  alias df='df -h'
 fi
 
 # help
