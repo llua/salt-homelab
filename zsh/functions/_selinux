@@ -1,11 +1,11 @@
-#compdef setsebool getsebool
+#compdef setsebool getsebool setenforce
 # thank god i don't have to deal with this often.
 
 _sebooleans() {
   # use local, typeset or etc to scope `selinux_booleans' in the calling function.
   # this prevents the array from staying defined after compsys is done.
   typeset -Ag selinux_booleans
-  selinux_booleans=( ${(m)$(getsebool -a)#-->} )
+  selinux_booleans=( ${$(getsebool -a)#-->} )
 }
 
 _setsebool() {
@@ -17,14 +17,14 @@ _setsebool() {
     '*: :->booleans'
 
   if [[ $state == booleans ]]; then
-    local -a args; local bool boolstatus
+    local -a args; local k v
 
     _sebooleans
-    for bool boolstat in ${(kv)selinux_booleans}; do
-      args+=( "$bool:boolean $bool (currently $boolstat):"'(1 0)' )
+    for k v in ${(kv)selinux_booleans}; do
+      args+=( "$k:boolean $k (currently $v):"'(1 0)' )
     done
 
-    _values -w boolean "$args[@]"
+    _values -w 'selinux booleans' "$args[@]"
   fi
 }
 
@@ -35,7 +35,15 @@ _getsebool() {
   _sebooleans
   _arguments : \
     '(*)-a[print all booleans]' \
-    '(-a)*: :( ${(k)selinux_booleans} )'
+    '(-a)*:selinux booleans:( ${(k)selinux_booleans} )'
+}
+
+_setenforce() {
+  _arguments -M 'M:{[:upper:][:lower:]}={[:lower:][:upper:]}' \
+    '1:SELinux mode:((
+      enforcing\:enforcing permissive\:permissive
+      1\:enforcing 0\:permissive
+    ))'
 }
 
 _selinux() {
