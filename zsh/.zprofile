@@ -9,7 +9,7 @@
   fi
   typeset -gU path
   # the -g is needed to prevent the tied parameter from becoming empty
-  export EDITOR='vim' PAGER='less' PATH LESS='-XR'
+  export EDITOR='vim' PAGER='less' PATH LESS='-XRS'
 
   [[ -f /etc/SuSE-release ]] && export GROFF_NO_SGR=1
   case $OSTYPE in 
