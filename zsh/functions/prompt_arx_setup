@@ -12,9 +12,9 @@ prompt_arx_setup() {
     PROMPT="%F{6}%m %F{1}%B::%f%b "
   else
     if (( localhost[(I)$HOST] )) && ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
-      PROMPT=":: "
+      PROMPT="%F{14}%B::%b%f "
     else
-      PROMPT='%F{6}%m%f :: '
+      PROMPT='%F{6}%m%f %F{14}%B::%b%f '
     fi
   fi
 
