@@ -1,0 +1,11 @@
+#autoload
+
+local c
+for c; do
+  if (( $+_comps[$c] )); then
+    $EDITOR $^fpath/$_comps[$c](N)
+  else
+    print >&2 "$c doesn't have a completer associated with it"
+    return 1
+  fi
+done
