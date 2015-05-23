@@ -41,7 +41,7 @@ hash -d zsh=$HOME/src/zsh/
 hash -d build=$HOME/build/
 
 # autoload my functions in .config/functions/ and zmv
-autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_]*(N.:t) zmv edit-command-line 2>/dev/null
+autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_+]*(N^/:t) zmv edit-command-line 2>/dev/null
 
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
