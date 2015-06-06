@@ -89,13 +89,45 @@ zstyle ':completion:*:configure:*:options-other' \
                                     ignored-patterns  '--(dis|en)able-*'
 zstyle ':completion:*:configure:*:options-disable' \
                                     ignored-patterns  '^--disable-*'
-zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
-                                    file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
 zstyle ':completion::complete:pacman:argument-rest:' \
                                     group-order       repo_packages packages
+zstyle -e ':completion:*:*:systemctl-(((re|)en|dis)able|status|(*re|)start|reload*):*' \
+                                    tag-order         'local type; for type in service template target timer socket mount slice device busname
+                                                         reply+=( systemd-units:-${type}:${type} )
+                                                         reply=( "$reply systemd-units:-misc:misc" )'
+zstyle ':completion:*:systemd-units-service' \
+                                    ignored-patterns  '^*.service'
+zstyle ':completion:*:systemd-units-template' \
+                                    ignored-patterns  '^*@'
+zstyle ':completion:*:systemd-units-target' \
+                                    ignored-patterns  '^*.target'
+zstyle ':completion:*:systemd-units-timer' \
+                                    ignored-patterns  '^*.timer'
+zstyle ':completion:*:systemd-units-socket' \
+                                    ignored-patterns  '^*.socket'
+zstyle ':completion:*:systemd-units-mount' \
+                                    ignored-patterns  '^*.mount'
+zstyle ':completion:*:systemd-units-slice' \
+                                    ignored-patterns  '^*.slice'
+zstyle ':completion:*:systemd-units-device' \
+                                    ignored-patterns  '^*.device'
+zstyle ':completion:*:systemd-units-busname' \
+                                    ignored-patterns  '^*.busname'
+zstyle ':completion:*:systemd-units-misc' \
+                                    ignored-patterns  '*(@|.(service|target|timer|socket|mount|slice|device|busname))'
+# misc stuff
+zstyle :completion::complete:-tilde-:: \
+                                    group-order       named-directories users
+zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
+                                    file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
 # avoiding _perl's restrictive _files glob
 zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories *.(p[ml]|PL|t)(-.):globbed-files:perl\ scripts *~*.(p[ml]|PL|t)(^/):other-files:other\ files'
 zstyle ':completion::complete:perl:option-M-1:' \
+                                    use-cache         true
+zstyle ':completion::complete:journalctl:option-b-1:' \
+                                    sort              false
+zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
+zstyle ':completion:*:(mpc|zypper|ansible(|-doc)|salt(|-cp|-call)):*' \
                                     use-cache         true
 zstyle ':completion:most-recent-file:*' \
                                     match-original    both
@@ -107,14 +139,6 @@ zstyle ':completion:most-recent-file:*' \
                                     hidden            all
 zstyle ':completion:most-recent-file:*' \
                                     completer         _files
-# misc stuff
-zstyle :completion::complete:-tilde-:: \
-                                    group-order       named-directories users
-zstyle ':completion::complete:journalctl:option-b-1:' \
-                                    sort              false
-zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
-zstyle ':completion:*:(mpc|zypper|ansible(|-doc)|salt(|-cp|-call)):*' \
-                                    use-cache         true
 zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true
 zstyle ':completion:*'              accept-exact      false
