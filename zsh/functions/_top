@@ -50,7 +50,7 @@ case $OSTYPE in
       '-H[display individual threads]'
       '-i[interactive mode]'
       '-I[do not display idle processes]'
-      '-j[display the jail ID]:jail:_bsd_jails'
+      '-j[display the jail ID]'
       '-t[do not display the top process]'
       '-m+[statistic type]:type:(( cpu\:default io ))'
       '-n[non-interactive mode]'
