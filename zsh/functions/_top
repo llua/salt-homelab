@@ -65,7 +65,7 @@ case $OSTYPE in
         cpu size res time pri threads total read 
         write fault vcsw ivcsw jid pid
       )'
-      '-J+[show processes owned by jail]:jail:_bsd_jails'
+      '-J+[show processes owned by jail]:jail:_jails -0'
       '-U+[show processes owned by username]: :_users'
       '1: : _message "top number of processes"'
     );;
