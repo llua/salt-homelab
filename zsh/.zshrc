@@ -115,6 +115,15 @@ zstyle ':completion:*:systemd-units-busname' \
                                     ignored-patterns  '^*.busname'
 zstyle ':completion:*:systemd-units-misc' \
                                     ignored-patterns  '*(@|.(service|target|timer|socket|mount|slice|device|busname))'
+zstyle ':completion:*:*:machinectl*:*' \
+                                    tag-order         'systemd-machines:-qemu:qemu\ virtual\ machine systemd-machines:-container:container systemd-machines:-misc:machine'
+zstyle ':completion:*:systemd-machines-misc' \
+                                    ignored-patterns  '(lxc|qemu)-*'
+zstyle ':completion:*:systemd-machines-container' \
+                                    ignored-patterns  '^lxc-*'
+zstyle ':completion:*:systemd-machines-qemu' \
+                                    ignored-patterns  '^qemu-*'
+
 # misc stuff
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
