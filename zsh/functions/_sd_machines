@@ -1,0 +1,14 @@
+#autoload
+
+local -Ua _machines
+local a b
+machinectl --full --no-legend --no-pager list |
+        while read -r a b; do
+                _machines+=($a)
+        done
+
+if [[ -n "$_machines" ]]; then
+        _describe -t systemd-machines 'machines' _machines
+else
+        _message 'no machines'
+fi
