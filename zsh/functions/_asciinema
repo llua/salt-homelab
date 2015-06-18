@@ -1,0 +1,22 @@
+#compdef asciinema
+
+
+local args curcontext=$curcontext state state_descr line
+typeset -A opt_args
+args=(
+  '(-v --version)'{-v,--version}'[display version information]'
+  '(-h --help)'{-h,--help}'[display help message]'
+)
+
+_arguments -C : $args \
+  '1:command:(( 
+    "rec:record terminal session"
+    "auth:assign local API token to asciinema.org account"
+  ))' \
+  '*:: :->options'
+#elif (( CURRENT > 2 )); then
+#  shift words; (( CURRENT-- ))
+#  _arguments : \
+#    '(-v --version)'{-v,--version}'[display version information]' \
+#    '(-h --help)'{-h,--help}'[display help message]' 
+#fi
