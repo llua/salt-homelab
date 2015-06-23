@@ -47,46 +47,54 @@ _qemu-img () {
   else
     shift words; (( CURRENT-- ))
     subcmd=$words[1]
-    curcontext=${curcontext%:*}-$service:
-    local -a args
+    curcontext=${curcontext%:*}-$subcmd:
+    local -a args image_fmts
+    image_fmts=(
+      ${${(z)${(M)${(f)"$(_call_program command qemu-img --help)"}##Supported formats:*}}[3,-1]}
+    )
+    (( $#image_fmts )) ||
+    image_fmts=( host_cdrom cloop vvfat host_floppy
+                 iscsi blkdebug host_device vhdx quorum
+                 nbd blkverify file dmg qcow qcow2 tftp
+                 ftp raw ftps https http sheepdog parallels
+                 vmdk vdi vpc null-aio bochs null-co ssh qed )
 
     case $subcmd in
       ("check")
         args=(
           '-q[quiet]'
-          '-f[format]:format:(qcow2 qed)'
+          '-f[format]:format:(qcow2 qed vdi)'
           '--output=-[output format]:output format:(human json)'
           '-r[repair]::repair:(leaks all)'
-          '1: :_files'
+          '1: : _files'
           )
         ;;
       ("create")
         args=(
           '-q[quiet]'
-          '-f[format]:format:(vpc vhdx vdi raw host_cdrom host_floppy file qed 
-            qcow2 qcow cow)'
+          '-f[format]:format:($image_fmts)'
           '-b[backing file]:backing file:_files'
           '-o[options]:format options:( \? )'
-          '1: :_files'
-          '2:size:'
+          '1: : _files'
+          '2:size: _message size'
           )
         ;;
       ("commit")
         args=(
-          '-f[format]:format:(qed qcow2)' # raw)' not sure if raw does snapshots
+          '-f[format]:format:(qed qcow2)'
           '-t[cache mode]:cache mode:(none writeback unsafe directsync writethrough)'
-          '1: :_files'
+          '1: : _files'
           )
         ;;
       ("compare")
         args=(
-          '-f[format of file1]:format:(raw qed qcow2 qcow cow)'
-          '-F[format of file2]:format:(raw qed qcow2 qcow cow)'
+          '-f[format of file1]:format:( $image_fmts )'
+          '-F[format of file2]:format:( $image_fmts )'
           '-q[quiet]'
           '-p[display progress]'
           '-s[strict mode]'
-          '1: :_files'
-          '2: :_files'
+          '1: : _files'
+          '2: : _files'
           )
         ;;
       ("convert")
@@ -95,18 +103,17 @@ _qemu-img () {
           '-s[snapshot id]:snapshot id:'
           '-n[skip target creation]'
           '-o[options]:format options:( \? )'
-          '-f[input format]:format:(vpc vhdx vdi raw host_cdrom host_floppy file qed 
-            qcow2 qcow cow rbd)'
-          '-O[output format]:format:(raw qcow2 qcow cow rbd)'
+          '-f[input format]:format:( $image_fmts )'
+          '-O[output format]:format:( $image_fmts )'
           '-c[compress]'
           '-l[snapshot id]:snapshot id or name:'
           '-S[sparse size]:size:'
-          '*: :_files'
+          '*: : _files'
           )
         ;;
       ("info"|"map")
         args=(
-          '-f[format]:format:(raw qcow2 qcow cow)'
+          '-f[format]:format:( $image_fmts )'
           '--output=-[output format]:format:(human json)'
           '1:image:_files'
           )
@@ -119,7 +126,7 @@ _qemu-img () {
           '(-l -c -d)-a[apply snapshot]:snapshot:'
           '(-l -a -d)-c[create snapshot]:snapshot name:'
           '(-l -a -c)-d[delete snapshot]:snapshot:'
-          '1: :_files'
+          '1: : _files'
           )
         ;;
       ("rebase")
@@ -130,7 +137,7 @@ _qemu-img () {
           '-u[unsafe mode]'
           '-b[backing file]:backing file:_files'
           '-F[backing format]:backing_fmt:' # not too sure what this is, but may just need (qcow2 qed) as the action
-          '1: :_files'
+          '1: : _files'
           )
         ;;
       ("resize")
@@ -141,14 +148,14 @@ _qemu-img () {
         ;;
       ("amend")
         args=(
-          '-f[format]:format:(qcow2)'
+          '-f[format]:format:( $image_fmts )'
           '-o[options]:format options:( \? )'
-          '1: :_files'
+          '1: : _files'
           )
         ;;
       *)
         args=(
-          '*: : _message "unknown command"'
+          '*:: : _default'
           )
         ;;
     esac
