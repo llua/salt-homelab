@@ -57,10 +57,10 @@ case $OSTYPE in
 esac
 
 if (( $#specs )); then
-  local curcontext=$curcontext state state_descr line
+  local curcontext=$curcontext state state_descr line ret=1
   typeset -A {opt,val}_args
 
-  _arguments -C -s -w -A '-*' : "$specs[@]"
+  _arguments -C -s -w -A '-*' : "$specs[@]" && ret=0
 
   if [[ $state == devices ]]; then
     local -a types
@@ -75,6 +75,9 @@ if (( $#specs )); then
       'SCSI[Small Computer System Interface devices]'
       'other[any other device interface]' 'pass[passthrough devices]'
     )
-    _values -C -s , 'type of devices' "$types[@]"
+    _values -C -s , 'type of devices' "$types[@]" && ret=0
   fi
+  return ret
 fi
+
+_default
