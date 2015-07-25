@@ -21,13 +21,13 @@ case $OSTYPE in
   freebsd*)
     specs=(
       '-a[include statistics about all interrupts]'
-      '-c[repeat the display COUNT times]:count'
+      '-c[number of times to refresh the display]:count'
       '-f[report on the number fork syscalls since boot and pages of virtual memory for each]'
       '-h[human readable memory columns output]'
       '-H[scriptable memory columns output]'
       '-i[report the number of interrupts taken by devices since boot]'
-      '-M[extract values associated with the name list from the specified CORE]:core:_files'
-      '-N[extract the name list from the specified SYSTEM]:system:_files' # TODO: pretty sure this and -M takes a path
+      '-M[source file to extract values associated with the name list from]:core:_files'
+      '-N[source file to extract the name list from]:system:_files'
       '-m[report on the usage of kernel dynamic memory allocated using malloc(9) by type]'
       '-n[change the maximum number of disks to display]:number of disks to display'
       '-P[report per-cpu system/user/idle cpu statistics]'
@@ -40,12 +40,12 @@ case $OSTYPE in
   ;;
   openbsd*)
     specs=(
-      '-c[repeat the display COUNT times]:count'
+      '-c[number of times to refresh the display]:count'
       '-f[report on the number fork syscalls since boot and pages of virtual memory for each]'
       '-i[report the number of interrupts taken by devices since boot]'
-      '-M[extract values associated with the name list from the specified CORE]:core:_files'
+      '-M[source file to extract values associated with the name list from]:core:_files'
       '-m[report usage of kernel dynamic memory listed first by size of allocation then type of usage]'
-      '-N[extract the name list from the specified SYSTEM]:system:_files'
+      '-N[source file to extract the name list from]:system:_files'
       '-s[display the contents of the UVMEXP structure]:uvmexp'
       '-t[report on the number of page in and page reclaims since boot]'
       '-v[print more verbose information]'

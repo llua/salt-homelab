@@ -77,6 +77,11 @@ case $OSTYPE in
     )
 esac
 
-_arguments -M 'r:|.=* r:|=*' : $opts \
-  '1:systat(1) displays:(( ${pre}$^screens ))' \
-  '2: : _message "refresh interval"'
+if (( $#screens )); then
+  _arguments -M 'r:|.=* r:|=*' : $opts \
+    '1:systat(1) displays:(( ${pre}$^screens ))' \
+    '2: : _message "refresh interval"'
+  return
+fi
+
+_default
