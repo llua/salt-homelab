@@ -1,0 +1,5 @@
+#autoload
+PS4=
+setopt xtrace
+export FPATH
+zsh -f
