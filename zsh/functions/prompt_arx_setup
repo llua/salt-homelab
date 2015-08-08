@@ -8,14 +8,12 @@ prompt_arx_setup() {
   local localhost
   zstyle -a ':prompt:arx:' hosts localhost
 
-  if (( UID == 0 )); then
-    PROMPT="%F{6}%m %F{208}%B::%f%b "
+  if  (( localhost[(I)$HOST] )) &&
+      ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
+      ! (( UID == 0 )); then
+    PROMPT="%F{6}%B::%b%f "
   else
-    if (( localhost[(I)$HOST] )) && ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )); then
-      PROMPT="%F{14}%B::%b%f "
-    else
-      PROMPT='%F{6}%m%f %F{14}%B::%b%f '
-    fi
+    PROMPT='%F{6}%m%f %F{6}%B%(!.%#.::)%b%f '
   fi
 
   RPROMPT="%B%F{6}%~%f%b"
