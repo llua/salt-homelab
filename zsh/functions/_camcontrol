@@ -1,0 +1,343 @@
+#compdef camcontrol
+# based on freebsd 10's man page
+local state state_descr line expl curstate subcmds args generic_opts devunit=1
+typeset -A opt_args
+subcmds=(
+  devlist periphlist tur inquiry identify reportluns readcap start
+  stop load eject rescan reset defects modepage cmd smpcmd smprg
+  smppc smpphylist smpmaninfo debug tags negotiate format sanitize
+  idle standby sleep fwdownload security hpa persist help
+)
+
+_arguments : \
+ '1:camcontrol command:( $subcmds )' \
+ '*:: :->args'
+
+while (( $#state )); do
+  curstate=$state
+  shift state
+  case $curstate in
+    args)
+      generic_opts=(
+        '-C[SCSI command retry count]:integer'
+        '-E[perform generic SCSI error recovery]'
+        '-n[device type to operate on]:device type:(da cd)'
+        '-t[SCSI command timeout]:seconds'
+        '-u[device unit number to operate on]:unit number'
+        '-v[verbose mode]'
+      )
+      case $words[1] in
+        devlist)
+          args=(
+            '-b[only print the bus adapter and unit information]'
+            '-v[also print SCSI bus number, adapter name and unit numbers]'
+          )
+        ;;
+        periphlist)
+          args=( $generic_opts '1: :->devid'
+            '-n[device type to operate on]:device type:(da cd)'
+            '-u[device unit number to operate on]:unit number'
+          )
+        ;;
+        tur)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        inquiry)
+          args=( $generic_opts '1: :->devid'
+            '-D[get the standard inquiry data]'
+            '-S[print out the serial number]'
+            '-R[print out transfer rate information]'
+          )
+        ;;
+        identify)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        reportluns)
+          args=( $generic_opts '1: :->devid'
+            '-c[only print a count of LUNs]'
+            '-l[only print the LUNs]'
+            '-r[specify report type]:report type:( default wellknown all )'
+          )
+        ;;
+        readcap)
+          args=( $generic_opts '1: :->devid'
+            '(-N -s)-b[only print the blocksize]'
+            '(-q -b)-h[print the device size in human readable format (base 2)]'
+            '-H[print the device size in human readable format (base 10)]'
+            '-N[print out the number of blocks in the device]'
+            '(-b -s)-q[quiet mode]'
+            '-s[print out the last logical block or the size of the device only]'
+          )
+        ;;
+        start)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        stop)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        load)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        eject)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        rescan|reset)
+          args=( '1: :{ compadd all; devunit=0 state+=(devid) }'
+          )
+        ;;
+        defects)
+          args=( $generic_opts '1: :->devid'
+            '-f[SCSI READ DEFECT DATA format]:format:( block bfi phys )'
+            '-G[print out the grown defect list]'
+            '-P[print out the primary defect list]'
+          )
+        ;;
+        modepage)
+          args=( $generic_opts '1: :->devid'
+            '-d[disable block descriptors for mode sense]'
+            '-b[displays mode page data in binary format]'
+            '-e[edit values in the mode page]'
+            '-l[lists all available mode pages]'
+            '-m[specify the number of the mode page]:mode_page'
+            '-P[specify the page control field]:field:(( "0\:current values" "1\:changeable values" "2\:default values" "3\:saved values" ))'
+          )
+        ;;
+        cmd)
+          args=( $generic_opts '1: :->devid'
+            '-a[specify ATA command block registers content]:cmd: _message -e cmd{,}'
+            '-c[specify SCSI CDB]:cmd: _message -e cmd{,}'
+            '-d[specify DMA protocol to be used for ATA command]'
+            '-f[specify FPDMA (NCQ) protocol to be used for ATA command]'
+            '-i[specify the amount of data to read, and how it should be displayed]:len: _message length:fmt: _message format'
+            '-o[specify the amount of data to be written, and the data to be written]:len: _message length:fmt: _message format'
+            '-r[specify that 11 result ATA Command Block registers should be displayed:format'
+          )
+        ;;
+        smpcmd)
+          args=( $generic_opts '1: :->devid'
+            '-r[specify the SMP request size]:len: _message length:fmt: _message format'
+            '-R[specify the SMP response buffer size]:len: _message length:fmt: _message format'
+          )
+        ;;
+        smprg)
+          args=( $generic_opts '1: :->devid'
+            '-l[request the long response format only]'
+          )
+        ;;
+        smppc)
+          args=( $generic_opts '1: :->devid'
+            '-p[specify the PHY to operate on]:phy'
+            '-l[request the long request/response format only]'
+            '-o[specify a PHY control operation]:operation:((
+              "nop\:no operation" "linkreset\:LINK RESET command"
+              "hardreset\:HARD RESET command" "disable\:DISABLE command"
+              "clearerrlog\:clears the error log counters"
+              "clearaffiliation\:clears the affiliation from the STP initiator port"
+              "sataportsel\:TRANSMIT SATA PORT SELECTION SIGNAL"
+              "clearitnl\:CLEAR STP I_T NEXUS LOSS command" "setdevname\:SET ATTACHED DEVICE NAME command"
+            ))'
+            '-d[specify a attached device name]:device name' # not too sure if completing /dev is useful here
+            '-m[set the minimum physical link rate for the phy]:rate:((
+              "0x0\:nop" "0x8\:1.5 Gbps" "0x9\:3 Gbps" "0xa\:6 Gbps"
+            ))'
+            '-M[set the maximum physical link rate for the phy]:rate:((
+              "0x0\:nop" "0x8\:1.5 Gbps" "0x9\:3 Gbps" "0xa\:6 Gbps"
+            ))'
+            '-T[set the partial pathway timeout]:microseconds'
+            '-a[enable/disable SATA slumber phy power conditions]:state:( enable disable )'
+            '-A[enable/disable SATA partial power conditions]:state:( enable disable )'
+            '-s[enable/disable SAS slumber phy power conditions]:state:( enable disable )'
+            '-S[enable/disable SAS partial power conditions]:state:( enable disable )'
+          )
+        ;;
+        smpphylist)
+          args=( $generic_opts '1: :->devid'
+            '-l[turn on long response format for SMP commands]'
+            '-q[only print out phys that are attached to a device in the CAM EDT]'
+          )
+        ;;
+        smpmaninfo)
+          args=( $generic_opts '1: :->devid'
+            '-l[turn on long response format for SMP commands]'
+          )
+        ;;
+        debug)
+          args=( '1: :{ compadd all off; devunit=0 state+=(devid) }'
+            '-I[enable CAM_DEBUG_INFO printfs]'
+            '-P[enable CAM_DEBUG_PERIPH printfs]'
+            '-T[enable CAM_DEBUG_TRACE printfs]'
+            '-S[enable CAM_DEBUG_SUBTRACE printfs]'
+            '-X[enable CAM_DEBUG_XPT printfs]'
+            '-c[enable CAM_DEBUG_CDB printfs]'
+            '-p[enable CAM_DEBUG_PROBE printfs]'
+          )
+        ;;
+        tags)
+          args=( $generic_opts '1: :->devid'
+            '-N[set the number of tags for the given device]:tag'
+            '-q[quiet mode]'
+            '-v[verbose mode]'
+          )
+        ;;
+        negotiate)
+          args=( ${generic_opts:#-v\[*} '1: :->devid'
+            '-a[attempt to make negotiation settings immediately]'
+            '-c[show or set current negotiation settings]'
+            '-D[enable or disable disconnection]: :(enable disable)'
+            '-M[set ATA mode]:ATA mode'
+            '-O[set command delay offset]:delay offset'
+            '-q[quiet mode]'
+            '-R[change the synchronization rate for a device]:sync rate'
+            '-T[enable or disable tagged queueing for a device]: :(enable disable)'
+            '-U[show or set user negotiation settings]'
+            '-v[print the contents of a Path Inquiry CCB]'
+            '-W[specify the bus width to negotiate with a device]:bus length'
+          )
+        ;;
+        format)
+          args=( $generic_opts '1: :->devid'
+            '-q[quiet mode]'
+            '-r[report only mode]'
+            '-w[issue a non-immediate format command]'
+            '-y[assume yes to questions]'
+          )
+        ;;
+        sanitize)
+          args=( $generic_opts '1: :->devid'
+            '-a[sanitize operation to perform]:operation:((
+              "overwrite\:use user supplied data"
+              "block\:set blocks to the vendor'\''s default"
+              "crypto\:cryptographic erase operation"
+              "exitfailure\:exits a previously failed sanitize operation"
+            ))'
+            '-c[number of passes for \`overwrite'\'' operations]:number of passes'
+            '-I[\`overwrite'\'' pattern is inverted between consecutive passes]'
+            '-P[file containing the pattern used for \`overwrite'\'' operations]: : _files'
+            '-q[quiet mode]'
+            '-U[perform the sanitize in the unrestricted completion mode]'
+            '-r[report only mode]'
+            '-w[issue a non-immediate sanitize command]'
+            '-y[assume yes to questions]'
+          )
+        ;;
+        idle)
+          args=( $generic_opts '1: :->devid'
+            '-t[standby timer]:seconds'
+          )
+        ;;
+        standby)
+          args=( $generic_opts '1: :->devid'
+            '-t[standby timer]:seconds'
+          )
+        ;;
+        sleep)
+          args=( $generic_opts '1: :->devid'
+          )
+        ;;
+        fwdownload)
+          args=( $generic_opts '1: :->devid'
+            '-f[specify firmware image file]:firmware image:_files'
+            '-y[assume yes to questions]'
+            '-s[run in simulation mode]'
+          )
+        ;;
+        security)
+          args=( $generic_opts '1: :->devid'
+            '-d[disable device security using the given password]:password'
+            '-e[erase the device using the given password]:password'
+            '-f[freeze the security configuration]'
+            '-h[enhanced erase the device using the given password]:password'
+            '-k[unlock the device using the given password]:password'
+            '-l[specify security level when using -s]:security level:(high maximum)'
+            '-q[quiet mode]'
+            '-s[set password]:password'
+            '-T[specify timeout]:seconds'
+            '-U[specify which user to set/use]:user:(user master)'
+            '-y[assume yes to questions]'
+          )
+        ;;
+        hpa)
+          args=( $generic_opts '1: :->devid'
+            '-f[freeze the HPA configuration of the specified device]'
+            '-l[lock the HPA configuration]'
+            '-P[make the HPA max sectors persistent]'
+            '-p[set the HPA configuration password]:password'
+            '-q[quiet mode]'
+            '-s[set the maximum user accessible sectors]:sector count'
+            '-U[unlock the HPA configuration]:password'
+            '-y[assume yes to questions]'
+          )
+        ;;
+        persist)
+          args=( $generic_opts '1: :->devid'
+            '-i[specify service action for the PERSISTENT RESERVE IN command]:action:((
+              "read_keys\:report the current persistent reservation generation (PRgeneration) and any registered keys"
+              "read_reservation\:report the persistent reservation, if any"
+              "report_capabilities\:report the persistent reservation capabilities"
+              "read_full_status\:report the full status of persistent reservations"
+            ))'
+            '-o[specify the service action for the PERSISTENT RESERVE OUT command]:action:((
+              "register\:register a reservation key"
+              "register_ignore\:like \`register'\'', except the key is ignored"
+              "reserve\:create a reservation"
+              "release\:release a reservation"
+              "clear\:release a reservation and remove all keys"
+              "preempt\:remove a reservation belonging to another initiator"
+              "preempt_abort\:like \`preempt'\'', along with canceling any outstanding commands"
+              "register_move\:register another initiator with the LUN and establish and reservation"
+              "replace_lost\:replace Lost Reservation information"
+            ))'
+            '-a[set the All Target Ports (ALL_TG_PT) bit]'
+            '-I[specify a Transport ID]:transport id'
+            '-k[specify the Reservation Key]:reservation key'
+            '-K[specify the Service Action Reservation Key]:service action reservation key'
+            '-p[enable the Activate Persist Through Power Loss bit]'
+            '-s[specify the scope of the reservation]:scope:(( 0x00\:lun 0x01\:extent 0x02\:element ))'
+            '-R[specify the Relative Target Port]:relative target port'
+            '-S[enable the SPEC_I_PT bit]'
+            '-T[specify the reservation type]:reservation type:((
+              "wr_ex\:write exclusive mode"
+              "rd_ex\:read exclusive mode"
+              "ex_ac\:exclusive access mode"
+              "wr_ex_ro\:write exclusive registrants only mode"
+              "ex_ac_ro\:exclusive access registrants only mode"
+              "wr_ex_ar\:write exclusive all registrants mode"
+              "ex_ac_ar\:exclusive access all registrants mode"
+            ))'
+            '-U[unregister the initiator that sent the Register and Move request]'
+          )
+        ;;
+        *) args=('*: : _message "nothing to complete"')
+        ;;
+      esac
+    _arguments : "$args[@]"
+    ;;
+    devid)
+      local _ret=1
+      _tags bus files
+      while _tags; do
+        if _requested bus; then
+          if   [[ $PREFIX = [[:alnum:]-]# ]]; then
+            compadd -S : -- ${${(f)"$(camcontrol devlist -b)"}%% *} &&
+              _ret=0
+          elif [[ $PREFIX = [[:alnum:]-]##:[[:alnum:]]# ]]; then
+            _message -e target{,} && _ret=0
+          elif [[ $PREFIX = ([[:alnum:]-]##:)(#c2)[[:alnum:]]# ]]; then
+            _message -e lun{,} && _ret=0
+          fi
+        fi
+        if (( devunit )) && _requested files; then
+          _files -W /dev -g '*(%c)' && _ret=0
+        fi
+        (( _ret )) || break 2
+      done
+      return _ret
+    ;;
+  esac
+done
