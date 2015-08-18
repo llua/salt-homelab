@@ -324,7 +324,7 @@ while (( $#state )); do
       while _tags; do
         if _requested bus; then
           if   [[ $PREFIX = [[:alnum:]-]# ]]; then
-            compadd -S : -- ${${(f)"$(camcontrol devlist -b)"}%% *} &&
+            compadd -S : -- ${${(f)"$(camcontrol devlist -b 2>/dev/null)"}%% *} &&
               _ret=0
           elif [[ $PREFIX = [[:alnum:]-]##:[[:alnum:]]# ]]; then
             _message -e target{,} && _ret=0
