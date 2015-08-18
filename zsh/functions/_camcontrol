@@ -26,6 +26,7 @@ while (( $#state )); do
         '-u[device unit number to operate on]:unit number'
         '-v[verbose mode]'
       )
+      local curcontext="${curcontext%:*:*}:$service-$words[1]"
       case $words[1] in
         devlist)
           args=(
