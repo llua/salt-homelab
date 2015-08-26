@@ -314,7 +314,7 @@ while (( $#state )); do
             '-U[unregister the initiator that sent the Register and Move request]'
           )
         ;;
-        *) args=('*: : _message "nothing to complete"')
+        *) args=('*:: : _default') # when in doubt, complete files.
         ;;
       esac
     _arguments : "$args[@]"
