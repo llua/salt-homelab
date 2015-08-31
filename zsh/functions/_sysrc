@@ -50,6 +50,7 @@ _sysrc() {
          ! _retrieve_cache sysrc/rc_conf_vars; then
  
         sysrc -A$opt | while read -r k v; do
+          [[ $k = DEBUG* ]] && continue
           if [[ -z $v ]]; then
             rc_conf_vars+=( ${k%:} )
           else
