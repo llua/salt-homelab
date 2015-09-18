@@ -1,4 +1,4 @@
-#compdef salt salt-call salt-cp salt-run
+#compdef salt salt-call salt-cp salt-run salt-key
 # The use-cache style is checked in a few places to allow caching minions, modules,
 # or the directory salt is installed in.
 # you can cache those three with:
@@ -48,7 +48,9 @@ _minions(){
     local type requested_type key expl curcontext=${curcontext%:*}:minions
     typeset -A _peons
 
-    zparseopts -D 't+:=requested_type'
+    # only pass the argument accepted, unaccepted, rejected or all to -t
+    # the argument is used as part of an tag, accepted-minions, rejected-minions, etc.
+    zparseopts -D -E 't+:=requested_type'
 
     if ! zstyle -T ":completion:$curcontext:" cache-policy; then
         zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
@@ -66,7 +68,7 @@ _minions(){
         _store_cache salt/minions _peons
     fi
 
-    for type in ${requested_type:-accepted}; do
+    for type in ${${requested_type:#-t}:-accepted}; do
       [[ $type == all ]] && type='((un|)accepted|rejected|denied)'
       _wanted $type-minions expl minion compadd "$@" -M 'r:|.=* r:|=*' ${(k)_peons[(R)$~type]}
     done
@@ -140,6 +142,23 @@ _runner_options=(
     '(-d --doc --documentation)'{-d,--doc,--documentation}'[Return the documentation for the specified module]'
 )
 
+_key_options=(
+    '(-u --user)'{-u+,--user=}'[specify user to run salt-key]:user:_users'
+    '--hard-crash[raise any original exception rather than exiting gracefully]'
+    '(-q --quiet)'{-q,--quiet}'[quiet mode]'
+    '(-y --yes)'{-y,--yes}'[assume yes]'
+    '--rotate-aes-key[prevents the master from refreshing the key session when keys are deleted or rejected]:boolean:(true false)'
+    - '(set)'
+    {-l+,--list=}'[list public keys]:key type:((
+        preaccepted\:"unaccepted/unsigned keys" unaccepted\:"unaccepted/unsigned keys" un\:"unaccepted/unsigned keys"
+        accepted\:"accepted/signed keys" acc\:"accepted/signed keys"
+        rejected\:"rejected keys" rej\:"rejected keys" all
+      ))'
+    {-a+,--accept=}'[accept key]:key:_minions -t unaccepted -t rejected'
+    {-A,--accept-all}'[accept all keys]'
+    {-r+,--reject=}'[reject key]:key:_minions -t rejected -t accepted'
+)
+
 _logging_options=(
     '(-l --log-level)'{-l,--log-level}'[Console logging log level.(default: warning)]:Log Level:(all garbage trace debug info warning error critical quiet)'
     '--log-file[Log file path. Default: /var/log/salt/master.]:Log File:_files'
@@ -188,7 +207,13 @@ _salt_comp(){
                 ":runners:_runners" \
                 "$_runner_options[@]" \
                 "$_common_opts[@]" \
-                "$_logging_options[@]" \
+                "$_logging_options[@]"
+            ;;
+        salt-key)
+            _arguments -C \
+                "$_key_options[@]" \
+                "${_common_opts[@]:#'-t --timeout\)'*}" \
+                "${_logging_options[@]:#'(-l --log-level)'*}"
             ;;
     esac
 }
