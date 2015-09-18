@@ -157,6 +157,7 @@ _key_options=(
     '--signature-path=[the path where the signature file should be written]: : _directories'
     '--pub=[the public-key file to create a signature for]:public key:_files'
     '--auto-create[auto-create a signing key-pair if it does not yet exist]'
+    '--include-all[include non-pending keys when accepting/rejecting]'
     - '(set)'
     {-l+,--list=}'[list public keys]:key type:((
         preaccepted\:"unaccepted/unsigned keys" unaccepted\:"unaccepted/unsigned keys" un\:"unaccepted/unsigned keys"
@@ -166,8 +167,7 @@ _key_options=(
       ))'
     {-a+,--accept=}'[accept key]:key:_minions -t unaccepted ${=${words[(r)--include-all]+-t rejected}}'
     {-A,--accept-all}'[accept all keys]'
-      {-r+,--reject=}'[reject key]:key:_minions -t rejected ${=${words[(r)--include-all]+-t accepted}}'
-    '--include-all[include non-pending keys when accepting/rejecting]'
+    {-r+,--reject=}'[reject key]:key:_minions -t rejected ${=${words[(r)--include-all]+-t accepted}}'
     {-p+,--print=}'[print the specified public key]:key:_minions -t all'
     {-P,--print-all}'[print all public keys]'
     {-d+,--delete=}'[delete the specified public key]:key:_minions -t all'
