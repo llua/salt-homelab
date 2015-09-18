@@ -224,7 +224,9 @@ fi
 bindkey -M emacs '^[ '                  magic-space
 bindkey -M emacs '^[!'                  expand-history
 bindkey '^Z' undo
-zle -N edit-command-line; bindkey '^E' edit-command-line
+zle -N edit-command-line
+bindkey -M viins '^E'                   edit-command-line
+bindkey -M vicmd '^E'                   edit-command-line
 # ft's function
 typeset -A key
 key=(
