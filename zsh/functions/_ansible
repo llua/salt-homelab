@@ -75,10 +75,9 @@ __ansible-pull() {
 }
 
 __ansible_modules() {
-  local mdir cachefn; local -a ansible_modules expl
-  expl=( "$@" )
-  zstyle -s ":completion:$curcontext:" cache-policy cachefn
-  if [[ -z $cachefn ]]; then
+  local mdir ansible_modules expl; expl=( "$@" )
+
+  if ! zstyle -T ":completion:$curcontext:" cache-policy; then
     zstyle ":completion:$curcontext:" cache-policy _ansible_caching_policy
   fi
 
