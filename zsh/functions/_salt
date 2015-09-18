@@ -4,9 +4,9 @@
 # you can cache those three with:
 # zstyle ':completion:*:salt(|-cp|-call):*' use-cache true
 # or selectively:
-# zstyle ':completion::complete:salt(|-cp|-call):minions:'  use-cache true
-# zstyle ':completion::complete:salt(|-cp|-call):modules:'  use-cache true
-# zstyle ':completion::complete:salt(|-cp|-call):salt_dir:' use-cache true
+# zstyle ':completion::complete:salt(|-cp|-call|-run|-key):minions:'  use-cache true
+# zstyle ':completion::complete:salt(|-cp|-call|-run|-key):modules:'  use-cache true
+# zstyle ':completion::complete:salt(|-cp|-call|-run|-key):salt_dir:' use-cache true
 
 
 local state line curcontext="$curcontext" salt_dir
@@ -48,8 +48,9 @@ _minions(){
     local type requested_type key expl curcontext=${curcontext%:*}:minions
     typeset -A _peons
 
-    # only pass the argument accepted, unaccepted, rejected or all to -t
+    # only pass the argument accepted, unaccepted, rejected, denied or all to -t
     # the argument is used as part of an tag, accepted-minions, rejected-minions, etc.
+    # while un, acc, den, etc will work, you will possibly ignore user customized tags.
     zparseopts -D -E 't+:=requested_type'
 
     if ! zstyle -T ":completion:$curcontext:" cache-policy; then
@@ -60,17 +61,17 @@ _minions(){
         # it would be awesome if salt-key could prefix or suffix a word to denote
         # the key's state. It would remove the need for this loop, calling salt-key N times.
         for type in accepted unaccepted rejected denied; do
-          salt-key -l $type 2>/dev/null | while read -r key; do
-            [[ $key == *' Keys:' ]] && continue
-            _peons+=( "$key" $type )
-          done
+            salt-key -l $type 2>/dev/null | while read -r key; do
+              [[ $key == *' Keys:' ]] && continue
+              _peons+=( "$key" $type )
+            done
         done
         _store_cache salt/minions _peons
     fi
 
     for type in ${${requested_type:#-t}:-accepted}; do
-      [[ $type == all ]] && type='((un|)accepted|rejected|denied)'
-      _wanted $type-minions expl minion compadd "$@" -M 'r:|.=* r:|=*' ${(k)_peons[(R)$~type]}
+        [[ $type == all ]] && type='((un|)accepted|rejected|denied)'
+        _wanted $type-minions expl minion compadd "$@" -M 'r:|.=* r:|=*' ${(k)_peons[(R)$~type]}
     done
 }
 
@@ -148,23 +149,6 @@ _key_options=(
     '(-q --quiet)'{-q,--quiet}'[quiet mode]'
     '(-y --yes)'{-y,--yes}'[assume yes]'
     '--rotate-aes-key[prevents the master from refreshing the key session when keys are deleted or rejected]:boolean:(true false)'
-    - '(set)'
-    {-l+,--list=}'[list public keys]:key type:((
-        preaccepted\:"unaccepted/unsigned keys" unaccepted\:"unaccepted/unsigned keys" un\:"unaccepted/unsigned keys"
-        accepted\:"accepted/signed keys" acc\:"accepted/signed keys"
-        rejected\:"rejected keys" rej\:"rejected keys"
-        den\:"denied keys" denied\:"denied keys" all
-      ))'
-    {-a+,--accept=}'[accept key]:key:_minions -t unaccepted -t rejected'
-    {-A,--accept-all}'[accept all keys]'
-    {-r+,--reject=}'[reject key]:key:_minions -t rejected -t accepted'
-    '--include-all[include non-pending keys when accepting/rejecting]'
-    {-p+,--print=}'[print the specified public key]:key:_minions -t all'
-    {-P,--print-all}'[print all public keys]'
-    {-d+,--delete=}'[delete the specified public key]:key:_minions -t all'
-    {-D,--delete-all}'[delete all public keys]'
-    {-f+,--finger=}'[print the specified key'\''s fingerprint]:key:_minions -t all'
-    {-F,--finger-all}'[print the fingerprint of all keys]'
     '--gen-keys=[set a name to generate a keypair for use with salt]:key name'
     '--gen-keys-dir=[set the directory to save the generated keypair]: : _directories'
     '--keysize=[set the size for keypair]:key size'
@@ -173,6 +157,23 @@ _key_options=(
     '--signature-path=[the path where the signature file should be written]: : _directories'
     '--pub=[the public-key file to create a signature for]:public key:_files'
     '--auto-create[auto-create a signing key-pair if it does not yet exist]'
+    - '(set)'
+    {-l+,--list=}'[list public keys]:key type:((
+        preaccepted\:"unaccepted/unsigned keys" unaccepted\:"unaccepted/unsigned keys" un\:"unaccepted/unsigned keys"
+        accepted\:"accepted/signed keys" acc\:"accepted/signed keys"
+        rejected\:"rejected keys" rej\:"rejected keys"
+        den\:"denied keys" denied\:"denied keys" all
+      ))'
+    {-a+,--accept=}'[accept key]:key:_minions -t unaccepted ${=${words[(r)--include-all]+-t rejected}}'
+    {-A,--accept-all}'[accept all keys]'
+      {-r+,--reject=}'[reject key]:key:_minions -t rejected ${=${words[(r)--include-all]+-t accepted}}'
+    '--include-all[include non-pending keys when accepting/rejecting]'
+    {-p+,--print=}'[print the specified public key]:key:_minions -t all'
+    {-P,--print-all}'[print all public keys]'
+    {-d+,--delete=}'[delete the specified public key]:key:_minions -t all'
+    {-D,--delete-all}'[delete all public keys]'
+    {-f+,--finger=}'[print the specified key'\''s fingerprint]:key:_minions -t all'
+    {-F,--finger-all}'[print the fingerprint of all keys]'
 )
 
 _logging_options=(
