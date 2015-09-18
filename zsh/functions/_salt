@@ -152,11 +152,27 @@ _key_options=(
     {-l+,--list=}'[list public keys]:key type:((
         preaccepted\:"unaccepted/unsigned keys" unaccepted\:"unaccepted/unsigned keys" un\:"unaccepted/unsigned keys"
         accepted\:"accepted/signed keys" acc\:"accepted/signed keys"
-        rejected\:"rejected keys" rej\:"rejected keys" all
+        rejected\:"rejected keys" rej\:"rejected keys"
+        den\:"denied keys" denied\:"denied keys" all
       ))'
     {-a+,--accept=}'[accept key]:key:_minions -t unaccepted -t rejected'
     {-A,--accept-all}'[accept all keys]'
     {-r+,--reject=}'[reject key]:key:_minions -t rejected -t accepted'
+    '--include-all[include non-pending keys when accepting/rejecting]'
+    {-p+,--print=}'[print the specified public key]:key:_minions -t all'
+    {-P,--print-all}'[print all public keys]'
+    {-d+,--delete=}'[delete the specified public key]:key:_minions -t all'
+    {-D,--delete-all}'[delete all public keys]'
+    {-f+,--finger=}'[print the specified key'\''s fingerprint]:key:_minions -t all'
+    {-F,--finger-all}'[print the fingerprint of all keys]'
+    '--gen-keys=[set a name to generate a keypair for use with salt]:key name'
+    '--gen-keys-dir=[set the directory to save the generated keypair]: : _directories'
+    '--keysize=[set the size for keypair]:key size'
+    '--gen-signature[create a signature file of the masters public-key]'
+    '--priv=[the private-key file to create a signature with]:private key:_files'
+    '--signature-path=[the path where the signature file should be written]: : _directories'
+    '--pub=[the public-key file to create a signature for]:public key:_files'
+    '--auto-create[auto-create a signing key-pair if it does not yet exist]'
 )
 
 _logging_options=(
