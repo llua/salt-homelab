@@ -136,7 +136,7 @@ zstyle ':completion::complete:perl:option-M-1:' \
 zstyle ':completion::complete:journalctl:option-b-1:' \
                                     sort              false
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
-zstyle ':completion:*:(mpc|zypper|sysrc|ansible(|-doc)|salt(|-cp|-call|-run)):*' \
+zstyle ':completion:*:(mpc|zypper|sysrc|ansible(|-doc)|salt(|-cp|-call|-run|-key)):*' \
                                     use-cache         true
 zstyle ':completion:most-recent-file:*' \
                                     match-original    both
