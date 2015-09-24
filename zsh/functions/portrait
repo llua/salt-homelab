@@ -1,1 +1,1 @@
-portrait() { local h w; source <(identify -format 'w=%w\nh=%h\n' $REPLY); (( h > w )); }
+portrait() { local h w; source <(identify -format 'w=%w\nh=%h\n' $REPLY 2>/dev/null); (( h > w )); }
