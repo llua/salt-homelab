@@ -34,6 +34,7 @@ _sysrc() {
   if [[ $state  == confvars ]]; then
     local k v opt curcontext=${curcontext%:*}; local -a rc_conf_vars
     if [[ -prefix *=* ]]; then
+      # do you really want to go down this hole?
       _message -e values value
     else
       if zstyle -T ":completion:${curcontext}:" verbose; then
