@@ -1,0 +1,26 @@
+#compdef fio
+local -a fioopts
+fioopts=(
+  '--debug=[verbose tracing of various fio actions]:verbose type:(process file io mem blktrace verify random parse diskutil job mutex profile time net rate compress all)'
+  '--output=[save output to file]: : _files'
+  '--output-format=[specify the reporting format]:format:(normal terse json)'
+  '--runtime=[limit the test duration]:run time'
+  '--bandwidth-log[generate per-job bandwidth logs]'
+  '--minimal[print statistics in a terse, semicolon-delimited format]'
+  '--append-terse[print statistics in selected mode AND terse, semicolon-delimited format]'
+  '--version[display version information]'
+  '--terse-version=[set terse version output format]:terse version:(( "3\:current version" "2\:older version" ))'
+  '--help[display usage information]'
+  '--cpuclock-test[perform test and validation of internal CPU clock]'
+  '--crctest=[test the speed of the builtin checksumming functions]::crc test:(md5 crc{64,32,32c,16,7} sha{1,256,512,} xxhash murmur3 fnv)'
+  '--cmdhelp=[print help information a command]:command:(all ${=${(f)"$(command fio --cmdhelp=all)"}%%\:*} )'
+  '--enghelp=[list commands defined by an ioengine]: :{ 
+    if compset -P 1 "*,"; then
+      compadd -- all ${${${(f)"$(command fio --enghelp=${${IPREFIX##*=}%%,*},all)"}%% *}##IO*}
+    else
+      compadd -qS, -- ${${${(M)${(f)"$(fio --cmdhelp=ioengine)"}## #(valid values\:|\:)*}#*\: }%% *}
+    fi }' # sorry.
+
+)
+
+_arguments : "$fioopts[@]" '*:job file:_files'
