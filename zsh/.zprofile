@@ -3,7 +3,7 @@
 
   typeset -gU path
   # the -g is needed to prevent the tied parameter from becoming empty
-  export EDITOR='vim' PAGER='less' PATH LESS='-XRS'
+  export EDITOR='vim' PAGER='less' PATH LESS='-XRSF'
 
   case $OSTYPE in 
     (freebsd|solaris)*)
