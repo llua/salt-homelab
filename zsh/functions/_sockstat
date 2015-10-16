@@ -2,18 +2,34 @@
 local -a args
 
 case $OSTYPE in
-  freebsd*)
+  *bsd*)
     args=(
       '-4[show AF_INET sockets]'
       '-6[show AF_INET6 sockets]'
       '-c[show connected sockets]'
-      '-j[show sockets belonging to JID]: : _jails -0 -o jid'
-      '-L[exclude loopback]'
       '-l[show listening sockets]'
-      '-p[specify port number]: : _ports'
-      '-P[specify protocol]: : _ports'
+      '*-p[specify port number]: : _ports'
       '-u[show AF_LOCAL sockets]'
+    )
+  ;|
+  freebsd*)
+    args+=(
+      '*-j[show sockets belonging to JID]: : _jails -0 -o jid'
+      '-L[exclude loopback]'
+      '*-P[specify protocol]: : _ports'
+    )
+  ;;
+  netbsd*)
+    args+=(
+      '*-f[only show specified address family]:address family:(inet inet6 local unix)'
+      '-n[no symbolic names for addresses/ports]'
     )
   ;;
 esac
-_arguments -s -w $args
+
+if (( $#args )); then
+  _arguments -s -w $args
+  return
+fi
+
+_default
