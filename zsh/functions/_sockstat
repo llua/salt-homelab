@@ -8,7 +8,7 @@ case $OSTYPE in
       '-6[show AF_INET6 sockets]'
       '-c[show connected sockets]'
       '-l[show listening sockets]'
-      '*-p[specify port number]: : _ports'
+      '*-p[specify port number]: : _values -s , "port number" {1..65535}'
       '-u[show AF_LOCAL sockets]'
     )
   ;|
@@ -16,7 +16,7 @@ case $OSTYPE in
     args+=(
       '*-j[show sockets belonging to JID]: : _jails -0 -o jid'
       '-L[exclude loopback]'
-      '*-P[specify protocol]: : _ports'
+      '*-P[specify protocol]: :_sequence -s , _ports'
     )
   ;;
   netbsd*)
