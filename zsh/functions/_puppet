@@ -1,0 +1,84 @@
+#compdef puppet
+# based on puppet 3.8.4
+# will implement as needed
+
+_puppet() {
+  local curcontext="$curcontext" service="$service" state state_descr line expl
+  typeset -A opt_args; local -a subcommands args
+  subcommands=(
+    agent apply ca catalog cert
+    certificate{,_{request,revocation_list}} 
+    config describe device doc facts file filebucket
+    help inspect instrumentation_{data,listener,probe}
+    key kick man master module node parser plugin queue
+    report resource{,_type} secret_agent status
+  )
+
+  if [[ $service == 'puppet' ]]; then
+    _arguments '1:subcommand:( $subcommands )' '*:: :->commands' &&
+      return
+    service="$words[1]"
+    curcontext="${curcontext%:*}-$service:"
+  fi
+
+  case $service in
+    ('agent')
+      args=(
+        '--certname[certname of the client]:certname'
+        '(-D --daemonize --no-daemonize)'{-D,--daemonize,--no-daemonize}'[daemonize puppet agent]'
+        '(-d --debug)'{-d,--debug}'[enable debugging]'
+        '--detailed-exitcodes[provide transaction information via exit codes]'
+        '--digest[change the certificate fingerprinting digest algorithm]:digest algorithm'
+        '(--enable)--disable[disable working on the local system]::message'
+        '(--disable)--enable[enable working on the local system]'
+        '--fingerprint[display current certificate or signing request fingerprint]'
+        '(-h --help)'{-h,--help}'[display help message]'
+        '(-l --logdest)'{-l,--logdest}'[logfile destination]:destination: _alternative "logdest\:logdest\:(syslog console)" "files\:files\:_files"'
+        '--no-client[do not create a config client]'
+        '--noop[dry-run mode]'
+        '(-o --onetime)'{-o,--onetime}'[perform a single puppet run]'
+        '(-t --test)'{-t,--test}'[enable common testing options]'
+        '(-v --verbose)'{-v,--verbose}'[verbose reporting]'
+        '(-V --version)'{-V,--version}'[display the version number]'
+        '(-w --waitforcert)'{-w,--waitforcert}'[interval between cert signing requests]:seconds'
+      )
+      ;;
+    ('apply')
+      args=(
+        '(-h --help)'{-h,--help}'[display help message]'
+        '(-V --version)'{-V,--version}'[display the version number]'
+        '(-d --debug)'{-d,--debug}'[enable debugging]'
+        '(-v --verbose)'{-v,--verbose}'[verbose reporting]'
+        '(-e --execute)'{-e,--execute}'[execute a specific piece of puppet code]:expression'
+        '--detailed-exitcodes[provide transaction information via exit codes]'
+        '(-l --logdest)'{-l,--logdest}'[logfile destination]:destination: _alternative "logdest\:logdest\:(syslog console)" "files\:files\:_files"'
+        '--noop[dry-run mode]'
+        '--catalog[apply a JSON catalog]:catalog:_files'
+        '1:manifest:_files' 
+      )
+      ;;
+    ('cert')
+      args=(
+        '1:action:((
+          "clean\:revoke a cert and clean up files" "fingerprint\:print the fingerprint"
+          "generate\:generate a certificate" "list\:list outstanding certificate requests"
+          "print\:print full-text version of certificate" "revoke\:revoke a certificate"
+          "sign\:sign a certificate request" "verify\:verify cert against the local CA cert"
+          ))'
+        '(-h --help)'{-h,--help}'[display help message]'
+        '(-V --version)'{-V,--version}'[display the version number]'
+        '(-d --debug)'{-d,--debug}'[enable debugging]'
+        '(-v --verbose)'{-v,--verbose}'[verbose reporting]'
+        '--digest[change the certificate fingerprinting digest algorithm]:digest algorithm'
+        '2: : _hosts'
+      )
+      ;;
+    (*)
+      args=(
+        '*:: : _default'
+      )
+      ;;
+  esac
+  _arguments -s -w : $args
+}
+
