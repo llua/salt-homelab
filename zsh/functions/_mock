@@ -1,0 +1,82 @@
+#compdef mock
+
+local curcontext="$curcontext" state state_descr line expl
+typeset -A opt_args
+
+# TODO: three or more words after --chroot/--shell will not complete anything.
+_arguments -C -s -w : \
+  '--arch=[emulate an arch]:arch:(i386 i686 x86_64)' \
+  '--cache-alterations[rebuild the root cache after making alterations to the chroot]' \
+  '--cleanup-after[clean chroot after building]' \
+  '--configdir=[change the directory where config files are found]: : _files -/' \
+  '--cwd=[chdir, relative to the chroot]: : _files -/' \
+  \*{-D,--define=}'[macro definition]:macro definition' \
+  '*--disable-plugin=[disable plugin]:plugin' \
+  '*--disablerepo=[disable a repository]:repository' \
+  '--dnf[use DNF(8) as the package manager]' \
+  '*--enable-plugin=[enable plugin]:plugin' \
+  '*--enablerepo=[enable a repository]:repository' \
+  '(--sources --spec --symlink-dereference)--scm-enable[enable building from a scm repo]' \
+  '(-h --help)'{-h,--help}'[show help/usage]' \
+  '--macro-file=[use pre-defined rpm macro file]:macro file:_files' \
+  '--new-chroot[use systemd-nspawn]' \
+  '(-n --no-clean)'{-n,--no-clean}'[do not clean chroot before building]' \
+  '--nocheck[skip make check tests]' \
+  '--no-cleanup-after[do not clean chroot after building]' \
+  '--offline[strictly use the local package cache]' \
+  '--old-chroot[use the old chroot, not systemd-nspawn]' \
+  '*--plugin-option[specify specific plugin parameter]:plugin option' \
+  '--postinstall[try to install the newly build packages, in the chroot]' \
+  '(-q --quiet)'{-q,--quiet}'[quiet mode]' \
+  '-r[chroot config to use]:config:_files -g "/etc/mock/*.cfg(.\:t\:r)"' \
+  '--resultdir=[change the directory resulting files/logs are written]: : _files -/' \
+  '--rootdir=[path for where the chroot should be made]: : _files -/' \
+  '--rpmbuild-opts=[pass additional options to rpmbuild]:rpmbuild options' \
+  '--rpmbuild_timeout=[fail build if rpmbuild takes longer than the timeout]:seconds' \
+  '*--scm-option=[define scm option]:scm option' \
+  '--short-circuit=[skip build stages]:stage:(prep build install binary)' \
+  '--target=[specify an target arch]:arch:(i386 i686 x86_64)' \
+  '--trace[enable verbose tracing]' \
+  '--uniqueext=[add a arbitrary string to chroot directory name]' \
+  '--unpriv[drop privileges before running --chroot command]' \
+  '(-v --verbose)'{-v,--verbose}'[verbose mode]' \
+  '--version[show version number]' \
+  '--with=[enable configure option for build]:configure option' \
+  '--without=[disable configure option for build]:configure option' \
+  '--yum[use yum as the package manager]' \
+  - '(set1)' \
+  '--rebuild[rebuild rpm package(s)]:* --rebuild *:source rpm:_files' \
+  '--chroot[execute command in chroot]:* --chroot *:: : _normal' \
+  '--init[initialize a chroot]' \
+  '--clean[purge the chroot]' \
+  '--shell[execute command inside a chroot]:* --shell *:: : _normal' \
+  '--installdeps[find and install deps of a S/RPM]:S/RPM:_files' \
+  '--update[update package(s)]:* --update *:packages:->packages' \
+  {-i,--install}'[install package(s)]:* \(-i|--install\) *: :->packages' \
+  '--remove[remove package(s)]:* --remove *:packages:->packages' \
+  '--orphanskill[no-op mode]' \
+  {-p,--print-root-path}'[print a path to the currently used chroot directory]' \
+  '--copyin[copy files into the chroot]:* --copyin *: : _files' \
+  '--copyout[copy files out of the chroot]:* --copyout *: : _files' \
+  {-l,--list-snapshots}'[list existing snapshots]' \
+  '--snapshot[make a snapshot of the current chroot state]:snapshot name' \
+  '--rollback-to[revert chroot state to a snapshot]:snapshot name' \
+  '--remove-snapshot[remove a snapshot]:snapshot name' \
+  '--umount[umount filesystems mounted inside the chroot]' \
+  '--pm-cmd[execute the package manager in chroot]:* --pm-cmd *:package manager arguments' \
+  '--yum-cmd[execute yum(8) in chroot]:* --yum-cmd *:yum(8) arguments' \
+  '--dnf-cmd[execute dnf(8) in chroot]:* --dnf-cmd *:dnf(8) arguments' \
+  - set2 \
+  '--buildsrpm[build RPM package]' \
+  '(--scm-enable)--spec[spec file]:spec file:_files' \
+  '(--scm-enable)--sources[source for --buildsrpm]:src' \
+  '(--scm-enable)--symlink-dereference[follow symlinks]' &&
+  return
+
+case $state in
+  packages)
+    # TODO: use the caching functions, not pollute shell state
+    (( $+_rpm_names )) || _rpm_names=($(rpm -qa --qf '%{name}\n'))
+    _values -w package $_rpm_names
+  ;;
+esac
