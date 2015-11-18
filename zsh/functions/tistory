@@ -1,6 +1,6 @@
 #autoload
 typeset -A opts
-zparseopts -A opts -D -url -start -end
+zparseopts -A opts -D -url -start -end -nowait
 
 (( $+opts[--url] )) || { print >&2 no url to crawl; exit 1; }
 baseurl=$opts[--url]
@@ -40,5 +40,5 @@ for ((i=start;i<=end;i++)); do
       fi
     } *(N)
   )
-  sleep 05
+  ${opts[--nowait]+:} sleep 05
 done
