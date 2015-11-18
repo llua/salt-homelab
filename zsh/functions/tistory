@@ -1,0 +1,44 @@
+#autoload
+typeset -A opts
+zparseopts -A opts -D -url -start -end
+
+(( $+opts[--url] )) || { print >&2 no url to crawl; exit 1; }
+baseurl=$opts[--url]
+start=${opts[--start]:-1}
+end=${opts[--end]:-1}
+curlrc='
+user-agent = "Mozilla/5.0 (X11; Linux x86_64; rv:42.0) Gecko/20100101 Firefox/42.0"
+'
+
+for ((i=start;i<=end;i++)); do
+  if ! mkdir -- $i 2>/dev/null; then
+    continue
+  fi
+  
+  print -n -- "$baseurl$i - "
+
+  (
+    cd -- $i || continue
+    curl -s -K <(print -r -- $curlrc) -- $baseurl$i |
+      grep -o 'http://cfile[[:digit:]]*\.uf\.tistory\.com/original/[^\" ]*' |
+        while read -r url; do
+          while (( $#jobstates >= 5 )); do
+            sleep 1
+          done
+          curl -sRO -K <(print -lr -- $curlrc "referer = $baseurl$i") -- $url &
+        done
+
+    for f in *(.N); do
+      mv -- $f $f.${${"$(file -b --mime-type -- $f)"#*/}/jpeg/jpg}
+    done
+    () {
+      if (( $# == 0 )); then
+        cd .. && rmdir -- $OLDPWD
+        echo none, deleting directory...
+      else
+        print $#
+      fi
+    } *(N)
+  )
+  sleep 05
+done
