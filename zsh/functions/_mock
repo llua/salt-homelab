@@ -3,7 +3,6 @@
 local curcontext="$curcontext" state state_descr line expl
 typeset -A opt_args
 
-# TODO: three or more words after --chroot/--shell will not complete anything.
 _arguments -C -s -w : \
   '--arch=[emulate an arch]:arch:(i386 i686 x86_64)' \
   '--cache-alterations[rebuild the root cache after making alterations to the chroot]' \
@@ -46,10 +45,10 @@ _arguments -C -s -w : \
   '--yum[use yum as the package manager]' \
   - '(set1)' \
   '--rebuild[rebuild rpm package(s)]:* --rebuild *:source rpm:_files' \
-  '--chroot[execute command in chroot]:* --chroot *:: : _normal' \
+  '--chroot[execute command in chroot]: :{ compset -q; _normal }' \
   '--init[initialize a chroot]' \
   '--clean[purge the chroot]' \
-  '--shell[execute command inside a chroot]:* --shell *:: : _normal' \
+  '--shell[execute command inside a chroot]: :{ compset -q; _normal }' \
   '--installdeps[find and install deps of a S/RPM]:S/RPM:_files' \
   '--update[update package(s)]:* --update *:packages:->packages' \
   {-i,--install}'[install package(s)]:* \(-i|--install\) *: :->packages' \
