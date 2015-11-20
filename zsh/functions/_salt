@@ -10,13 +10,14 @@
 # zstyle ':completion::complete:salt(|-cp|-call|-run|-key):salt_dir:' use-cache true
 
 
-local state line curcontext="$curcontext" salt_dir
+local state line curcontext="$curcontext" salt_dir cachefn
 
 _modules(){
     [[ -prefix -* ]] && return
     local _funcs expl curcontext=${curcontext%:*}:modules
 
-    if ! zstyle -T ":completion:$curcontext:" cache-policy; then
+    zstyle -s ":completion:$curcontext:" cache-policy cachefn
+    if [[ -z $cachefn ]]; then
         zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
     fi
 
@@ -32,7 +33,8 @@ _runners(){
     [[ -prefix -* ]] && return
     local _runs expl curcontext=${curcontext%:*}:runners
 
-    if ! zstyle -T ":completion:$curcontext:" cache-policy; then
+    zstyle -s ":completion:$curcontext:" cache-policy cachefn
+    if [[ -z $cachefn ]]; then
         zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
     fi
 
@@ -59,7 +61,8 @@ _minions(){
     # while un, acc, den, etc will work, you will possibly ignore user customized tags.
     zparseopts -D -E 't+:=requested_type' 'T+:=include_all'
 
-    if ! zstyle -T ":completion:$curcontext:" cache-policy; then
+    zstyle -s ":completion:$curcontext:" cache-policy cachefn
+    if [[ -z $cachefn ]]; then
         zstyle ":completion:$curcontext:" cache-policy _salt_caching_policy
     fi
 
