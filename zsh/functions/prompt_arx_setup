@@ -5,7 +5,7 @@ eof
 }
 
 prompt_arx_setup() {
-  local localhost
+  local localhost vcs_info
   zstyle -a ':prompt:arx:' hosts localhost
 
   if  (( localhost[(I)$HOST] )) &&
@@ -16,7 +16,17 @@ prompt_arx_setup() {
     PROMPT='%F{6}%m%f %F{6}%B%(!.%#.::)%b%f '
   fi
 
-  RPROMPT="%B%F{6}%~%f%b"
+  zstyle -a ':prompt:arx:vcs_info:' hosts vcs_info
+  if (( vcs_info[(I)$HOST] )); then
+    zstyle ':vcs_info:*'     enable git
+    zstyle ':vcs_info:git:*' formats '%B%F{5}::%%b %F{6}%b%F{4}%f'
+    zstyle ':vcs_info:git:*' actionformats '%B%F{5}::%%b %F{6}%b %B%F{4}::%%b %F{6}%a%f'
+    autoload vcs_info; $_
+    setopt promptsubst
+    RPROMPT='%B%F{6}%~%f%b ${vcs_info_msg_0_}'
+  else
+    RPROMPT='%B%F{6}%~%f%b'
+  fi
 }
 
 prompt_arx_setup "$@"
