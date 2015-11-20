@@ -39,6 +39,7 @@ HELPDIR=~/.cache/zsh-help
 hash -d dotfiles=$HOME/src/dotfiles/
 hash -d zsh=$HOME/src/zsh/
 hash -d build=$HOME/build/
+hash -d tmp=$HOME/.local/tmp/
 
 # autoload my functions in .config/functions/ and zmv
 autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_+]*(N^/:t) zmv edit-command-line 2>/dev/null
