@@ -47,7 +47,8 @@ autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions/**/[^_+]*(N^/:t) zmv edit-comma
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
-zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb}.mac-anu.org netslum megin-fi
+zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb}.mac-anu.org
+zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi}.mac-anu.org
 # separate man page completion by section.
 zstyle -e ':completion:*:manuals.*' insert-sections   'if [[ $OSTYPE = solaris* ]]; then reply=(false); else reply=(true); fi'
 zstyle ':completion:*:manuals'      separate-sections true 
