@@ -1,0 +1,26 @@
+#compdef bridge
+
+local curcontext="$curcontext" state state_descr line expl
+typeset -A opt_args
+
+_arguments -C -A "-*" : \
+  '(-V -Version)-V'{,ersion}'[print version and exit]' \
+  '*-s'{,tats,tatistics}'[output more information]' \
+  '*: :->objects'
+
+if [[ $state == objects ]]; then
+  local -a args reply
+  local -a monitorcmds
+  monitorcmds=( $'/[^\0]#\0/' ': _values object-list all neigh link fdb mdb' )
+
+  args=( $'/[^\0]#\0/' )
+  _regex_words bridge-objects 'bridge objects' \
+    "link:bridge ports" \
+    "fdb:forwarding database" \
+    "mdb:multicast group database" \
+    "vlan:VLAN filter list" \
+    'monitor:state monitoring:$monitorcmds'
+  args+=( "$reply[@]" )
+  _regex_arguments _bridge-objects "$args[@]"
+  _bridge-objects "$@"
+fi
