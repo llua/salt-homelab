@@ -211,12 +211,16 @@ bindkey -M viins '^?'                   backward-delete-char
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e[d'                 vi-backward-word
 bindkey -M vicmd '\e[d'                 vi-backward-word
+bindkey -M viins '\e[D'                 vi-backward-word
+bindkey -M vicmd '\e[D'                 vi-backward-word
 bindkey -M viins '^[OD'                 vi-backward-word
 bindkey -M vicmd '^[OD'                 vi-backward-word
 bindkey -M viins '\e[1;5D'              vi-backward-word
 bindkey -M vicmd '\e[1;5D'              vi-backward-word
 bindkey -M viins '\e[c'                 vi-forward-word
 bindkey -M vicmd '\e[c'                 vi-forward-word
+bindkey -M viins '\e[C'                 vi-forward-word
+bindkey -M vicmd '\e[C'                 vi-forward-word
 bindkey -M viins '^[OC'                 vi-forward-word
 bindkey -M vicmd '^[OC'                 vi-forward-word
 bindkey -M viins '\e[1;5C'              vi-forward-word
