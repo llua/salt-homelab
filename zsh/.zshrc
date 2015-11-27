@@ -211,8 +211,16 @@ bindkey -M viins '^?'                   backward-delete-char
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e[d'                 vi-backward-word
 bindkey -M vicmd '\e[d'                 vi-backward-word
+bindkey -M viins '^[OD'                 vi-backward-word
+bindkey -M vicmd '^[OD'                 vi-backward-word
+bindkey -M viins '\e[1;5D'              vi-backward-word
+bindkey -M vicmd '\e[1;5D'              vi-backward-word
 bindkey -M viins '\e[c'                 vi-forward-word
 bindkey -M vicmd '\e[c'                 vi-forward-word
+bindkey -M viins '^[OC'                 vi-forward-word
+bindkey -M vicmd '^[OC'                 vi-forward-word
+bindkey -M viins '\e[1;5C'              vi-forward-word
+bindkey -M vicmd '\e[1;5C'              vi-forward-word
 vi-exit() { print -s -- $BUFFER; builtin exit; }; zle -N vi-exit; bindkey -M vicmd 'ZZ' vi-exit
 bindkey -M menuselect '^[[Z'            reverse-menu-complete
 if (( $+terminfo[kLFT] )); then 
@@ -298,12 +306,8 @@ bind2maps emacs viins vicmd -- Down             down-line-or-search
 bind2maps emacs viins vicmd -- urxvt-Down       down-line-or-search
 bind2maps emacs             -- Left             backward-char
 bind2maps emacs             -- urxvt-Left       backward-char
-bind2maps       viins vicmd -- Left             vi-backward-char
-bind2maps       viins vicmd -- urxvt-Left       vi-backward-char
 bind2maps emacs             -- Right            forward-char
 bind2maps emacs             -- urxvt-Right      forward-char
-bind2maps       viins vicmd -- Right            vi-forward-char
-bind2maps       viins vicmd -- urxvt-Right      vi-forward-char
 bind2maps       viins       -- BackSpace        backward-delete-char
 bind2maps       viins       -- urxvt-BackSpace  backward-delete-char
 
