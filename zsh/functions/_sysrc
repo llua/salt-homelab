@@ -43,7 +43,7 @@ _sysrc() {
         opt=N
       fi
       
-      if ! zstyle -T ":completion:${curcontext}:" cache-policy; then
+      if ! zstyle -m ":completion:${curcontext}:*" cache-policy '*'; then
         zstyle ":completion:${curcontext}:" cache-policy _sysrc_caching_policy
       fi
 
