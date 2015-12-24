@@ -125,7 +125,6 @@ zstyle ':completion:*:systemd-machines-container' \
                                     ignored-patterns  '^lxc-*'
 zstyle ':completion:*:systemd-machines-qemu' \
                                     ignored-patterns  '^qemu-*'
-
 # misc stuff
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
@@ -135,6 +134,8 @@ zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
 zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directories *.(p[ml]|PL|t)(-.):globbed-files:perl\ scripts *~*.(p[ml]|PL|t)(^/):other-files:other\ files'
 zstyle ':completion::complete:perl:option-M-1:' \
                                     use-cache         true
+zstyle ':completion::complete:salt(|-cp|-call):minions:' \
+                                    cache-ttl         7 days
 zstyle ':completion::complete:journalctl:option-b-1:' \
                                     sort              false
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
