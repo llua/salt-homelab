@@ -7,6 +7,7 @@ eof
 prompt_arx_setup() {
   local localhost vcs_info
   zstyle -a ':prompt:arx:' hosts localhost
+  zstyle -a ':prompt:arx:' users name
 
   if  (( localhost[(I)$HOST] )) &&
       ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
@@ -14,6 +15,10 @@ prompt_arx_setup() {
     PROMPT="%F{6}%B::%b%f "
   else
     PROMPT='%F{6}%m%f %F{6}%B%(!.%#.::)%b%f '
+  fi
+
+  if ! (( name[(I)$USER] )); then
+    PROMPT="%F{6}%n%B%F{6}|%b$PROMPT"
   fi
 
   zstyle -a ':prompt:arx:vcs_info:' hosts vcs_info
