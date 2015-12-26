@@ -1,0 +1,8 @@
+#autoload
+# this function is only useful when you want to reuse an existing completer
+# but the completer tests $service for the multiple commands it handles.
+# We are liying to the completer about which command it is currently handling
+
+if (( $+functions[$1] )); then
+  local service=$2; $1
+fi
