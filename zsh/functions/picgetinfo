@@ -10,5 +10,5 @@ picgetinfo() {
     return 1
   fi
   ethnic=${${match#$HOME/Pictures/women/}%%/*}
-  num=${${match##[[:alpha:]/_-]##}%%.*}
+  num=${(M)${match%%.*}%%<->}
 }
