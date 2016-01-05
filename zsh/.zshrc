@@ -75,7 +75,7 @@ zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
                                     users             llua arx root
 # hostname completion
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
-                                    hosts             umbra corbenik netslum nypumi login1 login2
+                                    hosts             umbra ansuz corbenik netslum nypumi caerleon-medb sakubo tarvos fidchell login1 login2
 # completion of pids owned by $USER
 zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
