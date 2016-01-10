@@ -1,5 +1,5 @@
 #compdef camcontrol
-# based on freebsd 10's man page
+# based on freebsd 10.2's man page
 local state state_descr line expl curstate subcmds args generic_opts devunit=1
 typeset -A opt_args
 subcmds=(
@@ -7,6 +7,7 @@ subcmds=(
   stop load eject rescan reset defects modepage cmd smpcmd smprg
   smppc smpphylist smpmaninfo debug tags negotiate format sanitize
   idle standby sleep fwdownload security hpa persist help
+  apm aam attrib
 )
 
 _arguments : \
@@ -241,6 +242,16 @@ while (( $#state )); do
           args=( $generic_opts '1: :->devid'
           )
         ;;
+        apm)
+          args=( $generic_opts '1: :->devid'
+            '-l[set advanced power management level]:level'
+          )
+        ;;
+        aam)
+          args=( $generic_opts '1: :->devid'
+            '-l[set advanced acoustic management level]:level'
+          )
+        ;;
         fwdownload)
           args=( $generic_opts '1: :->devid'
             '-f[specify firmware image file]:firmware image:_files'
@@ -312,6 +323,33 @@ while (( $#state )); do
               "ex_ac_ar\:exclusive access all registrants mode"
             ))'
             '-U[unregister the initiator that sent the Register and Move request]'
+          )
+        ;;
+        attrib)
+          args=( $generic_opts '1: :->devid'
+            '-r[specify read attribute service command]:read attribute:(
+              "attr_values\:read and decode the available attributes and values"
+              "attr_list\:list the attributes that are available to read/write"
+              "lv_list\:list available logical volumes in the MAM"
+              "part_list\:list the available partitions in the MAM"
+              "supp_attr\:list attributes that are supported for read/write"
+            )'
+            '-w[specify an attribute to write to the MAM]:attribute'
+            '-a[specify the attribute number to display]:attribute number'
+            '-c[display cached attributes]'
+            '-e[specify the element address]:element address'
+            '-F[specify the output format]: : _values -s , "output format" \
+              "text_esc[escape non-ASCII characters]" "text_raw[print with no codeset conversion]" \
+              "nonascii_esc[escape non-ASCII characters]" "nonascii_trim[omit the non-ASCII]" \
+              "nonascii_raw[print non-ASCII as-is]" "field_all[print all prefix fields]" \
+              "field_none[omit prefix fields]" "field_desc[print attribute description]" \
+              "field_num[print attribute number]" "field_size[print attribute size]" \
+              "field_rw[print attribute'\''s readonly status]"
+            '
+            '-p[specify the partition]:partition'
+            '-s[specify the starting attribute number]:starting attribute number'
+            '-T[specify the element type]:element type:(all picker slot portal drive)'
+            '-V[logical volume number]:logical volume'
           )
         ;;
         *) args=('*:: : _default') # when in doubt, complete files.
