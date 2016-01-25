@@ -17,7 +17,7 @@ prompt_arx_setup() {
     PROMPT='%F{6}%m%f %F{6}%B%(!.%#.::)%b%f '
   fi
 
-  if ! (( name[(I)$USER] )); then
+  if ! (( name[(I)${(%):-%n}] )); then
     PROMPT="%F{6}%n%B%F{6}|%b$PROMPT"
   fi
 
