@@ -1,0 +1,12 @@
+#compdef ceph-mon
+
+_arguments -A '-*' : \
+  "-i[mon index number]:mon number" \
+  '(-f --foreground)'{-f,--foreground}'[run in foreground]' \
+  '-d[run in foreground, output send to stderr]' \
+  '(-c --conf)'{-c,--conf=}'[specify alternative configuration file]: : _files' \
+  '--mon-data[specify monitor data directory]:monitor data directory:_files' \
+  '--mkfs[initialize the data directory]' \
+  '--keyring[specify a keyring to use with --mkfs]:keyring:_files' \
+  '--monmap[specify a monitor map for joining an existing cluster]:monitor map:_files' \
+  '-m[connect to specified monitor]:monitor:_hosts'

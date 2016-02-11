@@ -1,0 +1,17 @@
+#compdef ceph-osd
+
+_arguments -A '-*' : \
+  "-i[${service#*-} index number]:${service#*-} number" \
+  '(-f --foreground)'{-f,--foreground}'[run in foreground]' \
+  '-d[run in foreground, output send to stderr]' \
+  '--osd-data[specify object store location]:object store:_files' \
+  '--osd-journal[specify journal location]:journal:_files' \
+  '--mkfs[create empty object store repo/init journal]' \
+  '--mkkey[generate a new secret key]' \
+  '--mkjournal[create a new journal file to match existing object repo]' \
+  '--flush-journal[flush the journal to permanent storage]' \
+  '--get-cluster-fsid[print the cluster fsid and exit]' \
+  '--get-osd-fsid[print the osd fsid and exit]' \
+  '--get-journal-fsid[print the journal uuid]' \
+  '(-c --conf)'{-c,--conf=}'[specify alternative configuration file]: : _files' \
+  '-m[connect to specified monitor]:monitor:_hosts'

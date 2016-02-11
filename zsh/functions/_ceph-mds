@@ -1,0 +1,10 @@
+#compdef ceph-mds
+
+_arguments -A '-*' : \
+  "-i[${service#*-} index number]:${service#*-} number" \
+  '(-f --foreground)'{-f,--foreground}'[run in foreground]' \
+  '-d[run in foreground, output send to stderr]' \
+  '(-c --conf)'{-c,--conf=}'[specify alternative configuration file]: : _files' \
+  '-m[connect to specified monitor]:monitor:_hosts' \
+  '(--hot-standby)--journal-check[replay the journal for rank, then exit]:rank' \
+  '(--journal-check)--hot-standby[start up as a hot standby for rank]:rank'
