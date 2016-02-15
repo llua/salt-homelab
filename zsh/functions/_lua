@@ -9,10 +9,10 @@ _lua_normal() {
     shift words
     (( CURRENT-- ))
   fi
-  _normal && ret=0
+  _normal
 }
 
-_arguments -S -A '-*' : \
+_arguments -S : \
   '-e+[execute statement]:statement:' \
   '-i[enter interactive mode after executing script]' \
   '*-l+[load module before executing script]:module:->module' \
