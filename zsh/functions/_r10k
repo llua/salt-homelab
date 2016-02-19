@@ -1,0 +1,95 @@
+#compdef r10k
+# quick and dirty, 
+# option parsing is a bit weird for r10k, so i only present top-level command
+# options after the second-level command is present.
+
+local curstate subcmd curcontext="$curcontext" context state state_descr line ret=1
+local -A opt_args; local -a args
+
+_arguments : \
+  '1:r10k commands:(deploy help puppetfile version)' \
+  '2: :->cmds' \
+  '*:: :->args' && ret=0
+
+while (( $#state )); do
+  curstate=$state[1]
+  shift state
+  case $curstate in
+    cmds)
+      curcontext="${curcontext%:*:*}:$service-${subcmd:=$words[2]}:"
+      case $subcmd in
+        deploy)
+          args=( display environment module )
+        ;;
+        help*)
+          if (( words[(I)deploy] )); then
+            args=( display environment module )
+          elif (( words[(I)puppetfile] )); then
+            args=( check install purge )
+          else
+            args=( deploy puppetfile version help )
+          fi
+        ;;
+        puppetfile)
+          args=( check install purge )
+        ;;
+        version) _nothing && return;;
+      esac
+
+      _values "$subcmd command" $args && ret=0
+    ;;
+    args)
+      curcontext="${curcontext%:*:*}:$service-${subcmd:=$words[1]-$words[2]}:"
+      case $subcmd in
+        (deploy|puppetfile)-*)
+          args+=(
+            '(-c --config)'{-c,--config=}'[specify global configuration file]: : _files'
+            '--color[enable color log messages]'
+            '(-h --help)'{-h,--help}'[display help]'
+            '(-t --trace)'{-t,--trace}'[display stack drives on application crash]'
+            '(v --verbose)'{-v,--verbose=}'[set log verbosity]:level:( fatal error warn notice info debug{,1,2} )'
+          )
+        ;|
+        deploy-*)
+          args+=(
+            '--cachedir=[specify a cachedir]: :_files -/'
+          )
+        ;|
+        version-*) _nothing && return;;
+        deploy-display)
+          args+=(
+            '--detail[display detailed information]'
+            '--fetch[update available environments]'
+            '--format=[output format]:format:(yaml json)'
+            '(-p --puppetfile)'{-p,--puppetfile}'[display Puppetfile modules]'
+          )
+        ;;
+        deploy-environment)
+          args+=(
+            '(-p --puppetfile)'{-p,--puppetfile}'[deploy modules from a puppetfile]'
+          )
+        ;;
+        deploy-module)
+          args+=(
+            '(-e --environment)'{-e,--environment}'[update modules in the given environment]:environment'
+            '*: : _message -e values module'
+          )
+        ;;
+        puppetfile-install)
+          args+=(
+            '--moduledir=[module installation destination]:module directory:_files -/'
+            '--puppetfile=[path to puppetfile]:Puppetfile:_files'
+          )
+        ;;
+        puppetfile-(check|purge)) _nothing && return;;
+        help*) state+=(cmds) && continue;;
+        *) _default && return;;
+      esac
+
+      ((CURRENT--)); shift words
+      _arguments : $args && ret=0
+    ;;
+  esac
+done
+
+return ret
