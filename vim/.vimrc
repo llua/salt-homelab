@@ -63,6 +63,7 @@ nnoremap <silent> <C-l> :nohl<CR><C-l>
 au BufRead,BufNewFile *.sls setfiletype yaml
 au BufRead,BufNewFile *.yml setfiletype yaml
 au BufRead,BufNewFile *.pp  setfiletype puppet
+au BufRead,BufNewFile *.jinja setfiletype jinja
 " jump to the line you was previously at after opening a file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
