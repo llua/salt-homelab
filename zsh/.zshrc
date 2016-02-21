@@ -16,7 +16,7 @@ setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Stuff we don't want
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
-fpath=( ~/.config/functions(|-local)(/N) /usr/share/zsh/site-functions(/N) $^fpath[@](N) )
+fpath=( ~/.config/functions(-local|)(/N) /usr/share/zsh/site-functions(/N) $^fpath[@](N) )
 HISTFILE=~/.zsh_history
 [[ -f ~/.config/.zsh_history ]] && HISTFILE=~/.config/.zsh_history
 HISTSIZE=15000
