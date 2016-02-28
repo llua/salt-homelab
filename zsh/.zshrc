@@ -47,7 +47,7 @@ autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions(|-local)/**/[^_+]*(N^/:t) zmv e
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
-zstyle ':prompt:arx:'               users             llua arx root
+zstyle ':prompt:arx:'               users             llua ecook arx root
 zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb}.mac-anu.org
 zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi}.mac-anu.org
 # separate man page completion by section.
