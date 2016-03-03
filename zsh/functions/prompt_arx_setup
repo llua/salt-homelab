@@ -5,20 +5,22 @@ eof
 }
 
 prompt_arx_setup() {
-  local localhost vcs_info
+  local localhost vcs_info c=24 p=45
   zstyle -a ':prompt:arx:' hosts localhost
   zstyle -a ':prompt:arx:' users name
+
+  (( $(tput colors) == 8 )) && c=6 p=6
 
   if  (( localhost[(I)$HOST] )) &&
       ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
       ! (( UID == 0 )); then
-    PROMPT="%F{6}%B::%b%f "
+    PROMPT="%F{$p}%B::%b%f "
   else
-    PROMPT='%F{6}%m%f %F{6}%B%(!.%#.::)%b%f '
+    PROMPT="%F{$c}%m%f %F{$p}%B%(!.%#.::)%b%f "
   fi
 
   if ! (( name[(I)${(%):-%n}] )); then
-    PROMPT="%F{6}%n%B%F{6}|%b$PROMPT"
+    PROMPT="%F{$c}%n%B%F{$p}|%b$PROMPT"
   fi
 
   zstyle -a ':prompt:arx:vcs_info:' hosts vcs_info
@@ -27,10 +29,10 @@ prompt_arx_setup() {
     zstyle ':vcs_info:git:*' formats '%B%F{5}::%%b %F{6}%b%F{4}%f'
     zstyle ':vcs_info:git:*' actionformats '%B%F{5}::%%b %F{6}%b %B%F{4}::%%b %F{6}%a%f'
     autoload vcs_info; $_
-    RPROMPT='%B%F{6}%~%f%b ${vcs_info_msg_0_}'
+    RPROMPT="%B%F{$p}%~%f%b \${vcs_info_msg_0_}"
     precmd() vcs_info
   else
-    RPROMPT='%B%F{6}%~%f%b'
+    RPROMPT="%B%F{$p}%~%f%b"
   fi
 }
 

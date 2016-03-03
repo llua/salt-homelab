@@ -3,11 +3,11 @@ picrename() (
     start=$num
     if [[ $PWD == $HOME/.local/tmp/*/new ]]; then
       for x in *(Om.); do
-        mv -i $x ~/Pictures/women/$ethnic/${${PWD%/new}:t}/${${PWD%/new}:t}${(l:6::0:)$((++start))}.$x:e:l
+        mv -i -- $x ~/Pictures/women/$ethnic/${${PWD%/new}:t}/${${PWD%/new}:t}${(l:6::0:)$((++start))}.$x:e:l
       done
     elif files=( *.(#i)(jpe#g|png|gif)(.N) ); (( $#files )); then
       for x in *(Om.); do
-        mv -i $x ~/Pictures/women/$ethnic/${${PWD%/new}:t}/${${PWD%/new}:t}${(l:6::0:)$((++start))}.$x:e:l
+        mv -i -- $x ~/Pictures/women/$ethnic/${${PWD%/new}:t}/${${PWD%/new}:t}${(l:6::0:)$((++start))}.$x:e:l
       done
     fi
   fi
