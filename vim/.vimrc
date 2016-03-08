@@ -44,6 +44,7 @@ let g:netrw_liststyle = 3
 " where it should get the dictionary files
 let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
 
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 "let g:lua_complete_omni = 1
 "let g:lua_define_completefunc = 1
 
