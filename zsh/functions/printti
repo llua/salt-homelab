@@ -1,0 +1,5 @@
+#autoload
+
+for 1; do
+  print -r -- "$arg - ${(k)terminfo[(Re)${(g:c:)1}]:-no entry}"
+done
