@@ -315,3 +315,7 @@ bind2maps       viins       -- urxvt-BackSpace  backward-delete-char
 
 stty start '' stop '' erase '^?'
 unfunction bind2maps; unset key 
+
+if autoload +X -z localrc 2>/dev/null; then
+  localrc
+fi
