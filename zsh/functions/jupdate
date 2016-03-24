@@ -1,0 +1,6 @@
+#autoload
+
+while read -ru3 jail; do
+  PAGER=cat freebsd-update -b /usr/jail/$jail -f /usr/jail/$jail/etc/freebsd-update.conf -d /usr/jail/$jail/var/db/freebsd-update fetch
+  freebsd-update -b /usr/jail/$jail -f /usr/jail/$jail/etc/freebsd-update.conf -d /usr/jail/$jail/var/db/freebsd-update install
+done 3< <(jls name)
