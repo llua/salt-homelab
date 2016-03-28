@@ -62,6 +62,9 @@ set foldlevel=1         "this is just what i use
 
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
+" disablle auto comments
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 au BufRead,BufNewFile *.sls setfiletype yaml
 au BufRead,BufNewFile *.yml setfiletype yaml
 au BufRead,BufNewFile *.pp  setfiletype puppet
