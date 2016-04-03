@@ -30,7 +30,9 @@ prompt_arx_setup() {
     zstyle ':vcs_info:git:*' actionformats "%B%F{$vp}::%%b %F{$c}%b %B%F{$vp}::%%b %F{$c}%a%f"
     autoload vcs_info; $_
     RPROMPT="%B%F{$p}%~%f%b \${vcs_info_msg_0_}"
-    precmd() vcs_info
+    if (( $+functions[precmd] == 0 )) || (( $+parameters[precmd_functions] == 0 )); then
+      precmd() vcs_info
+    fi
   else
     RPROMPT="%B%F{$p}%~%f%b"
   fi
