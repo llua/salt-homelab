@@ -1,0 +1,85 @@
+#compdef lsblk
+
+local -a lsblk_columns
+lsblk_columns=(
+  'name[device name]'
+  'kname[internal kernel device name]'
+  'maj\:min[major\:minor device number]'
+  'fstype[filesystem type]'
+  'mountpoint[where the device is mounted]'
+  'label[filesystem label]'
+  'uuid[filesystem uuid]'
+  'parttype[partition type uuid]'
+  'partlabel[partition label]'
+  'partuuid[partition uuid]'
+  'partflags[partition flags]'
+  'ra[read-ahead of the device]'
+  'ro[read-only device]'
+  'rm[removable device]'
+  'hotplug[removable or hotplug device]'
+  'model[device identifier]'
+  'serial[disk serial number]'
+  'size[size of the device]'
+  'state[state of the device]'
+  'owner[user name]'
+  'group[group name]'
+  'mode[device node permissions]'
+  'alignment[alignment offset]'
+  'min-io[minimum I/O size]'
+  'opt-io[optimal I/O size]'
+  'phy-sec[physical sector size]'
+  'log-sec[logical sector size]'
+  'rota[rotational device]'
+  'sched[I/O scheduler name]'
+  'rq-size[request queue size]'
+  'type[device type]'
+  'disc-aln[discard alignment offset]'
+  'disc-gran[discard granularity]'
+  'disc-mac[discard max bytes]'
+  'disc-zero[discard zeroes data]'
+  'wsame[write same max bytes]'
+  'wwn[unique storage identifier]'
+  'rand[adds randomness]'
+  'pkname[internal parent kernel device name]'
+  'hctl[host\:channel\:target\:lun for scsi]'
+  'tran[device transport type]'
+  'subsystems[de-duplicated chain of subsystems]'
+  'rev[device revision]'
+  'vendor[device vendor]'
+)
+
+local curcontext=$curcontext state state_descr line context ret=1
+typeset -A opt_args
+_arguments -s -w -A '-*' : \
+  '(-a --all)'{-a,--all}'[also list empty devices]' \
+  '(-b --bytes)'{-b,--bytes}'[print SIZE column in bytes]' \
+  '(-D --discard)'{-D,--discard}'[print discarding capabilities]' \
+  '(-d --nodeps)'{-d,--nodeps}'[do not print holder devices or slaves]' \
+  '(-e --exclude)'{-e,--exclude}'[exclude top-level devices by major device numbers]:major device numbers' \
+  '(-f --fs)'{-f,--fs}'[display filesystem information]' \
+  '(-h --help)'{-h,--help}'[display help]' \
+  '(-I --include)'{-I,--include}'[include top-level devices by major device numbers]:major device numbers' \
+  '(-i --ascii)'{-i,--ascii}'[use ascii characters for tree formatting]' \
+  '(-J --json)'{-J,--json}'[use json output format]' \
+  '(-l --list)'{-l,--list}'[produce output in the form of a list]' \
+  '(-m --perms)'{-m,--perms}'[output permissions]' \
+  '(-n --noheadings)'{-n,--noheadings}'[do not print a header line]' \
+  '(-o --output)'{-o,--output}'[specify which columns to output]:columns:->columns' \
+  '(-O --output-all)'{-O,--output-all}'[output all available columns]' \
+  '(-P --pairs)'{-P,--pairs}'[print output in sh-like assignment form]' \
+  '(-p --paths)'{-p,--paths}'[print full device paths]' \
+  '(-r --raw)'{-r,--raw}'[print output in raw format]' \
+  '(-S --scsi)'{-S,--scsi}'[print SCSI devices only]' \
+  '(-s --inverse)'{-s,--inverse}'[print dependencies in inverse order]' \
+  '(-t --topology)'{-t,--topology}'[print information about the block-device topology]' \
+  '(-V --version)'{-V,--version}'[display version information]' \
+  '(-x --sort)'{-x,--sort}'[sort output by column]:column:( ${(Q)${lsblk_columns%%\[*}} )' \
+  '*: : _files' && ret=0
+
+if [[ $state == columns ]]; then
+  local -a expl
+  expl=(-M 'L:|+=') # this is where i left off.
+  _values -O expl -s , column $lsblk_columns && ret=0
+fi
+
+return ret
