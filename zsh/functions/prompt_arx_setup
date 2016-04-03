@@ -9,7 +9,7 @@ prompt_arx_setup() {
   zstyle -a ':prompt:arx:' hosts localhost
   zstyle -a ':prompt:arx:' users name
 
-  (( $(tput colors) == 8 )) && c=6 p=6
+  (( $(tput colors) == 8 )) && (( c = p = 6, vp = 5 ))
 
   if  (( localhost[(I)$HOST] )) &&
       ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
