@@ -5,7 +5,7 @@ eof
 }
 
 prompt_arx_setup() {
-  local localhost vcs_info c=24 p=45 vp=97
+  local localhost vcs_info c=24 p=45 vp=219
   zstyle -a ':prompt:arx:' hosts localhost
   zstyle -a ':prompt:arx:' users name
 
