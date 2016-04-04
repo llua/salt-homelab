@@ -65,8 +65,8 @@ nnoremap <silent> <C-l> :nohl<CR><C-l>
 " disablle auto comments
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-au BufRead,BufNewFile *.sls setfiletype yaml
-au BufRead,BufNewFile *.yml setfiletype yaml
+au BufRead,BufNewFile *.sls setfiletype yaml.jinja
+au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
 " jump to the line you was previously at after opening a file
