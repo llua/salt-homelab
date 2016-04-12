@@ -20,7 +20,7 @@ for ((i=start;i<=end;i++)); do
   (
     cd -- $i || continue
     curl -s -K <(print -r -- $curlrc) -- $baseurl$i |
-      grep -o 'http://cfile[[:digit:]]*\.uf\.tistory\.com/original/[^\" ]*' |
+      grep -Eo 'http://cfile[[:digit:]]*\.uf\.tistory\.com/(original|attach)/[^\" ]*' |
         while read -r url; do
           while (( $#jobstates >= 5 )); do
             sleep 1
