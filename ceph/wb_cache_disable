@@ -1,0 +1,10 @@
+#!/bin/bash
+# possibly do not work on sas drives
+# or the H730p mini causes it
+while read -r blk; do
+  status=$(hdparm -W "$blk" 2>/dev/null)
+  [[ $status = *'1 (on)'* ]] || continue
+
+  hdparm -W0 "$blk" > /dev/null &&
+    printf '%(%FT%H:%M:%S%z)T Disabled the write cache for: %s\n' -1 "$blk"
+done < <(lsblk -nlSo name | sed 's.^./dev/.')

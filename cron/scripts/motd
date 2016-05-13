@@ -1,0 +1,21 @@
+#!/bin/zsh
+exec 1>/etc/motd
+
+echo; zypper -q pchk 2>/dev/null
+
+active=( ${${${(f)"$(ip -o link show up)"}#*: }%%: *} )
+vnstat() { (( active[(Ie)$3] )) && command vnstat "$@"; }
+printf '\n%s\n' 'Network traffic (past 24 hours)'
+{
+  vnstat --oneline -i br0
+  vnstat --oneline -i br1
+  vnstat --oneline -i eth0
+  vnstat --oneline -i eth1
+  vnstat --oneline -i macha0
+  vnstat --oneline -i corbenik0 
+} | while IFS=';' read -r _ dev _ rx tx sum _; do 
+      printf '%-20s\t%s\t%s\t%s' "iface: ${dev% *}" "rx: $rx" "tx: $tx" "total: $sum" ; echo
+    done
+
+printf '\n%s\n' 'touch ~/.hushlogin; : disables this message'
+

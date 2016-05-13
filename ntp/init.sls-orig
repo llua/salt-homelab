@@ -1,0 +1,30 @@
+ntpd:
+  {% if grains['os'] != 'FreeBSD' %}
+  pkg.installed:
+    - name: ntp
+  {% endif %}
+  service.running:
+    - watch:
+  {% if grains['os'] != 'FreeBSD' %}
+      - pkg: ntp
+  {% endif %}
+      - file: /etc/ntp.conf
+
+enabled:
+  service.enabled:
+    - name: ntpd
+    {% if grains['os'] != 'FreeBSD' %}
+    - watch:
+      - pkg: ntp
+    {% endif %}
+
+/etc/ntp.conf:
+  file.managed:
+    - source: salt://ntp/ntp.conf-{{ grains['os'] }}
+    - mode: 640
+    - user: root
+    {% if grains['os'] == 'openSUSE' %}
+    - group: ntp
+    {% elif grains['os'] == 'FreeBSD' %}
+    - group: wheel
+    {% endif %}
