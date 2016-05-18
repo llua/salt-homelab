@@ -1,0 +1,27 @@
+#autoload
+
+local +h PS1 c p vp
+typeset -A opts
+
+zstyle -s ':prompt:arx:' primary-color c
+zstyle -s ':prompt:arx:' secondary-color p
+zstyle -s ':prompt:arx:' delimiter-color vp
+
+zparseopts -A opts -D -- a d
+
+if (( $+opts[-a] )); then
+  . (../)#venv/bin/activate
+elif (( $+opts[-d])); then
+  if (( $+functions[deactivate] )); then
+    deactivate
+  elif (( $+VIRTUAL_ENV )); then
+    . $VIRTUAL_ENV/bin/activate &&
+      venv -d
+  fi
+else
+  if (( $+VIRTUAL_ENV )); then
+    psvar[1]="${VIRTUAL_ENV+%F{$c\}%Bvenv(%F{$p\}${VIRTUAL_ENV:h:t}%F{$c\}) %B%F{$vp\}::%b }"
+  else
+    psvar[1]=()
+  fi
+fi

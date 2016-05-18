@@ -5,9 +5,13 @@ eof
 }
 
 prompt_arx_setup() {
-  local localhost vcs_info c=24 p=45 vp=219
+  autoload -Uz add-zsh-hook
+  local localhost vcs_info c p vp
   zstyle -a ':prompt:arx:' hosts localhost
   zstyle -a ':prompt:arx:' users name
+  zstyle -s ':prompt:arx:' primary-color c
+  zstyle -s ':prompt:arx:' secondary-color p
+  zstyle -s ':prompt:arx:' delimiter-color vp
 
   (( $(tput colors) == 8 )) && (( c = p = 6, vp = 5 ))
 
@@ -23,18 +27,24 @@ prompt_arx_setup() {
     PROMPT="%F{$c}%n%B%F{$p}|%b$PROMPT"
   fi
 
+  unset RPROMPT
+  if (( $+functions[venv] )); then
+    add-zsh-hook precmd venv
+    RPROMPT+='${psvar[1]}'
+  fi
+
   zstyle -a ':prompt:arx:vcs_info:' hosts vcs_info
   if (( vcs_info[(I)$HOST] )); then
     zstyle ':vcs_info:*'     enable git
     zstyle ':vcs_info:git:*' formats "%B%F{$vp}::%%b %F{$c}%b%f"
     zstyle ':vcs_info:git:*' actionformats "%B%F{$vp}::%%b %F{$c}%b %B%F{$vp}::%%b %F{$c}%a%f"
     autoload vcs_info; $_
-    RPROMPT="%B%F{$p}%~%f%b \${vcs_info_msg_0_}"
+    RPROMPT+="%B%F{$p}%~%f%b \${vcs_info_msg_0_}"
     if (( $+functions[precmd] == 0 )) || (( $+parameters[precmd_functions] == 0 )); then
-      precmd() vcs_info
+      add-zsh-hook precmd vcs_info
     fi
   else
-    RPROMPT="%B%F{$p}%~%f%b"
+    RPROMPT+="%B%F{$p}%~%f%b"
   fi
 }
 
