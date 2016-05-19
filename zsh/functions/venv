@@ -20,8 +20,8 @@ elif (( $+opts[-d])); then
   fi
 else
   if (( $+VIRTUAL_ENV )); then
-    psvar[1]="${VIRTUAL_ENV+%F{$c\}%Bvenv(%F{$p\}${VIRTUAL_ENV:h:t}%F{$c\}) %B%F{$vp\}::%b }"
+    psvar[1]="%F{$c\}%Bvenv(%F{$p\}${VIRTUAL_ENV:h:t}%F{$c\}) %B%F{$vp\}::%b "
   else
-    psvar[1]=()
+    psvar[1]=
   fi
 fi

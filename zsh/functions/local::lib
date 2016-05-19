@@ -1,0 +1,23 @@
+#autoload
+
+local c p vp
+typeset -A opts
+
+zstyle -s ':prompt:arx:' primary-color c
+zstyle -s ':prompt:arx:' secondary-color p
+zstyle -s ':prompt:arx:' delimiter-color vp
+
+zparseopts -A opts -D -- a d
+
+if (( $+opts[-a] )); then
+  eval "$(perl -Mlocal::lib=${(q)1:-$HOME/perl5})"
+elif (( $+opts[-d])); then
+  eval "$(perl -Mlocal::lib=--deactivate-all)"
+else
+  if (( $+PERL_LOCAL_LIB_ROOT )); then
+    typeset -T PERL_LOCAL_LIB_ROOT=$PERL_LOCAL_LIB_ROOT perl_local_lib_root
+    psvar[2]="%F{$c}%Blocal::lib(%F{$p}${(@j., .)perl_local_lib_root:h:t}%F{$c}) %B%F{$vp}::%b "
+  else
+    psvar[2]=
+  fi
+fi
