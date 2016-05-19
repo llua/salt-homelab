@@ -201,12 +201,13 @@ watch=(notme)
 
 # keybinds
 bindkey -v
+bindkey -M viins -r '\e/'
 bindkey -M vicmd 'd-d'                  kill-line
 bindkey -M vicmd 'D'                    vi-kill-eol
 bindkey -M vicmd 'K'                    run-help
-bindkey -M viins -r '\e/'
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e.'                  insert-last-word
+bindkey -M viins '\e^M'                 self-insert-unmeta
 bindkey -M viins '^Xm'                  _most_recent_file
 bindkey -M viins "^N"                   most-recent-file
 bindkey -M viins '^Xh'                  _complete_help
