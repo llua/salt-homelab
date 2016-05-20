@@ -69,6 +69,8 @@ au BufRead,BufNewFile *.sls setfiletype yaml.jinja
 au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
+
+au BufNewFile Gemfile 0r ~/.vim/skel/Gemfile
 " jump to the line you was previously at after opening a file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") |
                          \ exe "normal g'\"" | endif
