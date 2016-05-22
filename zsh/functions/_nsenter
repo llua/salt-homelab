@@ -1,0 +1,33 @@
+#compdef nsenter
+
+local _desc context state state_descr line ret=1
+typeset -A opt_args
+
+_arguments : \
+  '--preserve-credentials[do not modify UID and GID when enter user namespace]' \
+  '(-t --target)'{-t,--target}'[specify a target process to get contexts from]: : _pids' \
+  '(-m --mount)'{"-m[${_desc::=enter the mount namespace}]","--mount=[$_desc]: : _files"} \
+  '(-u --uts)'{"-u[${_desc::=enter the UTS namespace}]","--uts=[$_desc]: : _files"} \
+  '(-i --ipc)'{"-i[${_desc::=enter the IPC namespace}]","--ipc=[$_desc]: : _files"} \
+  '(-n --net)'{"-n[${_desc::=enter the network namespace}]","--net=[$_desc]: : _files"} \
+  '(-p --pid)'{"-p[${_desc::=enter the PID namespace}]","--pid=[$_desc]: : _files"} \
+  '(-U --user)'{"-U[${_desc::=enter the user namespace}]","--user=[$_desc]: : _files"} \
+  '(-C --cgroup)'{"-C[${_desc::=enter the cgroup namespace}]","--cgroup=[$_desc]: : _files"} \
+  '(-r --root)'{"-r[${_desc::=set the root directory}]","--root=[$_desc]: : _files -/"} \
+  '(-w --wd)'{"-w[${_desc::=set the working directory}]","--wd=[$_desc]: : _files -/"} \
+  '(-G --setgid)'{-G,--setgid}'[set GID used inside the namespace]: : _groups' \
+  '(-S --setuid)'{-S,--setuid}'[set UID used inside the namespace]:uid' \
+  '(-F --no-fork)'{-F,--no-fork}"[do not fork before exec'ing the specified program]" \
+  '(-Z --follow-context)'{-Z,--follow-context}'[set the SELinux security context according to the target pid]' \
+  '(-V --version)'{-V,--version}'[display version information and exit]' \
+  '(-h --help)'{-h,--help}'[display help text and exit]' \
+  '1: : _command_names -e' \
+  '*:: := ->normal' && ret=0
+
+if [[ $state == normal ]]; then
+  local expl
+  shift words; (( CURRENT-- ))
+  _normal && ret=0
+fi
+
+return $ret
