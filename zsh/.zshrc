@@ -83,9 +83,9 @@ zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
 zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
 zstyle ':completion:*:nsenter:*:processes' \
-                                    format            'Completing %d (pid command cgroup)'
+                                    format            'Completing %d (pid command systemd-machined-id)'
 zstyle ':completion:*:nsenter:*:processes' \
-                                    command           'ps -o pid,comm,cgroup -A'
+                                    command           'ps -o pid,comm,machine -A'
 # completion of process names 
 zstyle ':completion:*:killall:*'    command           'ps -o comm -A'
 # grouping stuff menu selection mostly
