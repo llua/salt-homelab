@@ -1,4 +1,7 @@
 #compdef nsenter
+# ps(1) can display a process cgroup
+# zstyle ':completion:*:nsenter:*:processes' format 'Completing %d (pid command cgroup)'
+# zstyle ':completion:*:nsenter:*:processes' command 'ps -o pid,comm,cgroup -A'
 
 local _desc context state state_descr line ret=1
 typeset -A opt_args
