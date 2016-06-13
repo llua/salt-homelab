@@ -9,7 +9,7 @@ base:
   'kernel:FreeBSD':
     - match: grain
     - periodic
-  '*.template.com or *[.-]test or *.container.net or *.test.com':
+  '*.template.com or *[.-]test or *.container.net or *.test.com or aida-* or *.local':
     - match: compound
     - zsh
     - vim
