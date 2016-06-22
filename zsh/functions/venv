@@ -10,7 +10,7 @@ zstyle -s ':prompt:arx:' delimiter-color vp
 zparseopts -A opts -D -- a d
 
 if (( $+opts[-a] )); then
-  . (../)#venv/bin/activate
+  . (../)#(venv/)#bin/activate([-1])
 elif (( $+opts[-d])); then
   if (( $+functions[deactivate] )); then
     deactivate
