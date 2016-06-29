@@ -1,0 +1,13 @@
+#compdef ctlstat
+
+_arguments -A '-*' \
+  '-t[total mode]' \
+  '-c[display N times]:count' \
+  '-C[disable CPU display]' \
+  '-d[display DMA operation time]' \
+  '-D[text dump mode]' \
+  '-h[suppress display of header]' \
+  '-j[JSON dump mode]' \
+  '-l[request statistics for lun]:lun number' \
+  '-n[limit the display to N devices]:max number of devices to display' \
+  '-w[specify the delay between displays]:seconds'
