@@ -1,0 +1,9 @@
+[[ $HOST == netslum* ]] || return 1
+
+local c=${1:-1} i name
+
+for ((i=1; i <= c; i++)) do
+  zfs clone tartarga/home/nspawn/arch-rootfs-20160221-1@rev1 "tartarga/home/nspawn/aida-$(od /dev/urandom -w3 -tx1 -An | awk '{ print $1 $2 $3; exit }')"
+  machinectl start ${name::=$_:t}
+  print -r -- $name
+done
