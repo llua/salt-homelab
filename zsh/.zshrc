@@ -159,6 +159,7 @@ zstyle ':completion:most-recent-file:*' \
                                     hidden            all
 zstyle ':completion:most-recent-file:*' \
                                     completer         _files
+zstyle ':completion:*:events'       range             50
 zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true # may cause completers to fail, look into why.
 zstyle ':completion:*'              accept-exact      false
