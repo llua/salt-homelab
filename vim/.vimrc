@@ -1,5 +1,6 @@
 "Features
 syntax on           " Syntax Highlighting
+set confirm         " ask to save when quiting a buffer that wasn't saved
 set modeline        " :help modeline
 set number          " Line Numbers
 set tabstop=2       " Tab length (spaces)
@@ -60,6 +61,7 @@ set foldlevel=1         "this is just what i use
 "zR - open all
 "zM - close all
 
+map Y y$
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 " disablle auto comments
