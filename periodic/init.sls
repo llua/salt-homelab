@@ -1,2 +1,7 @@
 /etc/periodic.conf:
-  ini.options_present: {{ salt['pillar.get']('periodic_conf', {}) }}
+  file.managed:
+    - source: salt://{{ sls }}/periodic.jinja
+    - user: root
+    - group: wheel
+    - mode: 644
+    - template: jinja
