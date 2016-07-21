@@ -8,7 +8,7 @@ base:
     - openssh.client
   'kernel:FreeBSD':
     - match: grain
-    - periodic
+    - misc_confs
   '*.template.com or *[.-]test or *.container.net or *.test.com or aida-* or *.local':
     - match: compound
     - zsh

@@ -1,0 +1,3 @@
+{% for key, value in pillar.get('periodic_conf', {}).iteritems() -%}
+{{ key }}={{ value }}
+{% endfor %}

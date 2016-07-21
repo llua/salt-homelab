@@ -1,0 +1,3 @@
+{% for key, value in pillar.get('loader_conf', {}).iteritems() -%}
+{{ key }}={{ value }}
+{% endfor %}
