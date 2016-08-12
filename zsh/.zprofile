@@ -10,7 +10,7 @@
       export MANWIDTH=tty
     ;|
     openbsd*)
-      export "PKG_PATH=http://mirror.team-cymru.org/pub/OpenBSD/$(uname -r)/packages/$(uname -p)"
+      export "PKG_PATH=http://ftp4.usa.openbsd.org/pub/OpenBSD/$(uname -r)/packages/$(uname -p)"
     ;;
     *linux*)
       if [[ -f /etc/SuSE-release ]]; then
