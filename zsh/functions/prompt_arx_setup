@@ -12,8 +12,14 @@ prompt_arx_setup() {
   zstyle -s ':prompt:arx:' primary-color c
   zstyle -s ':prompt:arx:' secondary-color p
   zstyle -s ':prompt:arx:' delimiter-color vp
+  
+  if (( $(tput colors) == 8 )); then
+    zstyle -s ':prompt:arx:' primary-color-8colors c
+    zstyle -s ':prompt:arx:' secondary-color-8colors p
+    zstyle -s ':prompt:arx:' delimiter-color-8colors vp
+  fi
 
-  (( $(tput colors) == 8 )) && (( c = p = 6, vp = 5 ))
+  : ${c:=default} ${p:=default} ${vp:=default}
 
   if  (( localhost[(I)$HOST] )) &&
       ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
