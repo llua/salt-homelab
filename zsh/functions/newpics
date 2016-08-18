@@ -1,0 +1,1 @@
+print -lr - ~tmp/*/new/* | less
