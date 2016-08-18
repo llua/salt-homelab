@@ -140,6 +140,8 @@ zstyle ':completion:*:systemd-machines-container' \
 zstyle ':completion:*:systemd-machines-qemu' \
                                     ignored-patterns  '^qemu-*'
 # misc stuff
+zstyle :completion::complete:-command-::commands \
+                                    ignored-patterns  restart reboot
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
 zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
