@@ -63,10 +63,6 @@ set foldlevel=1         "this is just what i use
 "zR - open all
 "zM - close all
 
-" vim-notes
-let g:notes_directories=['~/.notes']
-let g:notes_smart_quotes = 0
-
 map Y y$
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
