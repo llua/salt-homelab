@@ -1,2 +1,0 @@
-include: 
-  - .{{ grains['kernel'] }}-state

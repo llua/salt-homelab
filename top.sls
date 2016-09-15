@@ -3,6 +3,7 @@ base:
     - packages
     - users
     - openssh
+    - salt.minion
   'kernel:Linux':
     - match: grain
     - openssh.client
