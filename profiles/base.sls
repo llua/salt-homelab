@@ -3,8 +3,6 @@ include:
   - packages
   - users
   - openssh
-  - zsh
-  - vim
 {% if grains['kernel'] == 'Linux' %}
   - openssh.client
   {% if grains['linux_lxc'] == false %}
