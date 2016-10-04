@@ -1,0 +1,4 @@
+# this file is managed by saltstack
+# any changes will be reverted during the next highstate
+
+{{  pillar.get('bundler_conf', {})|yaml(False) }}
