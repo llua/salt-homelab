@@ -1,0 +1,20 @@
+#compdef package-cleanup
+local exclude='(--leaves --orphans --oldkernels --problems --dupes --cleandupes)'
+
+_arguments : \
+  '-c[alternative config file]:yum(8) configuration file:_files' \
+  '(-h --help)'{-h,--help}'[display help message]' \
+  '(-q --quiet)'{-q,--quiet}'[print out nothing unnecessary]' \
+  '(-v --version)'{-v,--version}'[report program version]' \
+  '-y[assume yes to questions]' \
+  $exclude'--leaves[list leaf nodes]' \
+  $exclude'--orphans[list packages which are not available from currently configured repos]' \
+  $exclude'--oldkernels[remove old kernel and kernel-devel packages]' \
+  $exclude'--problems[list dependency problems in the RPM database]' \
+  $exclude'--dupes[scan for duplicates in the RPM database]' \
+  $exclude'--cleandupes[clean out older versions of duplicate packages]' \
+  ${exclude/--leaves }'--all[include non-library packages when listing leaf nodes]' \
+  ${exclude/--leaves }'--leaf-regex[consider packages matching the pattern as a leaf]' \
+  ${exclude/--leaves }'--exclude-devel[do not list development packages as leafs]' \
+  ${exclude/--leaves }'--exclude-bin[do not list packages with files in bin directories as leafs]' \
+  ${exclude/--oldkernels }'--keepdevel[do not remove kernel-devel packages when removing kernels]'
