@@ -3,3 +3,4 @@
 
 Pry.config.theme        = 'pry-siberia-16'
 Pry.config.prompt_name  = "\033[38;5;24m" + `hostname -s`.chomp + "\033[39m"
+# vim: ft=ruby
