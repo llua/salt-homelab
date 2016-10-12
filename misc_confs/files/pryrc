@@ -1,6 +1,10 @@
 # this file is managed by saltstack
 # any changes will be reverted during the next highstate
 
-Pry.config.theme        = 'pry-siberia-16'
-Pry.config.prompt_name  = "\033[38;5;24m" + `hostname -s`.chomp + "\033[39m"
+Pry.config.theme       = 'pry-siberia-16'
+Pry.config.prompt_name = if RUBY_PLATFORM =~ /linux/
+                           "\033[38;5;24m" + `hostname -s`.chomp + "\033[39m"
+                         else
+                           `hostname -s`.chomp
+                         end
 # vim: ft=ruby
