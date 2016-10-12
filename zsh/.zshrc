@@ -243,6 +243,7 @@ bindkey -M vicmd '\e[1;5C'              vi-forward-word
 vi-exit() { print -s -- $BUFFER; builtin exit; }; zle -N vi-exit; bindkey -M vicmd 'ZZ' vi-exit
 bindkey -M menuselect '^[[Z'            reverse-menu-complete
 bindkey -M menuselect '^r'              history-incremental-search-backward
+bindkey -M menuselect '\e^M'            accept-and-menu-complete
 if (( $+terminfo[kLFT] )); then 
   bindkey -M viins "${terminfo[kLFT]}"  vi-backward-word
   bindkey -M vicmd "${terminfo[kLFT]}"  vi-backward-word
