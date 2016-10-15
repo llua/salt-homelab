@@ -1,10 +1,25 @@
 # this file is managed by saltstack
 # any changes will be reverted during the next highstate
 
+if RUBY_PLATFORM  =~ /linux/
+	primary_color 	= "\033[38;5;24m"
+	secondary_color = "\033[38;5;45m"
+	reset_color     = "\033[39m"
+else
+  primary_color   = ''
+  secondary_color = ''
+  reset_color     = ''
+end
+
 Pry.config.theme       = 'pry-siberia-16'
-Pry.config.prompt_name = if RUBY_PLATFORM =~ /linux/
-                           "\033[38;5;24m" + `hostname -s`.chomp + "\033[39m"
-                         else
-                           `hostname -s`.chomp
-                         end
+Pry.config.prompt_name = primary_color + `hostname -s`.chomp + reset_color
+Pry.config.prompt      = [
+  proc { |target_self, nest_level, pry|
+    "#{pry.config.prompt_name}#{primary_color}(#{secondary_color}#{Pry.view_clip(target_self)}#{primary_color})#{reset_color}#{":#{nest_level}" unless nest_level.zero?} "
+  },
+  proc { |target_self, nest_level, pry|
+    "#{pry.config.prompt_name}#{primary_color}(#{secondary_color}#{Pry.view_clip(target_self)}#{primary_color})#{reset_color}#{":#{nest_level}" unless nest_level.zero?}* "
+  }
+]
+
 # vim: ft=ruby
