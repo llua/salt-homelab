@@ -3,6 +3,7 @@ include:
   - packages
   - users
   - openssh
+  - openssh.config
   - sudoers
 {% if grains['kernel'] == 'Linux' %}
   - openssh.client
