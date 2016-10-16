@@ -1,6 +1,6 @@
 #autoload
 typeset -A opts
-zparseopts -A opts -D -url: -start: -end: -nowait
+zparseopts -A opts -D -url: -start: -end: -nowait -dryrun
 
 (( $+opts[--url] )) || { print >&2 no url to crawl; exit 1; }
 baseurl=$opts[--url]
@@ -18,28 +18,30 @@ for ((i=start;i<=end;i++)); do
   print -n -- "$baseurl$i - "
 
   (
-    cd -- $i || continue
+    ${opts[--dryrun]+:} cd -- $i || continue
     curl -s -K <(print -r -- $curlrc) -- $baseurl$i |
       grep -Eo 'http://cfile[[:digit:]]*\.uf\.tistory\.com/(original|attach)/[^\" ]*' |
         while read -r url; do
           while (( $#jobstates >= 5 )); do
             sleep 1
           done
-          curl -sRO -K <(print -lr -- $curlrc "referer = $baseurl$i") -- $url &
+          ${opts[--dryrun]+print} curl -sJRO -K <(print -lr -- $curlrc "referer = $baseurl$i") -- $url &
         done
     wait
 
-    for f in *(.N); do
-      mv -- $f $f.${${"$(file -b --mime-type -- $f)"#*/}/jpeg/jpg}
-    done
-    () {
-      if (( $# == 0 )); then
-        cd .. && rmdir -- $OLDPWD
-        echo none, deleting directory...
-      else
-        print $#
-      fi
-    } *(N)
+    if ! (( $+opts[--dryrun] )); then
+      for f in *(.N); do
+        mv -- $f $f.${${"$(file -b --mime-type -- $f)"#*/}/jpeg/jpg}
+      done
+      () {
+        if (( $# == 0 )); then
+          cd .. && rmdir -- $OLDPWD
+          echo none, deleting directory...
+        else
+          print $#
+        fi
+      } *(N)
+    fi
   )
-  ${opts[--nowait]+:} sleep 05
+  ${opts[(R)--(nowait|dryrun)]+:} sleep 05
 done
