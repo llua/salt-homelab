@@ -1,2 +1,2 @@
 include:
-  - samba
+  - samba.config
