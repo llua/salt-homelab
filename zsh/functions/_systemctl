@@ -17,7 +17,7 @@
     "force-reload:Reload one or more units if possible, otherwise restart if active"
     "hibernate:Hibernate the system"
     "hybrid-sleep:Hibernate and suspend the system"
-    "reload-or-try-restart:Reload one or more units if possible, otherwise restart if active"
+    "try-reload-or-restart:Reload one or more units if possible, otherwise restart if active"
     "isolate:Start one unit and stop all others"
     "kill:Send signal to processes of a unit"
     "is-active:Check whether units are active"
@@ -43,8 +43,6 @@
     "is-enabled:Check whether unit files are enabled"
     "list-jobs:List jobs"
     "cancel:Cancel all, one, or more jobs"
-    "snapshot:Create a snapshot"
-    "delete:Remove one or more snapshots"
     "show-environment:Dump environment"
     "set-environment:Set one or more environment variables"
     "unset-environment:Unset one or more environment variables"
@@ -71,7 +69,7 @@
     # Deal with any aliases
     case $cmd in
       condrestart) cmd="try-restart";;
-      force-reload) cmd="reload-or-try-restart";;
+      force-reload) cmd="try-reload-or-restart";;
     esac
 
     if (( $#cmd )); then
@@ -125,20 +123,11 @@ _systemctl_really_all_units()
 }
 
 _filter_units_by_property() {
-  local property=$1 value=$2 ; shift ; shift
-  local -a units ; units=($*)
-  local prop unit
-  for ((i=1; $i <= ${#units[*]}; i++)); do
-    # FIXME: "Failed to issue method call: Unknown unit" errors are ignored for
-    # now (related to DBUS_ERROR_UNKNOWN_OBJECT). in the future, we need to
-    # revert to calling 'systemctl show' once for all units, which is way
-    # faster
-    unit=${units[i]}
-    prop=${(f)"$(_call_program units "$service show --no-pager --property="$property" ${unit} 2>/dev/null")"}
-    if [[ "${prop}" = "$property=$value" ]]; then
-      echo -E - " ${unit}"
-    fi
-  done
+  local property=$1 value=$2; shift 2
+  local -a units; units=("${(q-)@}")
+  local -A props
+  props=(${(f)"$(_call_program units "$service show --no-pager --property=\"Id,$property\" -- ${units} 2>/dev/null")"})
+  echo -E - "${(@)${(k@)props[(Re)$property=$value]}#Id=}"
 }
 
 _systemctl_get_template_names() { echo -E - ${^${(M)${(f)"$(__systemctl list-unit-files)"}##*@.[^[:space:]]##}%%@.*}\@ }
@@ -149,21 +138,21 @@ _systemctl_active_units()  {_sys_active_units=(  ${${(f)"$(__systemctl list-unit
 _systemctl_startable_units(){
     _sys_startable_units=( $( _filter_units_by_property ActiveState inactive $(
                           _filter_units_by_property CanStart yes $(
-                          __systemctl list-unit-files --state enabled,disabled,static | \
+                          __systemctl $mode list-unit-files --state enabled,disabled,static | \
                                { while read -r a b; do [[ $a =~ @\. ]] || echo -E - " $a"; done; }
-                          __systemctl list-units --state inactive,failed | \
+                          __systemctl $mode list-units --state inactive,failed | \
                                { while read -r a b; do echo -E - " $a"; done; } )) ) )
 }
 
 _systemctl_restartable_units(){
     _sys_restartable_units=( $(_filter_units_by_property CanStart yes $(
-                          __systemctl list-unit-files --state enabled,disabled,static | \
+                          __systemctl $mode list-unit-files --state enabled,disabled,static | \
                                { while read -r a b; do [[ $a =~ @\. ]] || echo -E - " $a"; done; }
-                          __systemctl list-units | \
+                          __systemctl $mode list-units | \
                                { while read -r a b; do echo -E - " $a"; done; } )) )
 }
 
-_systemctl_failed_units()  {_sys_failed_units=( ${${(f)"$(__systemctl list-units --failed)"}%% *} ) }
+_systemctl_failed_units()  {_sys_failed_units=( ${${(f)"$(__systemctl list-units --state=failed)"}%% *} ) }
 _systemctl_unit_state() { typeset -gA _sys_unit_state; _sys_unit_state=( $(__systemctl list-unit-files) ) }
 
 local fun
@@ -172,7 +161,7 @@ for fun in is-active is-failed is-enabled status show cat mask preset help list-
   (( $+functions[_systemctl_$fun] )) || _systemctl_$fun()
   {
     _systemctl_really_all_units
-    _wanted systemd-units expl 'all unit' \
+    _wanted systemd-units expl unit \
       compadd "$@" -a - _sys_really_all_units
   }
 done
@@ -213,7 +202,7 @@ done
 {
    local _sys_startable_units; _systemctl_startable_units
    _wanted systemd-units expl 'startable unit' \
-     compadd "$@" - ${_sys_startable_units} $(_systemctl_get_template_names)
+     compadd "$@" - ${_sys_startable_units[*]} $(_systemctl_get_template_names)
 }
 
 # Completion functions for STOPPABLE_UNITS
@@ -237,7 +226,7 @@ done
 }
 
 # Completion functions for RELOADABLE_UNITS
-for fun in reload reload-or-try-restart force-reload ; do
+for fun in reload try-reload-or-restart force-reload ; do
   (( $+functions[_systemctl_$fun] )) || _systemctl_$fun()
   {
     local _sys_active_units; _systemctl_active_units
@@ -271,14 +260,6 @@ done
   _wanted systemd-jobs expl job \
     compadd "$@" - ${${(f)"$(__systemctl list-jobs)"}%% *} ||
       _message "no jobs found"
-}
-
-# Completion functions for SNAPSHOTS
-(( $+functions[_systemctl_delete] )) || _systemctl_delete()
-{
-  _wanted systemd-snapshots expl snapshot \
-    compadd "$@" - ${${(f)"$(__systemctl list-units --type snapshot --all)"}%% *} ||
-      _message "no snapshots found"
 }
 
 # Completion functions for TARGETS
@@ -315,7 +296,6 @@ done
 #    [STANDALONE]='daemon-reexec daemon-reload default
 #                  emergency exit halt kexec list-jobs list-units
 #                  list-unit-files poweroff reboot rescue show-environment'
-#         [NAME]='snapshot'
 
 _systemctl_caching_policy()
 {
@@ -339,13 +319,13 @@ _systemctl_caching_policy()
 
 _unit_states() {
     local -a _states
-    _states=(loaded failed active inactive not-found listening running waiting plugged mounted exited dead masked)
+    _states=("${(fo)$(__systemctl --state=help)}")
     _values -s , "${_states[@]}"
 }
 
 _unit_types() {
     local -a _types
-    _types=(automount busname device mount path service snapshot socket swap target timer)
+    _types=("${(fo)$(__systemctl -t help)}")
     _values -s , "${_types[@]}"
 }
 
@@ -354,7 +334,7 @@ _unit_properties() {
     ! _retrieve_cache SYS_ALL_PROPERTIES;
   then
     _sys_all_properties=( ${${(M)${(f)"$(__systemctl show --all;
-    /usr/lib/systemd --dump-configuration-items)"}##[[:alnum:]]##=*}%%=*}
+    /usr/lib/systemd/systemd --dump-configuration-items)"}##[[:alnum:]]##=*}%%=*}
     )
     _store_cache SYS_ALL_PROPRTIES _sys_all_properties
   fi
@@ -380,7 +360,6 @@ _arguments -s \
     '--reverse[Show reverse dependencies]' \
     '--after[Show units ordered after]' \
     '--before[Show units ordered before]' \
-    '--failed[Show only failed units]' \
     {-l,--full}"[Don't ellipsize unit names on output]" \
     '--show-types[When showing sockets, show socket type]' \
     {-i,--ignore-inhibitors}'[When executing a job, ignore jobs dependencies]' \
