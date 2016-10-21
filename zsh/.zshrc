@@ -85,7 +85,7 @@ zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
 # hostname completion
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
                                     hosts             umbra ansuz corbenik netslum nypumi caerleon-medb sakubo tarvos fidchell login1 login2
-# completion of pids owned by $USER
+# completion of pids
 zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
 zstyle ':completion:*:nsenter:*:processes' \
@@ -240,7 +240,7 @@ bindkey -M viins '^[OC'                 vi-forward-word
 bindkey -M vicmd '^[OC'                 vi-forward-word
 bindkey -M viins '\e[1;5C'              vi-forward-word
 bindkey -M vicmd '\e[1;5C'              vi-forward-word
-vi-exit() { print -s -- $BUFFER; builtin exit; }; zle -N vi-exit; bindkey -M vicmd 'ZZ' vi-exit
+vi-exit() { print -sr -- $BUFFER; builtin exit; }; zle -N vi-exit; bindkey -M vicmd 'ZZ' vi-exit
 bindkey -M menuselect '^[[Z'            reverse-menu-complete
 bindkey -M menuselect '^r'              history-incremental-search-backward
 bindkey -M menuselect '\e^M'            accept-and-menu-complete
