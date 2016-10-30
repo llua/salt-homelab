@@ -25,7 +25,7 @@ for ((i=start;i<=end;i++)); do
           while (( $#jobstates >= 5 )); do
             sleep 1
           done
-          ${opts[--dryrun]+print} curl -sJRO -K <(print -lr -- $curlrc "referer = $baseurl$i") -- $url &
+          ${opts[--dryrun]+print} curl -sRO -K <(print -lr -- $curlrc "referer = $baseurl$i") -- $url &
         done
     wait
 
