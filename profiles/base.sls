@@ -7,6 +7,9 @@ include:
   - sudoers
 {% if grains['kernel'] == 'Linux' %}
   - openssh.client
+  {% if grains['os'] == 'CentOS' %}
+  - epel
+  {% endif %}
   {% if grains['linux_lxc'] == false %}
   - ntp
   - sysctl.param
