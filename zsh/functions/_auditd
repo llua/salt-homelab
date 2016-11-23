@@ -1,4 +1,4 @@
-#compdef aureport aulast auditctl
+#compdef aureport aulast auvirt auditctl
 
 _aureport() {
   _arguments -A "-*" : \
@@ -23,13 +23,13 @@ _aureport() {
     '(-p --pid)'{-p,--pid}'[processes report]' \
     '(-r --response)'{-r,--response}'[anomaly responses report]' \
     '(-s --syscall)'{-s,--syscall}'[syscall report]' \
+    '(-te --end)'{-te,--end}'[show records with the timestamps equal or before the given time]:end time:( $auditd_dates ):: : _guard "^-*" "end time"' \
+    '(-ts --start)'{-ts,--start}'[show records with the timestamps equal or after the given time]::start date:( $auditd_dates ):: : _guard "^-*" "start time"' \
     '--success[select  successful entries]' \
     '--summary[summary report]' \
     '(-t --log)'{-t,--log}'[report start and end times]' \
     '--tty[tty keystrokes reports]' \
-    '(-te --end)'{-te,--end}'[end time]::end date:(now recent today yesterday this-week week-ago this-month this-year):: : _message "end time"' \
     '(-tm --terminal)'{-tm,--terminal}'[terminal report]' \
-    '(-ts --start)'{-ts,--start}'[start time]::start date:(now recent today yesterday this-week week-ago this-month this-year):: : _message "start time"' \
     '(-u --user)'{-u,--user}'[user report]' \
     '(-v --version)'{-v,--version}'[print version]' \
     '(-x --executable)'{-x,--executable}'[executables report]'
@@ -57,7 +57,26 @@ _auditctl() {
   return ret
 }
 
+_auvirt() {
+  _arguments -A '-*' : \
+    '--all-events[show records for all virtualization related events]' \
+    '--debug[print debug messages to standard output]' \
+    '(-f --file --stdin)'{-f,--file}'[read records from specified file]:auditd log:_files' \
+    '(-h --help)'{-h,--help}'[print help message and exit]' \
+    '--proof[print all the identifiers of the audit records used to calculate the event]' \
+    '--show-uuid[add the guest'\''s UUID to each record]' \
+    '(-f --file)--stdin[read records from stdin]' \
+    '--summary[print a summary with infomation about the events found]' \
+    '(-te --end)'{-te,--end}'[show records with the timestamps equal or before the given time]:end time:( $auditd_dates ):: : _guard "^-*" "end time"' \
+    '(-ts --start)'{-ts,--start}'[show records with the timestamps equal or after the given time]::start date:( $auditd_dates ):: : _guard "^-*" "start time"' \
+    '(-u --uuid)'{-u,--uuid}'[only show events related to the guest with the given UUID]:UUID' \
+    '(-v --vm)'{-v,--vm}'[only show events related to the guest with the given name]:name'
+}
+
 _auditd() {
+  local -a auditd_dates
+  auditd_dates=(now recent today yesterday this-week week-ago this-month this-year)
+
   local ret
   _call_function ret _$service
   return ret
