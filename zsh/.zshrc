@@ -79,7 +79,7 @@ zstyle ':completion:*'              group-name        ''
 zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
 zstyle ':completion:*:default'      list-colors       'ma=01;07;35' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
-zstyle ':completion::complete:vim:option-u-1:*'
+zstyle ':completion::complete:vim:option-u-1:*' \
                                     fake              NONE
 # username completion
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
