@@ -1,35 +1,37 @@
-{% for user in ['root', 'arx'] %}
-{% for file in ['.zshrc', '.zprofile', '.zshenv'] %}
-{{ salt['user.info'](user).home }}/{{ file }}:
-  file.managed:
-    - user: {{ user }}
-    - group: {{ salt['user.info'](user).gid }}
-    - mode: 600
-    - source:
-      - salt://{{ sls }}/{{ file }}-{{ grains['fqdn'] }}-{{ user }}
-      - salt://{{ sls }}/{{ file }}-{{ grains['os'] }}-{{ user }}
-      - salt://{{ sls }}/{{ file }}-{{ grains['fqdn'] }}
-      - salt://{{ sls }}/{{ file }}-{{ grains['os'] }}
-      - salt://{{ sls }}/{{ file }}-{{ user }}
-      - salt://{{ sls }}/{{ file }}
-    - require:
-      - sls: users
-{% endfor %}
+#!jinja | pyobjects
+# vim: syn=python
 
-{{ salt['user.info'](user).home }}/.config/functions:
-  file.recurse:
-    - user: {{ user }}
-    - group: {{ salt['user.info'](user).gid }}
-    - file.recurse: 600
-    - dir_mode: 700
-    - recurse: true
-    - source:
-      - salt://{{ sls }}/functions-{{ grains['fqdn'] }}-{{ user }}
-      - salt://{{ sls }}/functions-{{ grains['os'] }}-{{ user }}
-      - salt://{{ sls }}/functions-{{ grains['fqdn'] }}
-      - salt://{{ sls }}/functions-{{ grains['os'] }}
-      - salt://{{ sls }}/functions-{{ user }}
-      - salt://{{ sls }}/functions
-    - require:
-      - sls: users
-{% endfor %}
+users    = ['llua', 'root']
+dotfiles = ['.zshrc', '.zprofile', '.zshenv']
+__sls__  = '{{ sls }}'.strip('.config')
+
+for user in users:
+  for dotfile in dotfiles:
+    File.managed('{0}/{1}'.format(salt.user.info(user)['home'],  dotfile),
+      user   = user,
+      group  = salt.user.info(user)['gid'],
+      mode   = 600,
+      source = [
+        'salt://{0}/{1}-{2}-{3}'.format(__sls__, dotfile, grains('fqdn'), user),
+        'salt://{0}/{1}-{2}-{3}'.format(__sls__, dotfile, grains('os'), user),
+        'salt://{0}/{1}-{2}'.format(__sls__, dotfile, grains('fqdn')),
+        'salt://{0}/{1}-{2}'.format(__sls__, dotfile, grains('os')),
+        'salt://{0}/{1}-{2}'.format(__sls__, dotfile, user),
+        'salt://{0}/{1}'.format(__sls__, dotfile),
+      ]
+    )
+  File.recurse('{0}/.config/functions'.format(salt.user.info(user)['home']),
+    user         = user,
+    group        = salt.user.info(user)['gid'],
+    file_mode    = 600,
+    dir_mode     = 700,
+    recurse      = True,
+    source       = [
+      'salt://{0}/{1}-{2}-{3}'.format(__sls__, 'functions', grains('fqdn'), user),
+      'salt://{0}/{1}-{2}-{3}'.format(__sls__, 'functions', grains('os'), user),
+      'salt://{0}/{1}-{2}'.format(__sls__, 'functions', grains('fqdn')),
+      'salt://{0}/{1}-{2}'.format(__sls__, 'functions', grains('os')),
+      'salt://{0}/{1}-{2}'.format(__sls__, 'functions', user),
+      'salt://{0}/{1}'.format(__sls__, 'functions'),
+    ]
+  )
