@@ -112,7 +112,7 @@ _seinfo() {
     {-r,--role=}'-[display a list of roles]:role:_seroles' \
     {-u,--user=}'-[display a list of users]:user:_seusers' \
     {-b,--bool=}'-[display a list of booleans]:boolean:->boolean' \
-    '--initialsid=-[display a list of initial SIDs]:SID:_sesid' \
+    '--initialsid=-[display a list of initial SIDs]:SID:_sesids' \
     '--fs_use=-[display a list of fs_use statements]:filesystem type' \
     '--genfscon=-[display a list of genfscon statements]:filesystem type' \
     '--netifcon=-[display a list of netif contexts]:interface:_net_interfaces' \
