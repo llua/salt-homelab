@@ -8,8 +8,61 @@ _sebooleans() {
   selinux_booleans=( ${$(getsebool -a)#-->} )
 }
 
+_seinfo-query() {
+  local args
+  if (( $# >= 4 )); then
+    args=($argv[1,4]); shift 4
+    _description "$args[1]" expl "$args[2]"
+    compadd "$@" "$expl[@]" -- ${(s. .)${${(f)"$(_call_program seinfo seinfo $args[3])"}:#$args[4]: *}}
+  fi
+}
+_seroles() {
+  local expl
+  _seinfo-query selinux-roles 'SELinux role' -r Roles "$@"
+}
+
+_seusers() {
+  local expl
+  _seinfo-query selinux-users 'SELinux user' -u Users "$@"
+}
+
+_setypes() {
+  local expl
+  _seinfo-query selinux-types 'SELinux type' -t Types "$@"
+}
+
+_seobjectclasses() {
+  local expl
+  _seinfo-query selinux-objectclasses 'SELinux object class' -c 'Object classes' "$@"
+}
+
+_secategories() {
+  local expl
+  _seinfo-query selinux-categories 'SELinux categories' --category Categories "$@"
+}
+
+_seattributes() {
+  local expl
+  _seinfo-query selinux-attributes 'SELinux attributes' -a Attributes "$@"
+}
+
+_sesensitivities() {
+  local expl
+  _seinfo-query selinux-sensitivities 'SELinux sensitivity' --sensitivity Sensitivities "$@"
+}
+
+_secategories() {
+  local expl
+  _seinfo-query selinux-categories 'SELinux category' --category Categories "$@"
+}
+
+_sesids() {
+  local expl
+  _seinfo-query selinux-sids 'SELinux SID' --initialsid 'Initial SID' "$@"
+}
+
 _setsebool() {
-  local state state_descr context expl line ret
+  local state state_descr context expl line
   typeset -A opt_args val_args selinux_booleans
 
   _arguments : \
@@ -29,7 +82,7 @@ _setsebool() {
 }
 
 _getsebool() {
-  local state state_descr context expl line ret
+  local state state_descr context expl line
   typeset -A opt_args selinux_booleans
 
   _sebooleans
@@ -47,31 +100,41 @@ _setenforce() {
 }
 
 _seinfo() {
-  _arguments -A '-*' : \
-    {-c-,--class=}'[display a list of object classes]:object class' \
-    '--sensitivity=[display a list of sensitivities]:sensitivity' \
-    '--category=[display a list of categories]:category' \
-    {-t-,--type=}'[display a list of types]:type' \
-    {-a-,--attribute=}'[display a list of attributes]:attributes' \
-    {-r-,--role=}'[display a list of roles]' \
-    {-u-,--user=}'[display a list of users]' \
-    {-b-,--bool=}'[display a list of booleans]' \
-    '--initialsid=[display a list of initial SIDs]' \
-    '--fs_use=[display a list of fs_use statements]:filesystem type' \
-    '--genfscon=[display a list of genfscon statements]:filesystem type' \
-    '--netifcon=[display a list of netif contexts]:interface:_net_interfaces' \
-    '--netcon=[display a list of node contexts]:node address' \
+  local curcontext="$curcontext" state state_descr context expl line ret=1
+  typeset -A opt_args selinux_booleans
+
+  _arguments -A '-*' -C : \
+    {-c,--class=}'-[display a list of object classes]:object class:_seobjectclasses' \
+    '--sensitivity=-[display a list of sensitivities]:sensitivity:_sesensitivities' \
+    '--category=-[display a list of categories]:category:_secategories' \
+    {-t,--type=}'-[display a list of types]:type:_setypes' \
+    {-a,--attribute=}'-[display a list of attributes]:attribute:_seattributes' \
+    {-r,--role=}'-[display a list of roles]:role:_seroles' \
+    {-u,--user=}'-[display a list of users]:user:_seusers' \
+    {-b,--bool=}'-[display a list of booleans]:boolean:->boolean' \
+    '--initialsid=-[display a list of initial SIDs]:SID:_sesid' \
+    '--fs_use=-[display a list of fs_use statements]:filesystem type' \
+    '--genfscon=-[display a list of genfscon statements]:filesystem type' \
+    '--netifcon=-[display a list of netif contexts]:interface:_net_interfaces' \
+    '--nodecon=-[display a list of node contexts]:node address' \
     '--polcap[display policy capabilities]' \
     '--permissive[display permissive types]' \
-    '--portcon=[display a list of port contexts]:port' \
-    '--portocol=[display only portcon statements for the specified protocol]:protocol' \
+    '--portcon=-[display a list of port contexts]:port' \
+    '--portocol=-[display only portcon statements for the specified protocol]:protocol' \
     '--constrain[display a list of constraints]' \
     '--all[display all components]' \
     '(-x --expand)'{-x,--expand}'[display additional details]' \
     '--stats[display policy statistics]' \
     '(-l --line-breaks)'{-l,--line-breaks}'[print line breaks when displaying constraint statements]' \
     '(-h --help)'{-h,--help}'[display help information and exit]' \
-    '(-v --version)'{-v,--version}'[display version information and exit]'
+    '(-v --version)'{-v,--version}'[display version information and exit]' && ret=0
+
+  if [[ $state[1] = boolean ]]; then
+    _sebooleans
+    _wanted selinux-booleans expl 'SELinux boolean' compadd -F words -- ${(k)selinux_booleans} && ret=0
+  fi
+
+  return ret
 }
 
 _selinux() {
