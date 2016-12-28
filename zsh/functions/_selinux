@@ -1,4 +1,4 @@
-#compdef setsebool getsebool setenforce
+#compdef setsebool getsebool setenforce seinfo
 # thank god i don't have to deal with this often.
 
 _sebooleans() {
@@ -44,6 +44,34 @@ _setenforce() {
       enforcing\:enforcing permissive\:permissive
       1\:enforcing 0\:permissive
     ))'
+}
+
+_seinfo() {
+  _arguments -A '-*' : \
+    {-c-,--class=}'[display a list of object classes]:object class' \
+    '--sensitivity=[display a list of sensitivities]:sensitivity' \
+    '--category=[display a list of categories]:category' \
+    {-t-,--type=}'[display a list of types]:type' \
+    {-a-,--attribute=}'[display a list of attributes]:attributes' \
+    {-r-,--role=}'[display a list of roles]' \
+    {-u-,--user=}'[display a list of users]' \
+    {-b-,--bool=}'[display a list of booleans]' \
+    '--initialsid=[display a list of initial SIDs]' \
+    '--fs_use=[display a list of fs_use statements]:filesystem type' \
+    '--genfscon=[display a list of genfscon statements]:filesystem type' \
+    '--netifcon=[display a list of netif contexts]:interface:_net_interfaces' \
+    '--netcon=[display a list of node contexts]:node address' \
+    '--polcap[display policy capabilities]' \
+    '--permissive[display permissive types]' \
+    '--portcon=[display a list of port contexts]:port' \
+    '--portocol=[display only portcon statements for the specified protocol]:protocol' \
+    '--constrain[display a list of constraints]' \
+    '--all[display all components]' \
+    '(-x --expand)'{-x,--expand}'[display additional details]' \
+    '--stats[display policy statistics]' \
+    '(-l --line-breaks)'{-l,--line-breaks}'[print line breaks when displaying constraint statements]' \
+    '(-h --help)'{-h,--help}'[display help information and exit]' \
+    '(-v --version)'{-v,--version}'[display version information and exit]'
 }
 
 _selinux() {
