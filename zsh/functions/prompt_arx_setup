@@ -44,6 +44,11 @@ prompt_arx_setup() {
     RPROMPT+='${psvar[2]}'
   fi
 
+  if (( $+functions[scl_info] )); then
+    add-zsh-hook precmd scl_info
+    RPROMPT+='${psvar[3]}'
+  fi
+
   zstyle -a ':prompt:arx:vcs_info:' hosts vcs_info
   if (( vcs_info[(I)$HOST] )); then
     zstyle ':vcs_info:*'     enable git
