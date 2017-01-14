@@ -3,12 +3,11 @@ syntax on           " Syntax Highlighting
 set confirm         " ask to save when quiting a buffer that wasn't saved
 set modeline        " :help modeline
 set number          " Line Numbers
-set tabstop=2       " Tab length (spaces)
-set shiftwidth=2    " Forgot tbh
+set expandtab       " Use the appropriate number of spaces to insert a <Tab>
+set shiftwidth=2    " Number of spaces to use for each step of (auto)indent
 set laststatus=2    " Bottom bar with filename in it
 set incsearch       " Incremental Search
 set hlsearch        " Highlight strings found in search
-set expandtab       " Forgot tbh
 set backspace=indent,eol,start
 filetype indent on  " Indenting
 filetype plugin on
