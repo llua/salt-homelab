@@ -13,6 +13,7 @@ set hlsearch        " Highlight strings found in search
 set backspace=indent,eol,start
 set list            " visually mark tabs, trailing whitespace and nbsp
 set listchars=nbsp:¬,tab:>-,extends:»,precedes:«,trail:•
+set wildmenu        " show zsh-like menucompletion in ex command mode
 filetype indent on  " Indenting
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
