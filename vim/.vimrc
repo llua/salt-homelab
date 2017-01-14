@@ -4,6 +4,7 @@ set confirm         " ask to save when quiting a buffer that wasn't saved
 set modeline        " :help modeline
 set number          " Line Numbers
 set expandtab       " Use the appropriate number of spaces to insert a <Tab>
+set smarttab        " <Tab> in front of a line inserts blanks according to sw, ts, and sts used elsewhere
 set softtabstop=2   " Number of spaces that a <Tab> counts for
 set shiftwidth=2    " Number of spaces to use for each step of (auto)indent
 set laststatus=2    " Bottom bar with filename in it
