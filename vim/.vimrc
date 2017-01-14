@@ -4,11 +4,14 @@ set confirm         " ask to save when quiting a buffer that wasn't saved
 set modeline        " :help modeline
 set number          " Line Numbers
 set expandtab       " Use the appropriate number of spaces to insert a <Tab>
+set softtabstop=2   " Number of spaces that a <Tab> counts for
 set shiftwidth=2    " Number of spaces to use for each step of (auto)indent
 set laststatus=2    " Bottom bar with filename in it
 set incsearch       " Incremental Search
 set hlsearch        " Highlight strings found in search
 set backspace=indent,eol,start
+set list            " visually mark tabs, trailing whitespace and nbsp
+set listchars=tab:>-,trail:⎵,nbsp:⎵
 filetype indent on  " Indenting
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
