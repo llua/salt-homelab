@@ -22,6 +22,9 @@ color vif-lua
 set t_Co=256
 endif
 
+" save 'with sudo' by using :w!!
+cmap w!! w !sudo tee > /dev/null %
+
 " Toggle spelling with the F7 key
 nn <F7> :setlocal spell! spelllang=en_us<CR>
 imap <F7> <C-o>:setlocal spell! spelllang=en_us<CR>
