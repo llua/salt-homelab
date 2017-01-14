@@ -11,7 +11,7 @@ set incsearch       " Incremental Search
 set hlsearch        " Highlight strings found in search
 set backspace=indent,eol,start
 set list            " visually mark tabs, trailing whitespace and nbsp
-set listchars=tab:>-,trail:⎵,nbsp:⎵
+set listchars=nbsp:¬,tab:>-,extends:»,precedes:«,trail:•
 filetype indent on  " Indenting
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
