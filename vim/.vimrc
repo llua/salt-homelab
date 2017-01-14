@@ -14,6 +14,8 @@ set backspace=indent,eol,start
 set list            " visually mark tabs, trailing whitespace and nbsp
 set listchars=nbsp:¬,tab:>-,extends:»,precedes:«,trail:•
 set wildmenu        " show zsh-like menucompletion in ex command mode
+set splitright      " Vertical splitting, creates new window on right side
+set splitbelow      " Horizontal splitting, creates new window below
 filetype indent on  " Indenting
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
