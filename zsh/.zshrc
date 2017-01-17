@@ -228,6 +228,7 @@ bindkey -M viins "^N"                   most-recent-file
 bindkey -M viins '^Xh'                  _complete_help
 bindkey -M viins '^X?'                  _complete_debug
 bindkey -M viins '^P'                   push-line-or-edit
+bindkey -M viins '\ee'                  expand-word
 bindkey -M viins '^?'                   backward-delete-char
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e[d'                 vi-backward-word
