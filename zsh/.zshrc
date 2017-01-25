@@ -9,14 +9,13 @@ unset mod
 setopt   ExtendedGlob
 # Misc
 setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst InteractiveComments CompleteInWord PromptSubst
-# History 
+# History
 setopt   ExtendedHistory HistIgnoreAllDups HistNoStore IncAppendHistory Sharehistory
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Stuff we don't want
 unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
 
-fpath=( ~/.config/functions(-local|)(On/N) /usr/share/zsh/site-functions(/N) $^fpath[@](N) )
 HISTFILE=~/.zsh_history
 [[ -f ~/.config/.zsh_history ]] && HISTFILE=~/.config/.zsh_history
 HISTSIZE=15000
@@ -40,9 +39,6 @@ hash -d dotfiles=$HOME/src/dotfiles/
 hash -d zsh=$HOME/src/zsh/
 hash -d build=$HOME/build/
 hash -d tmp=$HOME/.local/tmp/
-
-# autoload my functions in .config/functions/ and zmv
-autoload -Uz ${ZDOTDIR:-$HOME/.config}/functions(|-local)/**/[^_+]*(N^/:t) zmv edit-command-line 2>/dev/null
 
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
