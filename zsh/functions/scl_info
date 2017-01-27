@@ -1,0 +1,14 @@
+#autoload
+
+local c p vp
+typeset -A opts
+
+zstyle -s ':prompt:arx:' primary-color c
+zstyle -s ':prompt:arx:' secondary-color p
+zstyle -s ':prompt:arx:' delimiter-color vp
+
+if (( $+X_SCLS )); then
+  psvar[3]="%F{$c}%Bscl(%F{$p}${X_SCLS%% #}%F{$c}) %B%F{$vp}::%b "
+else
+  psvar[3]=
+fi
