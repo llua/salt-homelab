@@ -1,0 +1,102 @@
+#compdef machinectl
+
+(( $+functions[_machinectl_command] )) || _machinectl_command()
+{
+  local -a _machinectl_cmds
+  _machinectl_cmds=(
+    "list:List currently running VMs/containers"
+    "status:Show VM/container status"
+    "show:Show properties of one or more VMs/containers"
+    "start:Start container as a service"
+    "stop:Stop container (equal to poweroff)"
+    "login:Get a login prompt on a VM/container"
+    "enable:Enable automatic container start at boot"
+    "disable:Disable automatic container start at boot"
+    "poweroff:Power off one or more VMs/containers"
+    "reboot:Reboot one or more VMs/containers"
+    "terminate:Terminate one or more VMs/containers"
+    "kill:Send signal to process or a VM/container"
+    "copy-to:Copy files from the host to a container"
+    "copy-from:Copy files from a container to the host"
+    "bind:Bind mount a path from the host into a container"
+
+    "list-images:Show available container and VM images"
+    "image-status:Show image details"
+    "show-image:Show properties of image"
+    "clone:Clone an image"
+    "rename:Rename an image"
+    "read-only:Mark or unmark image read-only"
+    "remove:Remove an image"
+
+    "pull-tar:Download a TAR container image"
+    "pull-raw:Download a RAW container or VM image"
+    "list-transfers:Show list of downloads in progress"
+    "cancel-transfer:Cancel a download"
+  )
+
+  if (( CURRENT == 1 )); then
+    _describe -t commands 'machinectl command' _machinectl_cmds || compadd "$@"
+  else
+    local curcontext="$curcontext"
+    cmd="${${_machinectl_cmds[(r)$words[1]:*]%%:*}}"
+    if (( $#cmd )); then
+      case $cmd in
+        copy-to|copy-from|bind)
+          _arguments '1: : _sd_machines' {2,3}': : _files';;
+        clone|rename)
+          _arguments '1: : _sd_machines' '2:new name';;
+        shell)
+          case $CURRENT in
+            2)
+              if compset -P '*@'; then
+                _sd_machines
+              elif compset -S '@*'; then
+                _users
+              fi;;
+            <3->)
+              _normal
+          esac;;
+        read-only)
+          _arguments '1: : _sd_machines' '2:boolean:(true false)';;
+        set-limit)
+          _arguments '1: : _sd_machines' '2:size';;
+        pull-(tar|raw))
+          _arguments '1: : _urls' '2:new name';;
+        import-(tar|raw))
+          _arguments '1: : _files' '2:new name';;
+        export-(tar|raw))
+          _arguments '1: : _sd_machines -t i' '2: : _files';;
+        list*|cancel-transfer)
+          _nothing;;
+        start)
+          _sd_machines -t i;;
+        *)
+          _sd_machines
+      esac
+    else
+      _default
+    fi
+  fi
+}
+
+_arguments \
+  {-h,--help}'[Prints a short help text and exits.]' \
+  '--version[Prints a short version string and exits.]' \
+  '--no-pager[Do not pipe output into a pager.]' \
+  '--no-legend[Do not show the headers and footers.]' \
+  '--no-ask-password[Do not ask for system passwords.]' \
+  {-H+,--host=}'[Operate on remote host.]:userathost:_sd_hosts_or_user_at_host' \
+  {-M+,--machine=}'[Operate on local container.]:machine:_sd_machines' \
+  {-p+,--property=}'[Limit output to specified property.]:property:(Name Id Timestamp TimestampMonotonic Service Scope Leader Class State RootDirectory)' \
+  {-a,--all}'[Show all proerties.]' \
+  {-q,--quiet}'[Suppress output.]' \
+  {-l,--full}'[Do not ellipsize cgroup members.]' \
+  '--kill-who=[Who to send signal to.]:killwho:(leader all)' \
+  {-s+,--signal=}'[Which signal to send.]:signal:_signals' \
+  '--read-only[Create read-only bind mount.]' \
+  '--mkdir[Create directory before bind mounting, if missing.]' \
+  {-n+,--lines=}'[Number of journal entries to show.]:integer' \
+  {-o+,--output=}'[Change journal output mode.]:output modes:_sd_outputmodes' \
+  '--verify=[Verification mode for downloaded images.]:verify:(no checksum signature)' \
+  '--force[Download image even if already exists.]' \
+  '*::machinectl command:_machinectl_command'

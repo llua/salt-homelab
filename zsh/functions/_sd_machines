@@ -1,14 +1,13 @@
 #autoload
+local -Ua _machines type
+local typeverb=list
 
-local -Ua _machines
-local a b
-machinectl --full --no-legend --no-pager list |
-        while read -r a b; do
-                _machines+=($a)
-        done
+zparseopts -D -E -a type t+:
+[[ -n $type[(r)i] ]] && typeverb=list-images
 
-if [[ -n "$_machines" ]]; then
-        _describe -t systemd-machines 'machines' _machines
+_machines=(${${(f)"$(_call_program systemd-machines machinectl --full --no-legend --no-pager $typeverb)"}%% *})
+if (( $#_machines )); then
+        _describe 'machines' _machines
 else
         _message 'no machines'
 fi
