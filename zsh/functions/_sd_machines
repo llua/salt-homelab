@@ -5,7 +5,7 @@ local typeverb=list
 zparseopts -D -E -a type t+:
 [[ -n $type[(r)i] ]] && typeverb=list-images
 
-_machines=(${${(f)"$(_call_program systemd-machines machinectl --full --no-legend --no-pager $typeverb)"}%% *})
+_machines=(${${${(f)"$(_call_program systemd-machines machinectl --full --no-legend --no-pager $typeverb)"}:#No (machine|image)s.}%% *})
 if (( $#_machines )); then
         _describe 'machines' _machines
 else
