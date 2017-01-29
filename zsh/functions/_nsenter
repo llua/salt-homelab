@@ -1,7 +1,6 @@
 #compdef nsenter
 
-local _desc context state state_descr line ret=1
-typeset -A opt_args
+local _desc ret=1
 
 _arguments : \
   '--preserve-credentials[do not modify UID and GID when enter user namespace]' \
@@ -22,12 +21,6 @@ _arguments : \
   '(-V --version)'{-V,--version}'[display version information and exit]' \
   '(-h --help)'{-h,--help}'[display help text and exit]' \
   '1: : _command_names -e' \
-  '*:: := ->normal' && ret=0
-
-if [[ $state == normal ]]; then
-  local expl
-  shift words; (( CURRENT-- ))
-  _normal && ret=0
-fi
+  '*::: :{ if (( CURRENT == 1 )); then _command_names -e; else _normal; fi }' && ret=0
 
 return $ret
