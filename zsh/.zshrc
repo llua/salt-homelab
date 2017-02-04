@@ -256,7 +256,7 @@ bindkey -M emacs '^[!'                  expand-history
 bindkey '^Z' undo
 zle -N edit-command-line
 bindkey -M viins '^E'                   edit-command-line
-bindkey -M vicmd '^E'                   edit-command-line
+bindkey -M vicmd 'v'                    edit-command-line
 # ft's function
 typeset -A key
 key=(
