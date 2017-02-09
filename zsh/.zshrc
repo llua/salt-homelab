@@ -77,12 +77,14 @@ zstyle ':completion:*'              menu              select
 zstyle ':completion:*:default'      list-colors       'ma=01;07;35' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
 zstyle ':completion::complete:vim:option-u-1:*' \
                                     fake              NONE
+zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
+                                    tag-order         'users:-normal:misc\ users users hosts:-normal:misc\ hosts hosts'
 # username completion
-zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
-                                    users             llua arx root
+zstyle ':completion:*:users'        ignored-patterns  '*'
+zstyle ':completion:*:users'        fake-always       llua arx root
 # hostname completion
-zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
-                                    hosts             umbra ansuz corbenik netslum nypumi caerleon-medb sakubo tarvos fidchell login1 login2
+zstyle ':completion:*:hosts'        ignored-patterns  '*'
+zstyle ':completion:*:hosts'        fake-always       umbra ansuz corbenik netslum nypumi caerleon-medb sakubo tarvos aurora fidchell login1 login2
 # completion of pids
 zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
