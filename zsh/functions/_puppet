@@ -1,5 +1,5 @@
 #compdef puppet
-# based on puppet 3.8.4
+# based on puppet 3.8.4 and a bit of 4.6.2
 # will implement as needed
 
 _puppet() {
@@ -7,11 +7,11 @@ _puppet() {
   typeset -A opt_args; local -a subcommands args
   subcommands=(
     agent apply ca catalog cert
-    certificate{,_{request,revocation_list}} 
-    config describe device doc facts file filebucket
-    help inspect instrumentation_{data,listener,probe}
-    key kick man master module node parser plugin queue
-    report resource{,_type} secret_agent status
+    certificate{,_{request,revocation_list}}
+    config describe device doc epp facts file
+    filebucket help inspect key man master
+    module node parser plugin
+    report resource{,_type} status
   )
 
   if [[ $service == 'puppet' ]]; then
@@ -54,7 +54,7 @@ _puppet() {
         '(-l --logdest)'{-l,--logdest}'[logfile destination]:destination: _alternative "logdest\:logdest\:(syslog console)" "files\:files\:_files"'
         '--noop[dry-run mode]'
         '--catalog[apply a JSON catalog]:catalog:_files'
-        '1:manifest:_files' 
+        '1:manifest:_files'
       )
       ;;
     ('cert')
