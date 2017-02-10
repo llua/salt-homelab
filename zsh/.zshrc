@@ -81,10 +81,12 @@ zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
                                     tag-order         'users:-normal:misc\ users users hosts:-normal:misc\ hosts hosts'
 # username completion
 zstyle ':completion:*:users'        ignored-patterns  '*'
-zstyle ':completion:*:users'        fake-always       llua arx root
+zstyle ':completion:*:users'        fake-always       ${(A)reply::={llua,arx,root}}
+zstyle ':completion:*:users-normal' ignored-patterns  $reply
 # hostname completion
 zstyle ':completion:*:hosts'        ignored-patterns  '*'
-zstyle ':completion:*:hosts'        fake-always       umbra ansuz corbenik netslum nypumi caerleon-medb sakubo tarvos aurora fidchell login1 login2
+zstyle ':completion:*:hosts'        fake-always       ${(A)reply::={umbra,ansuz,corbenik,netslum,nypumi,caerleon-medb,sakubo,tarvos,aurora,fidchell,login1,login2}}
+zstyle ':completion:*:hosts-normal' ignored-patterns  $reply
 # completion of pids
 zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
