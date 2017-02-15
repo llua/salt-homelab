@@ -1,6 +1,8 @@
 include:
   - salt.minion
   - packages
+  - zsh
+  - vim
   - users
   - openssh
   - openssh.config
@@ -10,7 +12,7 @@ include:
   {% if grains['os'] == 'CentOS' %}
   - epel
   {% endif %}
-  {% if grains['linux_lxc'] == false %}
+  {% if grains['linux_lxc'] == false and grains['virtual'] != 'systemd-nspawn' %}
   - ntp
   - sysctl.param
   {% endif %}
@@ -21,8 +23,4 @@ include:
   - ntp
   - sysctl.param
   {% endif %}
-{% endif %}
-{% if 'nexcess.net' not in grains['id'] %}
-  - zsh
-  - vim
 {% endif %}
