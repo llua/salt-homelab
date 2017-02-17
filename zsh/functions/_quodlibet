@@ -1,0 +1,47 @@
+#compdef quodlibet
+
+_arguments : \
+  '--enqueue=[enqueue a file or query]:filename or query:_files' \
+  '--enqueue-files=[enqueue comma-separated files]: : _sequence -s , _files' \
+  '--filter=[filter on a tag value]:tag' \
+  '--focus[focus the running player]' \
+  '--force-previous[jump to previous song]' \
+  '--hide-window[hide main window]' \
+  '--list-browsers[list available browsers]' \
+  '--next[jump to next song]' \
+  '--no-plugins[start without plugins]' \
+  '--open-browsers=[open a new browser]:browser' \
+  '--pause[pause playback]' \
+  '--play[start playback]' \
+  '--play-file=[play a file]: : _files' \
+  '--play-pause[toggle play/pause mode]' \
+  '--previous[jump to previous song or restart if near the beginning]' \
+  '--print-playing[print the playing song and exit]' \
+  '--print-playlist[print the current playlist]' \
+  '--print-query=[print filenames of results of query to stdout]:query' \
+  '--print-query-text[print the active text query]' \
+  '--print-queue[print the contents of the queue]' \
+  '--query=[search your audio library]:query' \
+  '--queue=[show or hide the queue]:state:(("on\:show" "off\:hide" "t\:toggle"))' \
+  '--quit[exit Quod Libet]' \
+  '--random=[filter on a random value]:tag' \
+  '--refresh[refresh and rescan library]' \
+  '--repeat=[turn repeat off, on, or toggle it]:state:(("1\:on" "0\:off" "t\:toggle"))' \
+  '--run[idempotently start Quod Libet]' \
+  '--seek=[seek within the playing song]:offset' \
+  '--set-browser=[set the current browser]:browser' \
+  '--set-rating=[rate the playing song]:rating' \
+  '--show-window[show main window]' \
+  '--shuffle=[set or toggle shuffle mode]:state:(("1\:on" "0\:off" "t\:toggle"))' \
+  '--start-playing[begin playing immediately]' \
+  '--status[print player status]' \
+  '--stop[stop playback]' \
+  '--stop-after=[stop after the playing song]:state:(("1\:on" "0\:off" "t\:toggle"))' \
+  '--toggle-window[toggle main window visibility]' \
+  '--unfilter[remove active browser filters]' \
+  '--unqueue=[unqueue a file or query]:filename or query:_files' \
+  '--volume=[set the volume]:volume (absolute or +/- value)' \
+  '--volume-down[turn down volume]' \
+  '--volume-up[turn up volume]' \
+  '--help[display brief usage information]' \
+  '--version[display version and copyright]'
