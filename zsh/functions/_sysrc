@@ -42,14 +42,14 @@ _sysrc() {
       else
         opt=N
       fi
-      
+
       if ! zstyle -m ":completion:${curcontext}:*" cache-policy '*'; then
         zstyle ":completion:${curcontext}:" cache-policy _sysrc_caching_policy
       fi
 
       if _cache_invalid sysrc/rc_conf_vars ||
          ! _retrieve_cache sysrc/rc_conf_vars; then
- 
+
         sysrc -A$opt | while read -r k v; do
           [[ $k = DEBUG* ]] && continue
           if [[ -z $v ]]; then
@@ -65,9 +65,9 @@ _sysrc() {
 
       if (( $#rc_conf_vars )); then
         if [[ $opt == N ]]; then
-          _values -w -C variable ${^rc_conf_vars%%\[*}'::value'
+          _values -w variable ${^rc_conf_vars%%\[*}'::value'
         else
-          _values -w -C variable ${^rc_conf_vars}'::value'
+          _values -w variable ${^rc_conf_vars}'::value'
         fi
       fi
     fi
