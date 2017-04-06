@@ -1,3 +1,6 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 "Features
 syntax on           " Syntax Highlighting
 set confirm         " ask to save when quiting a buffer that wasn't saved
