@@ -25,6 +25,8 @@ mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 [[ $ZSH_VERSION == *-dev* ]] && manpath=( ~/.local/share/man(/N) )
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
 READNULLCMD=less
+TIMEFMT='%J  %U user %S system %P cpu %*E total'
+REPORTTIME=60
 
 # colourssssssssssssssssssssssssssssssssssssss
 autoload -Uz colors && colors
