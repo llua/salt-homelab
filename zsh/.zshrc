@@ -47,8 +47,8 @@ hash -d tmp=$HOME/.local/tmp/
 
 zstyle ':prompt:arx:'               users             llua ecook arx root
 zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb}.mac-anu.org
-zstyle ':prompt:arx:'               primary-color     24
-zstyle ':prompt:arx:'               secondary-color   45
+zstyle ':prompt:arx:'               primary-color     24 #  39 199
+zstyle ':prompt:arx:'               secondary-color   45 # 105 210
 zstyle ':prompt:arx:'               delimiter-color   219
 zstyle ':prompt:arx:'               primary-color-8colors \
                                                       6
