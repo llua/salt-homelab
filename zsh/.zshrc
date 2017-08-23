@@ -66,7 +66,7 @@ zstyle ':completion:*'              verbose           true
 zstyle ':completion:*'              extra-verbose     true
 # if a description isn't defined, use the option's description (from -h|--help)
 zstyle ':completion:*'              auto-description  'specify: %d'
-# default seperator between option -- description
+# default seperator between option -- description, update list-colors if changed.
 zstyle ':completion:*'              list-separator    '::'
 zstyle ':completion:*'              completer         _expand _complete _correct _approximate
 # message telling you what you are completing
@@ -77,6 +77,7 @@ zstyle ':completion:*'              group-name        ''
 zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
 zstyle ':completion:*:default'      list-colors       'ma=01;07;35' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:options'      list-colors       '=(#s)(#b)[[:space:]]#*[[:space:]]#(::)[[:space:]]#(*)(#B)(#e)=0=38;5;219=38;5;24'
 zstyle ':completion::complete:vim:option-u-1:*' \
                                     fake              NONE
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
