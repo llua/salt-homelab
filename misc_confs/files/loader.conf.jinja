@@ -1,6 +1,6 @@
 # this file is managed by saltstack
 # any changes will be reverted during the next highstate
 
-{% for key, value in pillar.get('loader_conf', {}).iteritems() -%}
+{% for key, value in pillar.get('loader_conf', {}).iteritems() | sort -%}
 {{ key }}={{ value }}
 {% endfor %}
