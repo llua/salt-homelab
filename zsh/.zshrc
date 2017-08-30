@@ -56,7 +56,7 @@ zstyle ':prompt:arx:'               secondary-color-8colors \
                                                       6
 zstyle ':prompt:arx:'               delimiter-color-8colors \
                                                       5
-zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi,aina}{,.mac-anu.org}
+zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi,corbenik,aina}{,.mac-anu.org}
 # separate man page completion by section.
 zstyle -e ':completion:*:manuals.*' insert-sections   'if [[ $OSTYPE = solaris* ]]; then reply=(false); else reply=(true); fi'
 zstyle ':completion:*:manuals'      separate-sections true 
