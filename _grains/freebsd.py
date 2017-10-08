@@ -6,7 +6,7 @@ def freebsd_jailed():
   __salt__ = {
                'cmd.run_stdout': salt.modules.cmdmod.run_stdout
              }
-    grains = { 'freebsd_jailed': False }
+  grains = { 'freebsd_jailed': False }
 
   if 'FreeBSD' in platform.uname():
     if int(__salt__['cmd.run_stdout'](
