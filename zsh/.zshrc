@@ -46,7 +46,7 @@ hash -d tmp=$HOME/.local/tmp/
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 zstyle ':prompt:arx:'               users             llua ecook arx root
-zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb}.mac-anu.org
+zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb,al-fadel}.mac-anu.org
 zstyle ':prompt:arx:'               primary-color     24 #  39 199
 zstyle ':prompt:arx:'               secondary-color   45 # 105 210
 zstyle ':prompt:arx:'               delimiter-color   219
@@ -88,7 +88,7 @@ zstyle ':completion:*:users'        fake-always       ${(A)reply::={llua,arx,roo
 zstyle ':completion:*:users-normal' ignored-patterns  $reply
 # hostname completion
 zstyle ':completion:*:hosts'        ignored-patterns  '*'
-zstyle ':completion:*:hosts'        fake-always       ${(A)reply::={umbra,ansuz,corbenik,netslum,nypumi,caerleon-medb,sakubo,tarvos,aurora,fidchell,login1,login2}}
+zstyle ':completion:*:hosts'        fake-always       ${(A)reply::={umbra,ansuz,corbenik,netslum,nypumi,caerleon-medb,al-fadel,sakubo,tarvos,aurora,fidchell,login1,login2}}
 zstyle ':completion:*:hosts-normal' ignored-patterns  $reply
 # completion of pids
 zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
