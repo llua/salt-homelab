@@ -1,0 +1,4 @@
+local w h mw mh
+source <(identify -format 'w=%w\nh=%h\n' $REPLY)
+mw=${1:-1000} mh=${2:-1000}
+(( w <= mw )) && (( h <= mh ))
