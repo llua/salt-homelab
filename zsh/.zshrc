@@ -81,7 +81,7 @@ zstyle ':completion:*'              list-colors       '=(#s)(#b)[[:space:]]#*[[:
 zstyle ':completion::complete:vim:option-u-1:*' \
                                     fake              NONE
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
-                                    tag-order         'users:-normal:misc\ users users hosts:-normal:misc\ hosts hosts'
+                                    tag-order         'users:-normal:local\ user users hosts:-normal:hashed\ host hosts'
 # username completion
 zstyle ':completion:*:users'        ignored-patterns  '*'
 zstyle ':completion:*:users'        fake-always       ${(A)reply::={llua,arx,root}}
