@@ -1,0 +1,17 @@
+#compdef pstree
+
+_arguments -s -A '-*' : \
+  '(-a --arguments)'{-a,--arguments}'[show command line arguments]' \
+  '(-A --ascii -G --vt100 -U --unicode)'{-A,--ascii}'[use ASCII characters to draw the tree]' \
+  '(-c --compact)'{-c,--compact}'[disable compaction of identical subtrees]' \
+  '(-A --ascii -G --vt100 -U --unicode)'{-G,--vt100}'[use VT100 line drawing characters]' \
+  '(-h --highlight-all)'{-h,--highlight-all}'[highlight the current process and its ancestors]' \
+  '(-H --highlight-pid)'{-H+,--highlight-pid}'[highlight the specified process]: : _sequence _pids' \
+  '(-l --long)'{-l,--long}'[display long lines]' \
+  '(-n --numeric-sort)'{-n,--numeric-sort}'[sort processes with the same ancestor by PID]' \
+  '(-p --show-pids)'{-p,--show-pids}'[show PIDs]' \
+  '(-u --uid-changes)'{-u,--uid-changes}'[show uid transitions]' \
+  '(-A --ascii -G --vt100 -U --unicode)'{-U,--unicode}'[use UTF-8 line drawing characters]' \
+  '(-)'{-V,--version}'[display version information]::: :' \
+  '(-Z --security-context)'{-Z,--security-context}'[show security context for each process]' \
+  '1: :{ _alternative "users:user:_users" "processes:process:_pids" }'
