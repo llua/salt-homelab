@@ -1,0 +1,1 @@
+RI='--format ansi' command ri "$@"

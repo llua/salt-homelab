@@ -1,0 +1,10 @@
+grep() {
+  case $OSTYPE in
+    *linux*)
+      GREP_COLORS='ms=01;36:mc=01;36:sl=:cx=:fn=40;36:ln=40;01;36:bn=312:se=40;01' \
+      command grep --color=auto "$@"
+    ;;
+    *)
+      command grep "$@"
+  esac
+}

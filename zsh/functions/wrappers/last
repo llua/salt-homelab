@@ -1,0 +1,3 @@
+last() {
+  command last "$@" | awk '{a[i++]=$0} END {while (i--) print a[i]}'
+}

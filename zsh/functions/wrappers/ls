@@ -1,0 +1,12 @@
+ls() {
+  case $OSTYPE in
+    *linux*)
+      LS_COLORS=$LS_COLORS TIME_STYLE=long-iso command ls --color=auto --group-directories-first -X "$@"
+    ;;
+    freebsd*)
+      LSCOLORS=ExGxFxDaCxegAxabagacad CLICOLOR=1 command ls -I "$@"
+    ;;
+    *)
+      command ls "$@"
+  esac
+}
