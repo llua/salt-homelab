@@ -29,6 +29,7 @@ TIMEFMT='%J  %U user %S system %P cpu %*E total'
 REPORTTIME=60
 
 # autoload wrapper functions
+fpath=( ~/.config/functions/wrappers $fpath )
 autoload -Uz ~/.config/functions/wrappers/*(:t)
 # colourssssssssssssssssssssssssssssssssssssss
 autoload -Uz colors && colors
