@@ -236,14 +236,10 @@ bindkey -M viins '^?'                   backward-delete-char
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e[d'                 vi-backward-word
 bindkey -M vicmd '\e[d'                 vi-backward-word
-bindkey -M viins '^[OD'                 vi-backward-word
-bindkey -M vicmd '^[OD'                 vi-backward-word
 bindkey -M viins '\e[1;5D'              vi-backward-word
 bindkey -M vicmd '\e[1;5D'              vi-backward-word
 bindkey -M viins '\e[c'                 vi-forward-word
 bindkey -M vicmd '\e[c'                 vi-forward-word
-bindkey -M viins '^[OC'                 vi-forward-word
-bindkey -M vicmd '^[OC'                 vi-forward-word
 bindkey -M viins '\e[1;5C'              vi-forward-word
 bindkey -M vicmd '\e[1;5C'              vi-forward-word
 vi-exit() { print -sr -- $BUFFER; builtin exit; }; zle -N vi-exit; bindkey -M vicmd 'ZZ' vi-exit
@@ -337,6 +333,18 @@ bind2maps emacs             -- Right            forward-char
 bind2maps emacs             -- urxvt-Right      forward-char
 bind2maps       viins       -- BackSpace        backward-delete-char
 bind2maps       viins       -- urxvt-BackSpace  backward-delete-char
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+    zle-line-init() {
+        emulate -L zsh
+        printf '%s' ${terminfo[smkx]}
+    }
+    zle-line-finish() {
+        emulate -L zsh
+        printf '%s' ${terminfo[rmkx]}
+    }
+    zle -N zle-line-init
+    zle -N zle-line-finish
+fi
 
 stty start '' stop '' erase '^?'
 unfunction bind2maps; unset key reply
