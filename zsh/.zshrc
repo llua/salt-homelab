@@ -275,8 +275,9 @@ key=(
   Left              "${terminfo[kcub1]}"
   Right             "${terminfo[kcuf1]}"
   PageUp            "${terminfo[kpp]}"
-  PageDown          "${terminfo[knp]}" 
+  PageDown          "${terminfo[knp]}"
   BackSpace         "${terminfo[kbs]}"
+  Enter             "${terminfo[kent]}"
   urxvt-Home        '\e[7~'
   urxvt-End         '\e[8~'
   urxvt-Insert      '\e[2~'
@@ -310,6 +311,7 @@ function bind2maps () {
   done
 }
 
+bind2maps emacs viins vicmd -- Enter            accept-line
 bind2maps emacs             -- Home             beginning-of-line
 bind2maps emacs             -- urxvt-Home       beginning-of-line
 bind2maps       viins vicmd -- Home             vi-beginning-of-line
