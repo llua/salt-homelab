@@ -12,7 +12,7 @@ prompt_arx_setup() {
   zstyle -s ':prompt:arx:' primary-color c
   zstyle -s ':prompt:arx:' secondary-color p
   zstyle -s ':prompt:arx:' delimiter-color vp
-  
+
   if (( $(tput colors) == 8 )); then
     zstyle -s ':prompt:arx:' primary-color-8colors c
     zstyle -s ':prompt:arx:' secondary-color-8colors p
@@ -30,7 +30,7 @@ prompt_arx_setup() {
   fi
 
   if ! (( name[(I)${(%):-%n}] )); then
-    PROMPT="%F{$c}%n%B%F{$p}|%b$PROMPT"
+    PROMPT="%F{$c}%n%B%F{$p}@%b$PROMPT"
   fi
 
   unset RPROMPT
