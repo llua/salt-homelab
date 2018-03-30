@@ -24,9 +24,9 @@ prompt_arx_setup() {
   if  (( localhost[(I)$HOST] )) &&
       ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
       ! (( UID == 0 )); then
-    PROMPT="%F{$p}%B%#%b%f "
+    PROMPT="%F{$p}%B::%b%f "
   else
-    PROMPT="%F{$c}%m%f %F{$p}%B%#%b%f "
+    PROMPT="%F{$c}%m%f %F{$p}%B%(!.%#.::)%b%f "
   fi
 
   if ! (( name[(I)${(%):-%n}] )); then
