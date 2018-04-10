@@ -1,1 +1,1 @@
-ix.io() { curl -n -F 'f:1=<-' http://ix.io < ${1:-/dev/stdin}; }
+curl -n -F 'f:1=<-' http://ix.io < ${@:-/dev/stdin}
