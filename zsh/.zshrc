@@ -221,10 +221,12 @@ autoload -Uz run-help
 watch=(notme)
 
 # keybinds
+autoload -Uz select-word-style; select-word-style shell
 bindkey -v
 bindkey -M viins -r '\e/'
 bindkey -M vicmd 'd-d'                  kill-line
 bindkey -M vicmd 'D'                    vi-kill-eol
+bindkey -M viins '^W'                   backward-kill-word
 bindkey -M vicmd 'K'                    run-help
 bindkey -M viins '^H'                   backward-delete-char
 bindkey -M viins '\e.'                  insert-last-word
