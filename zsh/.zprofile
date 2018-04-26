@@ -4,6 +4,7 @@
   typeset -gU path
   # the -g is needed to prevent the tied parameter from becoming empty
   export EDITOR='vim' PAGER='less' PATH LESS='-XRSF'
+  [[ -f ~/.ssh/agent.env ]] && . ~/.ssh/agent.env
 
   case $OSTYPE in 
     (freebsd|solaris)*)
