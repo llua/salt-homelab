@@ -339,7 +339,7 @@ race_queens=(
 키무네 'gi_mune' # 'kimune'
 이송빈 'lee_song-bin'
 지후님 'jung_ji_hoo'
-서연양 'seo_yeon_yang'
+서연양 'seo_yeon_yang' # maybe park_ga_yeong
 박가영 'park_ga-yeong'
 김다영 'gim_da_young'
 이선아 'lee_sun-a'
@@ -347,4 +347,9 @@ race_queens=(
 소이 'soi'
 아영 'a-yeong'
 채영 'chae_young'
+세진양 'se_jin_yang'
+한나나 'han_na_na'
+소진 'sojin'
+설레나 'seol_re_na'
+은솔 'eun_sol'
 )
