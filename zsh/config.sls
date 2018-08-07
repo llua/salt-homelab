@@ -21,12 +21,13 @@ for user in users:
       ]
     )
   File.recurse('{0}/.config/functions'.format(salt.user.info(user)['home']),
-    user         = user,
-    group        = salt.user.info(user)['gid'],
-    file_mode    = 600,
-    dir_mode     = 700,
-    recurse      = True,
-    source       = [
+    user      = user,
+    group     = salt.user.info(user)['gid'],
+    file_mode = 600,
+    dir_mode  = 700,
+    recurse   = True,
+    clean     = True,
+    source    = [
       'salt://{0}/{1}-{2}-{3}'.format(__sls__, 'functions', grains('fqdn'), user),
       'salt://{0}/{1}-{2}-{3}'.format(__sls__, 'functions', grains('os'), user),
       'salt://{0}/{1}-{2}'.format(__sls__, 'functions', grains('fqdn')),
