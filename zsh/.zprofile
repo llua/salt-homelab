@@ -6,7 +6,10 @@
   export EDITOR='vim' PAGER='less' PATH LESS='-XRSF'
   [[ -f ~/.ssh/agent.env ]] && . ~/.ssh/agent.env
 
-  case $OSTYPE in 
+  case $OSTYPE in
+    *)
+      (( $+commands[ruby] )) && path+=( "$(ruby -e 'print Gem::user_dir + "/bin"')" )
+    ;|
     (freebsd|solaris)*)
       export MANWIDTH=tty
     ;|
