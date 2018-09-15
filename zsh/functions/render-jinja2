@@ -1,0 +1,17 @@
+(
+(( $+commands[python] )) || hash python=${commands[python2]}
+  python - "$@" <<\eof
+from __future__ import print_function
+from jinja2 import Template
+import sys
+import yaml
+
+with open(sys.argv[1]) as yaml_file:
+    context = yaml.load(yaml_file.read())
+
+with open(sys.argv[2]) as template:
+    template = Template(template.read())
+
+print(template.render(**context))
+eof
+)
