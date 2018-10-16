@@ -1,0 +1,3 @@
+# public ip, duh
+curl -4 ifconfig.co
+curl -6 ifconfig.co
