@@ -205,6 +205,7 @@ if [[ $OSTYPE == *linux* ]]; then
   fi
 fi
 
+unalias -m '*'
 if ! [[ $OSTYPE == (openbsd|solaris)* ]]; then
   alias cp='cp -i'
   alias mv='mv -i'
