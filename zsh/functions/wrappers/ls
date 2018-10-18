@@ -1,12 +1,14 @@
 ls() {
+  local -a args
   case $OSTYPE in
     *linux*)
-      LS_COLORS=$LS_COLORS TIME_STYLE=long-iso command ls --color=auto --group-directories-first -X "$@"
+      local -x LS_COLORS=$LS_COLORS TIME_STYLE=long-iso
+      args=(--color=auto --group-directories-first -X)
     ;;
     freebsd*)
-      LSCOLORS=ExGxFxDaCxegAxabagacad CLICOLOR=1 command ls -I "$@"
+      local -x LSCOLORS=ExGxFxDaCxegAxabagacad CLICOLOR=1
+      args=(-I)
     ;;
-    *)
-      command ls "$@"
   esac
+  command ls "${(@)args}" "$@"
 }
