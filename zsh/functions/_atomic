@@ -1,0 +1,186 @@
+#compdef atomic
+
+(( $+functions[_atomic-containers] )) ||
+_atomic-containers() {
+  local -a subcmds
+  subcmds=({delete,list,trim,update,rollback})
+
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '*::command:->subcmd' && return 0
+
+  if (( CURRENT == 1 )); then
+    _wanted commands expl "containers subcommand" compadd -a subcmds
+    return
+  fi
+
+  service="$words[1]"
+  curcontext="${curcontext%:*}-$service:"
+
+  case $service in
+    'delete')
+      _arguments -C -A "-*" \
+        '(-h --help)'{-h,--help}'[show this help message and exit]' \
+        '(-f --force)'{-f,--force}'[force removal of specified running containers]' \
+        '(-a --all)'{-a,--all}'[delete all containers]' \
+        '--storage[specify the storage from which to delete the container from]:storage' \
+        '*:container'
+      ;;
+    'list')
+      _arguments -C -A "-*" \
+        '(-h --help)'{-h,--help}'[show this help message and exit]' \
+        '(-a --all)'{-a,--all}'[show all containers]' \
+        '(-f --filter)'{-f,--filter}'[filter output based on conditions]:condition' \
+        '--json[print in a machine parseable form]' \
+        '(-n --noheading)'{-n,--noheading}'[do not print heading when listing the containers]' \
+        '--no-trunc[truncate output]' \
+        '(-q --quiet)'{-q,--quiet}'[only display container IDs]'
+      ;;
+    'trim')
+      _arguments -C -A "-*" '(-h --help)'{-h,--help}'[show this help message and exit]';;
+    'update')
+      _arguments -C -A "-*" \
+        '(-h --help)'{-h,--help}'[show this help message and exit]' \
+        '--rebase[rebase to a different image]:image' \
+        '(-a --all)'{-a,--all}'[update all containers]' \
+        '--set[specify a variable for a system container]:variable' \
+        '*:container'
+      ;;
+    'rollback') _arguments -C -A "-*" '(-h --help)'{-h,--help}'[show this help message and exit]';;
+  esac
+}
+
+(( $+functions[_atomic-diff] )) ||
+_atomic-diff() {
+  # TODO: figure out how to use _sequence with -k
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '(-m --metadata)'{-m,--metadata}'[compare images metadata]' \
+    '(-k --keywords)'{-k,--keywords}'[exclusive keywords to be used for file level comparision]:keyword:( {all,link,nlink,mode,type,time,uid,gid,size,sha256digest} )' \
+    '(-n --no-files)'{-n,--no-files}'[do not perform a file diff between the docker objects]' \
+    '--names-only[only compare RPM names and not versions]' \
+    '(-r --rpms)'{-r,--rpms}'[list different rpms between the container images]' \
+    '--json[output json]' \
+    '(-v --verbose)'{-v,--verbose}'[show verbose output, listing all RPMs]' \
+    '1:container or image' \
+    '2:container or image'
+}
+
+(( $+functions[_atomic-help] )) ||
+_atomic-help() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '1:image id or name'
+}
+
+(( $+functions[_atomic-install] )) ||
+_atomic-install() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '--storage[specify the storage]:storage' \
+    '(-n --name)'{-n,--name}'[name of container]:name' \
+    '--display[preview the command that /bin/atomic would execute]' \
+    '--user[install the image as an user image]' \
+    '--system[install a system container]' \
+    '--runtime[specify the OCI runtime]:runtime' \
+    '--rootfs[choose an existing exploded container/image to use its rootfs as a remote]:remote' \
+    '--set[specify a variable for a system container]:variable' \
+    '--system-package[control how to install the package]: :(auto yes no build)' \
+    '1:container image' \
+    '*:additional argument'
+}
+
+(( $+functions[_atomic-info] )) ||
+_atomic-info() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '--remote[ignore local images and only scan registries]' \
+    '--storage[specify the storage of the image]:storage' \
+    '1:image'
+}
+
+(( $+functions[_atomic-pull] )) ||
+_atomic-pull() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '--storage[specify the storage of the image]:storage' \
+    '--src-creds[credentials to use for registry]:credentials' \
+    '(-t --type)'{-t,--type}'[pull from an alternative registry type]:registry type' \
+    '1:image id'
+}
+
+(( $+functions[_atomic-push] )) ||
+_atomic-push() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '(-u --username -p --password)--anonymous[push images without a username or password]' \
+    '--pulp[push image using pulp]' \
+    '--satellite[push image using Satellite]' \
+    '--verify_ssl[flag to verify ssl of registry]' \
+    '(-U --url)'{-U,--url}'[URL for remote registry]:URL' \
+    '(--anonymous -u --username)'{-u,--username}'[username for remote registry]:username' \
+    '(--anonymous -p --password)'{-p,--password}'[password for remote registry]:password' \
+    '(-a --activation_key)'{-a,--activation_key}'[activation key]:key' \
+    '(-r --repository_id)'{-r,--repository_id}'[repository id]:repository id' \
+    '(-t --type)'{-t,--type}'[pull from an alternative registry type]:registry type:(docker atomic)' \
+    '--sign-by[name of the signing key]:signing key name' \
+    '(-g --gnupghome)'{-g,--gnupghome}'[set the GNUPGHOME environment variable]: : _files -/' \
+    '--insecure[do not check registry certificates]' \
+    '1:image id'
+}
+
+(( $+functions[_atomic-mount] )) ||
+_atomic-mount() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '(-o --options)'{-o,--options}'[comma-separated list of mount options]:options' \
+    '--live[mount a running container]' \
+    '--shared[mount a container image in a "shared"]' \
+    '--storage[specify the storage of the image]:storage' \
+    '1:image or container id' \
+    '2:mountpoint:_files -/'
+}
+
+(( $+functions[_atomic-umount] )) ||
+_atomic-umount() {
+  _arguments -C -A "-*" \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '1:mountpoint:_files -/'
+}
+
+_atomic() {
+  local -a subcmds
+  local cmdname=$service subcmdcompleter
+
+  subcmds=(
+    containers diff help images host info install mount pull
+    push upload run scan sign stop storage migrate top trust
+    uninstall unmount umount update verify version
+  )
+
+  if [[ $service == $cmdname ]]; then
+    _arguments -C -A "-*" \
+      '(-h --help)'{-h,--help}'[show this help message and exit]' \
+      '(-v --version)'{-v,--version}'[show atomic version and exit]' \
+      '(-i --ignore)'{-i,--ignore}'[ignore install-first requirement]' \
+      '--debug[show debug messages]' \
+      '(-y --assumeyes)'{-y,--assumeyes}'[automatically answer yes for all questions]' \
+      '*::command:->subcmd' && return 0
+
+    if (( CURRENT == 1 )); then
+      _wanted commands expl "atomic subcommand" compadd -a subcmds
+      return
+    fi
+    service="$words[1]"
+    curcontext="${curcontext%:*}-$service:"
+  fi
+
+
+  if (( $+functions[${subcmdcompleter:=_$cmdname-$service}] )); then
+    local ret=1
+    $subcmdcompleter && ret=0
+    return $ret
+  fi
+}
+
+_atomic "$@"
