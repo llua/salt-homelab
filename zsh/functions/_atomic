@@ -79,7 +79,7 @@ _atomic-install() {
     '(-h --help)'{-h,--help}'[show this help message and exit]' \
     '--storage[specify the storage]:storage' \
     '(-n --name)'{-n,--name}'[name of container]:name' \
-    '--display[preview the command that /bin/atomic would execute]' \
+    '--display[preview the command that atomic would execute]' \
     '--user[install the image as an user image]' \
     '--system[install a system container]' \
     '--runtime[specify the OCI runtime]:runtime' \
@@ -97,7 +97,7 @@ _atomic-uninstall() {
     '(-n --name)'{-n,--name}'[name of container]:name' \
     '(-f --force)'{-f,--force}'[remove all containers based on this image]' \
     '--storage[specify the storage]:storage' \
-    '--display[preview the command that /bin/atomic would execute]' \
+    '--display[preview the command that atomic would execute]' \
     '1:container image' \
     '*:additional argument'
 }
@@ -167,6 +167,23 @@ _atomic-version() {
     '(-r --recurse)'{-r,--recurse}'[recurse through all layers]' \
     '--storage[specify the storage of the image]:storage' \
     '1:image'
+}
+
+(( $+functions[_atomic-run] )) ||
+_atomic-run() {
+  _arguments -C -A '-*' \
+    '(-h --help)'{-h,--help}'[show this help message and exit]' \
+    '(-r --replace)'{-r,--replace}'[replaces an existing container by the same name]' \
+    '--storage[specify the storage of the image]:storage' \
+    '(-n --name)'{-n,--name}'[name of container]:name' \
+    '--spc[use super privileged container mode]' \
+    '(-d --detach)'{-d,--detach}'[run the container in the background]' \
+    '--runtime[specify the OCI runtime]:runtime' \
+    '--set[specify a variable for a system container]:variable' \
+    '(-q --quiet)'{-q,--quiet}'[only display container IDs]' \
+    '--display[preview the command that atomic would execute]' \
+    '1:image' \
+    '*::: :{ if (( CURRENT == 1 )); then _command_names -e; else _normal; fi }'
 }
 
 (( $+functions[_atomic-verify] )) ||
