@@ -184,6 +184,7 @@ _atomic-run() {
     '--display[preview the command that atomic would execute]' \
     '1:image' \
     '*::: :{ if (( CURRENT == 1 )); then _command_names -e; else _normal; fi }'
+    # NOTE: making no costly attempt of completing commands from within the container
 }
 
 (( $+functions[_atomic-verify] )) ||
