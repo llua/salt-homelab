@@ -85,6 +85,8 @@ au BufRead,BufNewFile *.sls setfiletype yaml.jinja
 au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
+" the python community prefers 4 spaces indents or tabs
+au FileType python setlocal shiftwidth=4 softtabstop=4
 
 au BufNewFile Gemfile 0r ~/.vim/skel/Gemfile
 " jump to the line you was previously at after opening a file
