@@ -1,0 +1,2 @@
+lsof -Di -- $REPLY >/dev/null 2>&1
+(( $? ))
