@@ -1,0 +1,4 @@
+for z in "$@"; do
+  mkdir -p ${d::=/mnt/storage/audio/music/${z%% - *}/${${z#* - }:r}}
+  unzip -od $d -- $z
+done
