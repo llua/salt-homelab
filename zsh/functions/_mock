@@ -51,7 +51,7 @@ _arguments -C -s -w : \
   '--shell[execute command inside a chroot]: :{ compset -q; _normal }' \
   '--installdeps[find and install deps of a S/RPM]:S/RPM:_files' \
   '--update[update package(s)]:* --update *:packages:->packages' \
-  {-i,--install}'[install package(s)]:* \(-i|--install\) *: :->packages' \
+  {-i,--install}'[install package(s)]:* \(-i|--install\) *:: :->packages' \
   '--remove[remove package(s)]:* --remove *:packages:->packages' \
   '--orphanskill[no-op mode]' \
   {-p,--print-root-path}'[print a path to the currently used chroot directory]' \
@@ -76,6 +76,6 @@ case $state in
   packages)
     # TODO: use the caching functions, not pollute shell state
     (( $+_rpm_names )) || _rpm_names=($(rpm -qa --qf '%{name}\n'))
-    _values -w package $_rpm_names
+    _describe package _rpm_names -F words
   ;;
 esac
