@@ -21,9 +21,9 @@ elif (( $+opts[-d])); then
 else
   if (( $+VIRTUAL_ENV )); then
     if [[ $VIRTUAL_ENV = */venv ]]; then
-      psvar[1]="%F{$c\}%Bvenv(%F{$p\}${VIRTUAL_ENV:h:t}%F{$c\}) %B%F{$vp\}::%b "
+      psvar[1]="%F{$c}%Bvenv(%F{$p}${VIRTUAL_ENV:h:t}%F{$c}) %B%F{$vp}::%b "
     else
-      psvar[1]="%F{$c\}%Bvenv(%F{$p\}${VIRTUAL_ENV:t}%F{$c\}) %B%F{$vp\}::%b "
+      psvar[1]="%F{$c}%Bvenv(%F{$p}${VIRTUAL_ENV:t}%F{$c}) %B%F{$vp}::%b "
     fi
   else
     psvar[1]=
