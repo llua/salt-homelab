@@ -13,7 +13,9 @@ include:
   - epel
   {% endif %}
   {% if grains['linux_lxc'] == false and grains['virtual'] != 'systemd-nspawn' %}
+  {% if grains['osmajorrelease'] != 8 %}
   - ntp
+  {% endif %}
   - sysctl.param
   {% endif %}
 {% endif %}
