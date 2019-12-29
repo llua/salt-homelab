@@ -21,15 +21,14 @@
         export GROFF_NO_SGR=1
       fi
       if [[ -f /etc/SuSE-release ]]; then
-        path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
+        path=( /sbin /usr/sbin "$path[@]" )
         unsetopt globalrcs
-      else
-        path+=( ~/(|.local/)#bin(/N) )
       fi
     ;;
     solaris*)
       path=(/sbin /usr/sbin $path)
     ;;
   esac
+  path+=( ~/(|.local/)#bin(/N) )
 }
 
