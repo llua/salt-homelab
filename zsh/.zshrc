@@ -159,7 +159,7 @@ zstyle ':completion:*:*:perl:*:*'   file-patterns     '*(-/):directories:directo
 zstyle ':completion::complete:perl:option-M-1:' \
                                     use-cache         true
 zstyle ':completion::complete:salt(|-cp|-call):minions:' \
-                                    cache-ttl         7 days
+                                    cache-ttl         60 days
 zstyle ':completion::complete:journalctl:option-b-1:' \
                                     sort              false
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
