@@ -1,0 +1,2 @@
+local json
+salt-run state.event tagmatch='minion_ping' | while read -r _ json; do jq -r '.id + " " + ._stamp' <<<$json; done
