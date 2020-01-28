@@ -21,7 +21,7 @@
         export GROFF_NO_SGR=1
       fi
       if [[ -f /etc/SuSE-release ]]; then
-        path=( /sbin /usr/sbin "$path[@]" )
+        path=( /sbin /usr/sbin "$path[@]" ~/(|.local/)#bin(/N) )
         unsetopt globalrcs
       fi
     ;;
