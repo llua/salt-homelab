@@ -13,7 +13,7 @@ include:
   - epel
   {% endif %}
   {% if grains['linux_lxc'] == false and grains['virtual'] != 'systemd-nspawn' %}
-  {% if grains['osmajorrelease'] != 8 %}
+  {% if grains.get('osmajorrelease', 0) != 8 %}
   - ntp
   {% else %}
   - chrony
