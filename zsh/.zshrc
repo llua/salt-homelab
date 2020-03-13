@@ -49,7 +49,7 @@ hash -d tmp=$HOME/.local/tmp/
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 zstyle ':prompt:arx:'               users             llua ecook arx root
-zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb,al-fadel}.mac-anu.org
+zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb,al-fadel}.mac-anu.org NEXCESS-AST-000239
 zstyle ':prompt:arx:'               primary-color     24 #  39 199
 zstyle ':prompt:arx:'               secondary-color   45 # 105 210
 zstyle ':prompt:arx:'               delimiter-color   219
@@ -59,7 +59,7 @@ zstyle ':prompt:arx:'               secondary-color-8colors \
                                                       6
 zstyle ':prompt:arx:'               delimiter-color-8colors \
                                                       5
-zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi,corbenik,aina}{,.mac-anu.org}
+zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi,corbenik,aina}{,.mac-anu.org} NEXCESS-AST-000239
 # separate man page completion by section.
 zstyle -e ':completion:*:manuals.*' insert-sections   'if [[ $OSTYPE = solaris* ]]; then reply=(false); else reply=(true); fi'
 zstyle ':completion:*:manuals'      separate-sections true 
