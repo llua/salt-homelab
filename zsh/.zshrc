@@ -182,6 +182,7 @@ zstyle ':completion:*'              accept-exact      false
 zstyle ':completion:*'              matcher-list      '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=* l:|=*'
 zstyle ':completion:*'              select-prompt     %SScrolling active: current selection at %p%s
 zstyle ':completion:*'              use-compctl       false
+zstyle ':completion:*'              rehash            true
 autoload -Uz compinit
 compinit
 
