@@ -1,0 +1,14 @@
+#autoload
+
+local c p vp
+typeset -A opts
+
+zstyle -s ':prompt:arx:' primary-color c
+zstyle -s ':prompt:arx:' secondary-color p
+zstyle -s ':prompt:arx:' delimiter-color vp
+
+if (( $+BUNDLE_GEMFILE )); then
+  psvar[4]="%F{$c}%BGemfile(%F{$p}${BUNDLE_GEMFILE:h:t}%F{$c}) %B%F{$vp}::%b "
+else
+  psvar[4]=
+fi
