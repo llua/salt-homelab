@@ -1,0 +1,1 @@
+print -rz -- 'ffmpeg -i VIDEO -ss 00:01:38 -i AUDIO -c copy -map 0:v:0 -map 1:a:0 -shortest OUTPUT'
