@@ -1,16 +1,25 @@
 (
-(( $+commands[python] )) || hash python=${commands[python2]}
-  python - "$@" <<\eof
+  python2 - "$@" <<\eof
 from __future__ import print_function
 from mako.template import Template
 import sys
 import yaml
 
-with open(sys.argv[1]) as yaml_file:
-    context = yaml.load(yaml_file.read())
+if sys.argv[1] == '--yaml':
+    _input = sys.argv[2]
+    for n in [1,2]:
+        sys.argv.pop(1)
 
-with open(sys.argv[2]) as template:
-    template = Template(template.read())
+context = {}
+try:
+    with open(_input) as yaml_file:
+        context = yaml.safe_load(yaml_file.read())
+except NameError:
+    pass
+
+for f in sys.argv[1:]:
+    with open(f) as template:
+        template = Template(template.read())
 
 print(template.render(**context).rstrip())
 eof
