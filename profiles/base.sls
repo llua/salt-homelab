@@ -23,6 +23,7 @@ include:
 {% endif %}
 {% if grains['kernel'] == 'FreeBSD' %}
   - misc_confs
+  - freebsd-update
   {% if grains['freebsd_jailed'] == false %}
   - ntp
   - sysctl.param

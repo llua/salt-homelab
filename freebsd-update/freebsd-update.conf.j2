@@ -1,0 +1,91 @@
+{%- macro directive(key) -%}
+{%- if key not in config -%}
+#{{ key }}
+{%- elif config[key] is string -%}
+{{ key }} {{ config[key] }}
+{%- elif config[key] is sequence -%}
+{%- for item in config[key] %}
+{{ key }} {{ item }}
+{%- endfor %}
+{%- endif -%}
+{%- endmacro -%}
+# Trusted keyprint.  Changing this is a Bad Idea unless you've received
+# a PGP-signed email from <security-officer@FreeBSD.org> telling you to
+# change it and explaining why.
+{{ directive('KeyPrint') }}
+
+# Server or server pool from which to fetch updates.  You can change
+# this to point at a specific server if you want, but in most cases
+# using a "nearby" server won't provide a measurable improvement in
+# performance.
+{{ directive('ServerName') }}
+
+# Components of the base system which should be kept updated.
+{{ directive('Components') }}
+
+# Example for updating the userland and the kernel source code only:
+# Components src/base src/sys world
+
+# Paths which start with anything matching an entry in an IgnorePaths
+# statement will be ignored.
+{{ directive('IgnorePaths') }}
+
+# Paths which start with anything matching an entry in an IDSIgnorePaths
+# statement will be ignored by "freebsd-update IDS".
+{{ directive('IDSIgnorePaths') }}
+
+# Paths which start with anything matching an entry in an UpdateIfUnmodified
+# statement will only be updated if the contents of the file have not been
+# modified by the user (unless changes are merged; see below).
+{{ directive('UpdateIfUnmodified') }}
+
+# When upgrading to a new FreeBSD release, files which match MergeChanges
+# will have any local changes merged into the version from the new release.
+{{ directive('MergeChanges') }}
+
+{{ directive('WorkDir') }}
+{{ directive('MailTo') }}
+{{ directive('AllowAdd') }}
+{{ directive('AllowDelete') }}
+{{ directive('KeepModifiedMetadata') }}
+{{ directive('StrictComponents') }}
+{{ directive('BackupKernel') }}
+{{ directive('BackupKernelDir') }}
+{{ directive('BackupKernelSymbolFiles') }}
+### Default configuration options:
+
+# Directory in which to store downloaded updates and temporary
+# files used by FreeBSD Update.
+# WorkDir /var/db/freebsd-update
+
+# Destination to send output of "freebsd-update cron" if an error
+# occurs or updates have been downloaded.
+# MailTo root
+
+# Is FreeBSD Update allowed to create new files?
+# AllowAdd yes
+
+# Is FreeBSD Update allowed to delete files?
+# AllowDelete yes
+
+# If the user has modified file ownership, permissions, or flags, should
+# FreeBSD Update retain this modified metadata when installing a new version
+# of that file?
+# KeepModifiedMetadata yes
+
+# When upgrading between releases, should the list of Components be
+# read strictly (StrictComponents yes) or merely as a list of components
+# which *might* be installed of which FreeBSD Update should figure out
+# which actually are installed and upgrade those (StrictComponents no)?
+# StrictComponents no
+
+# When installing a new kernel perform a backup of the old one first
+# so it is possible to boot the old kernel in case of problems.
+# BackupKernel yes
+
+# If BackupKernel is enabled, the backup kernel is saved to this
+# directory.
+# BackupKernelDir /boot/kernel.old
+
+# When backing up a kernel also back up debug symbol files?
+# BackupKernelSymbolFiles no
