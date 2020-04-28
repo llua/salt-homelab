@@ -85,6 +85,7 @@ au BufRead,BufNewFile *.sls setfiletype yaml.jinja
 au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
+au BufRead,BufNewFile *.j2 setfiletype jinja
 " the python community prefers 4 spaces indents or tabs
 au FileType python setlocal shiftwidth=4 softtabstop=4
 
