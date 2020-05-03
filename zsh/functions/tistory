@@ -2,7 +2,7 @@
 typeset -A opts
 zparseopts -A opts -D -url: -start: -end: -nowait -dryrun
 
-(( $+opts[--url] )) || { print >&2 no url to crawl; exit 1; }
+(( $+opts[--url] )) || { print >&2 no url to crawl; return 1; }
 baseurl=$opts[--url]
 start=${opts[--start]:-1}
 end=${opts[--end]:-1}
