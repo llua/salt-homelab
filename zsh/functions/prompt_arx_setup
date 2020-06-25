@@ -6,7 +6,7 @@ eof
 
 prompt_arx_setup() {
   autoload -Uz add-zsh-hook
-  local localhost name vcs_info c p vp
+  local name vcs_info c p vp
   zstyle -a ':prompt:arx:' hosts localhost
   zstyle -a ':prompt:arx:' users name
   zstyle -s ':prompt:arx:' primary-color c
@@ -21,7 +21,7 @@ prompt_arx_setup() {
 
   : ${c:=default} ${p:=default} ${vp:=default}
 
-  if  (( localhost[(I)$HOST] )) &&
+  if  [[ $TTY = /dev/(pts/|tty[vh])<-> ]] &&
       ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
       ! (( UID == 0 )); then
     PROMPT="%F{$p}%B%#%b%f "
