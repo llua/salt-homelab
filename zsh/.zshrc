@@ -49,7 +49,6 @@ hash -d tmp=$HOME/.local/tmp/
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 zstyle ':prompt:arx:'               users             llua ecook arx root
-zstyle ':prompt:arx:'               hosts             {netslum,megin-fi,caerleon-medb,al-fadel}.mac-anu.org NEXCESS-AST-000239
 zstyle ':prompt:arx:'               primary-color     24 #  39 199
 zstyle ':prompt:arx:'               secondary-color   45 # 105 210
 zstyle ':prompt:arx:'               delimiter-color   219
