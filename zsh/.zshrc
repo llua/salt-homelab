@@ -147,6 +147,7 @@ zstyle ':completion:*:systemd-machines-container' \
 zstyle ':completion:*:systemd-machines-qemu' \
                                     ignored-patterns  '^qemu-*'
 # misc stuff
+zstyle ':completion:*'              special-dirs      ..
 zstyle :completion::complete:-command-::commands \
                                     ignored-patterns  restart reboot
 zstyle :completion::complete:-tilde-:: \
