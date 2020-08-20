@@ -8,10 +8,8 @@
 # - the ntp.conf man page
 
 # Associate to Arch's NTP pool
-server 0.arch.pool.ntp.org
-server 1.arch.pool.ntp.org
-server 2.arch.pool.ntp.org
-server 3.arch.pool.ntp.org
+server ntp.nexcess.net
+server time.google.com
 
 # By default, the server allows:
 # - all queries from the local host

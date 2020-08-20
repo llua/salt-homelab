@@ -9,9 +9,8 @@ listen on 127.0.0.1
 #
 # use a random selection of NTP Pool Time Servers
 # see http://support.ntp.org/bin/view/Servers/NTPPoolServers
-server 0.pool.ntp.org
-server 1.pool.ntp.org
-server 2.pool.ntp.org
+server ntp.nexcess.net
+server time.google.com
 
 # use a specific local timedelta sensor (radio clock, etc)
 #sensor nmea0
