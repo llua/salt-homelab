@@ -1,7 +1,7 @@
 #autoload
 
 if ! (( $+commands[pepa] )); then
-  python2 /usr/(local/)#lib/python2.7/site-packages/salt/pillar/pepa.py -c /usr/local/etc/salt/master.d/f_defaults.conf "$@"
+  ${${commands[(I)python3.<->]}[1]} /usr/(local/)#lib/${${commands[(I)python3.<->]}[1]}/site-packages/salt/pillar/pepa.py -c /usr/local/etc/salt/master.d/f_defaults.conf "$@"
 else
   command pepa "$@"
 fi
