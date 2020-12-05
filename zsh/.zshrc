@@ -58,7 +58,7 @@ zstyle ':prompt:arx:'               secondary-color-8colors \
                                                       6
 zstyle ':prompt:arx:'               delimiter-color-8colors \
                                                       5
-zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi,corbenik,aina}{,.mac-anu.org} NEXCESS-AST-000239
+zstyle ':prompt:arx:vcs_info:'      hosts             {netslum,sakubo,megin-fi,corbenik,aina}{,.mac-anu.org}
 # separate man page completion by section.
 zstyle -e ':completion:*:manuals.*' insert-sections   'if [[ $OSTYPE = solaris* ]]; then reply=(false); else reply=(true); fi'
 zstyle ':completion:*:manuals'      separate-sections true 
@@ -193,13 +193,6 @@ prompt arx >/dev/null 2>&1
 zle -C most-recent-file menu-complete _generic
 # generate completions from gnu tool's --help
 if [[ $OSTYPE == *linux* ]]; then
-  for cmd in sed comm netstat tail head {z,e,f,}grep date auditctl virt-{install,clone,convert,xml} \
-    lxc-{start,stop,create,clone,autostart,cgroup,checkconfig,console,destroy,device,execute,freeze,info,ls} \
-    lxc-{monitor,snapshot,start-ephemeral,top,unfreeze,unshare,attach,top,usernsexec,wait}
-  do
-    compdef _gnu_generic $cmd
-  done
-  unset cmd
   if [[ -f /etc/arch-release ]]; then
     AUTOREMOVE() sudo pacman -R ${(of)"$(pacman -Qdtq)"}
     AUTOCLEAN() sudo pacman -Sc
