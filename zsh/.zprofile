@@ -16,7 +16,7 @@
      (( $? == 2 ))
    }; then
          rm -f "$SSH_AUTH_SOCK"
-           ssh-agent -a "$SSH_AUTH_SOCK"
+         ssh-agent -a "$SSH_AUTH_SOCK"
   fi > /dev/null 2>&1
 
   case $OSTYPE in
