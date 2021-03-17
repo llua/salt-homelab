@@ -1,0 +1,1 @@
+youtube-dl -o '%(playlist_title)s/%(track_number)s - %(artist)s - %(title)s.%(ext)s' "$@"
