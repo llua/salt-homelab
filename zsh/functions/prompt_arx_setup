@@ -22,7 +22,7 @@ prompt_arx_setup() {
   : ${c:=default} ${p:=default} ${vp:=default}
 
   if  [[ $TTY = /dev/(pts/|tty[vh])<-> ]] &&
-      ! (( $#parameters[(I)SSH_(CLIENT|TTY|CONNECTION)] )) &&
+      ! (( $#parameters[(I)(SSH_(CLIENT|TTY|CONNECTION)|container)] )) &&
       ! (( UID == 0 )); then
     PROMPT="%F{$p}%B%#%b%f "
   else
