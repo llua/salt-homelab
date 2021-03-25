@@ -1,0 +1,14 @@
+(
+  set -e
+  zfs create ${dataset::=lux/jail/${name::=${1?release name needed}}}
+  bsdinstall jail ${dir::=/usr/jail/$name}
+  pkg -r $dir install -y pkg
+  pkg -r $dir install -y py37-salt
+  {
+    mkdir -p $dir/usr/local/etc/salt/minion.d
+    echo 'master: corbenik.mac-anu.org' > $dir/usr/local/etc/salt/minion.d/f_default.conf
+    mkdir -p $dir/usr/local/etc/salt/pki/minion/
+  }
+  sysrc -R $dir salt_minion_enable=YES
+  zfs snapshot $dataset@rev1
+)
