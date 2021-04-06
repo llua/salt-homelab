@@ -72,7 +72,11 @@ zstyle ':completion:*'              auto-description  'specify: %d'
 zstyle ':completion:*'              list-separator    '::'
 zstyle ':completion:*'              completer         _expand _complete _correct _approximate
 # message telling you what you are completing
-zstyle ':completion:*'              format            'Completing %d'
+if (( $(tput colors) == 8 )); then
+  zstyle ':completion:*'            format            'Completing %d'
+else
+  zstyle ':completion:*'            format            '%K{14}%B%F{240} Completing :%K{240}%F{6}: %d %f%k'
+fi
 # group completions by type
 zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
