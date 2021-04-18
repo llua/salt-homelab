@@ -1,0 +1,80 @@
+#compdef bectl
+
+_bectl() {
+  local curcontext=$curcontext state state_descr line
+  typeset -A opt_args
+
+  _arguments -C -s -A '-*' : \
+    '-h[print usage informantion]' \
+    '1:sub command:((
+      "activate:mark boot environment as default boot filesystem"
+      "check:perform silent sanity check"
+      "create:create boot environment or snapshot of boot env"
+      "destroy:destroy boot environment or be snapshot"
+      "export:export boot environment to stdout"
+      "import:import boot environment from stdin"
+      "jail:create a jail of given boot environment"
+      "list:display boot environments"
+      "mount:mount the given boot environment"
+      "rename:rename an boot environment"
+      u{,n}jail:"destroy the jail created from given boot environment"
+      u{,n}mount:"unmount the given boot environment"
+    ))' \
+    '*:: :->subcmd' && return
+
+  service=$words[1]
+  curcontext=${curcontext%:*}-$service:
+
+  case $service in
+    activate)
+      _arguments -A '-*' \
+        '-t[take effect only for the next boot]' \
+        $'*:boot environment:( ${${(@f)"$(bectl list -H)"}%%\t*} )'
+      ;;
+    check) _nothing;;
+    create)
+      _arguments -s -A '-*' \
+        '-r[recursive boot environment]' \
+        "-e[clone of given boot environment]:boot environment:(
+          ${${${(f)"$(bectl list -H)"}:#*$'\t'NR#$'\t'}%%$'\t'*}
+        )" \
+        '1:name'
+      ;;
+    destroy) :;;
+    export)
+      _arguments $'1:boot environment:( ${${(@f)"$(bectl list -H)"}%%\t*} )'
+      ;;
+    import) _arguments '1:name';;
+    jail) :;;
+    list)
+      local -a props
+      props=(
+        name creation origin used
+        used{ds,snap,refreserv}
+      )
+      _arguments -s \
+        '-a[display all datasets]' \
+        '-D[display space usage of boot environments]' \
+        '-H[script friendly display]' \
+        '-s[include snapshots]' \
+        '-c[sort boot environment by property]:property:( $props )' \
+        '-C[like -c, but in descending order]:property:( $props )'
+      ;;
+    mount)
+      _arguments $'1:boot environment:( ${${(@f)"$(bectl list -H)"}%%\t*} )' '2:mount point:_files -/'
+      ;;
+    rename)
+      _arguments $'1:boot environment:( ${${(@f)"$(bectl list -H)"}%%\t*} )' '2:new name'
+      ;;
+    un#jail)
+      _arguments '1:jail:_jails' $'2:boot environment:( ${${(@f)"$(bectl list -H)"}%%\t*} )'
+      ;;
+    un#mount)
+      _arguments -A '-*' \
+        '-f[force unmount if busy]' \
+        $'*:boot environment:( ${${(@f)"$(bectl list -H)"}%%\t*} )'
+      ;;
+  esac
+}
+
+_bectl "$@"
