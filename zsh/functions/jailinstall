@@ -8,6 +8,7 @@
     mkdir -p $dir/usr/local/etc/salt/minion.d
     echo 'master: corbenik.mac-anu.org' > $dir/usr/local/etc/salt/minion.d/f_default.conf
     mkdir -p $dir/usr/local/etc/salt/pki/minion/
+    print -lr 'search mac-anu.org' 'nameserver '{8.8.8.8,1.1.1.1} > $dir/etc/resolv.conf
   }
   sysrc -R $dir salt_minion_enable=YES
   zfs snapshot $dataset@rev1
