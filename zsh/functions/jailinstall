@@ -1,14 +1,44 @@
+#autoload
 (
+  if [[ -t 1 ]]; then
+    PS4=
+    set -x
+  fi
   set -e
-  zfs create ${dataset::=lux/jail/${name::=${1?release name needed}}}
-  bsdinstall jail ${dir::=/usr/jail/$name}
+  # where are are installing to
+  zfs create ${dataset::=lux/jail/${name::=freebsd-${1?release name needed}}}
+  export BSDINSTALL_CHROOT=${dir::=/usr/jail/$name}
+
+  # where distributions are stored
+  export BSDINSTALL_DISTDIR=${BSDINSTALL_DISTDIR:-/usr/freebsd-dist/$1}
+  [[ -d $BSDINSTALL_DISTDIR ]] || mkdir -p $BSDINSTALL_DISTDIR
+
+  # run /usr/libexec/bsdinstall/mirrorselect to select a mirror, or see how the url is built
+  export BSDINSTALL_DISTSITE="ftp://ftp.freebsd.org/pub/FreeBSD/releases/$(uname -m)/$(uname -p)/$1"
+
+  # if one of the required distributions isn't in there, download
+  export DISTRIBUTIONS="${DISTRIBUTIONS:=base.txz lib32.txz}"
+  () { (( $# )) } $BSDINSTALL_DISTDIR/${(s. .)~^DISTRIBUTIONS}(N) || bsdinstall distfetch
+
+  # verify the downloads
+  if ! test -f $BSDINSTALL_DISTDIR/MANIFEST; then
+    fetch -o $BSDINSTALL_DISTDIR/MANIFEST $BSDINSTALL_DISTSITE/MANIFEST
+  fi
+  bsdinstall checksum
+
+  # actually install stuff
+  bsdinstall distextract
+  bsdinstall config
+  bsdinstall entropy
+  cp /etc/localtime $dir/etc
+  print -lr 'search mac-anu.org' 'nameserver '{8.8.8.8,1.1.1.1} > $dir/etc/resolv.conf
+  sysrc -R $dir sshd_enable=YES
   pkg -r $dir install -y pkg
   pkg -r $dir install -y py37-salt
   {
     mkdir -p $dir/usr/local/etc/salt/minion.d
     echo 'master: corbenik.mac-anu.org' > $dir/usr/local/etc/salt/minion.d/f_default.conf
     mkdir -p $dir/usr/local/etc/salt/pki/minion/
-    print -lr 'search mac-anu.org' 'nameserver '{8.8.8.8,1.1.1.1} > $dir/etc/resolv.conf
   }
   sysrc -R $dir salt_minion_enable=YES
   zfs snapshot $dataset@rev1
