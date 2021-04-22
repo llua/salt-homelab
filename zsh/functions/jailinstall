@@ -6,7 +6,7 @@
   fi
   set -e
   # where are are installing to
-  zfs create ${dataset::=lux/jail/${name::=freebsd-${1?release name needed}}}
+  zfs create ${dataset::=lux/jail/${2:-${name::=freebsd-${1?release name needed}}}}
   export BSDINSTALL_CHROOT=${dir::=/usr/jail/$name}
 
   # where distributions are stored
