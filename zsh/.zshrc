@@ -83,7 +83,7 @@ zstyle ':completion:*'              completer         _expand _complete _correct
 if (( $(tput colors) == 8 )); then
   zstyle ':completion:*'            format            'Completing %d'
 else
-  zstyle ':completion:*'            format            '%K{14}%B%F{240} Completing :%K{240}%F{6}: %d %f%k'
+  zstyle ':completion:*'            format            '%K{12}%B%F{240} Completing :%K{240}%F{12}: %d %f%k'
 fi
 # group completions by type
 zstyle ':completion:*'              group-name        ''
