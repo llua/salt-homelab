@@ -32,6 +32,9 @@ TIMEFMT=$(
     '%K{14}%F{240} %%*E %K{240}%F{6} total %f%k'
 )
 REPORTTIME=60
+WATCHFMT=$(
+  print -rP '%K{12}%F{8} %%n %K{240}%F{12} has %%a %%l @ %%D{%%T} %%D %f%k'
+)
 
 # autoload wrapper functions
 fpath=( ~/.config/functions/wrappers $fpath )
