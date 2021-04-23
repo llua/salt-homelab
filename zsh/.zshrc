@@ -82,8 +82,10 @@ zstyle ':completion:*'              completer         _expand _complete _correct
 # message telling you what you are completing
 if (( $(tput colors) == 8 )); then
   zstyle ':completion:*'            format            'Completing %d'
+  zstyle ':completion:*'            select-prompt     %Smenu selection: current selection at %p%s
 else
   zstyle ':completion:*'            format            '%K{12}%B%F{240} Completing :%K{240}%F{12}: %d %f%k'
+  zstyle ':completion:*'            select-prompt     '%K{12}%B%F{240} menu selection: %K{240}%F{12} current selection at %p %f%k'
 fi
 # group completions by type
 zstyle ':completion:*'              group-name        ''
@@ -192,7 +194,6 @@ zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true # may cause completers to fail, look into why.
 zstyle ':completion:*'              accept-exact      false
 zstyle ':completion:*'              matcher-list      '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=* l:|=*'
-zstyle ':completion:*'              select-prompt     %SScrolling active: current selection at %p%s
 zstyle ':completion:*'              use-compctl       false
 zstyle ':completion:*'              rehash            true
 autoload -Uz compinit
