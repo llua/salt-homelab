@@ -25,7 +25,12 @@ mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 [[ $ZSH_VERSION == *-dev* ]] && manpath=( ~/.local/share/man(/N) )
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
 READNULLCMD=less
-TIMEFMT='%J  %U user %S system %P cpu %*E total'
+TIMEFMT=$(
+  print -rP '%B %%J %K{14}%F{240} %%U %K{240}%F{6} user'\
+    '%K{14}%F{240} %%S %K{240}%F{6} system'\
+    '%K{14}%F{240} %%P %K{240}%F{6} cpu'\
+    '%K{14}%F{240} %%*E %K{240}%F{6} total %f%k'
+)
 REPORTTIME=60
 
 # autoload wrapper functions
