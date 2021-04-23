@@ -26,10 +26,10 @@ mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
 READNULLCMD=less
 TIMEFMT=$(
-  print -rP '%B %%J %K{14}%F{240} %%U %K{240}%F{6} user'\
-    '%K{14}%F{240} %%S %K{240}%F{6} system'\
-    '%K{14}%F{240} %%P %K{240}%F{6} cpu'\
-    '%K{14}%F{240} %%*E %K{240}%F{6} total %f%k'
+  print -rP '%B %%J %b%K{12}%F{240} %%U %K{240}%F{12} user'\
+    '%K{12}%F{240} %%S %K{240}%F{12} system'\
+    '%K{12}%F{240} %%P %K{240}%F{12} cpu'\
+    '%K{12}%F{240} %%*E %K{240}%F{12} total %f%k'
 )
 REPORTTIME=60
 WATCHFMT=$(
