@@ -74,18 +74,19 @@ zstyle ':completion:*:manuals'      separate-sections true
 zstyle ':completion:*'              verbose           true
 # descriptions of commands (if available)
 zstyle ':completion:*'              extra-verbose     true
-# if a description isn't defined, use the option's description (from -h|--help)
-zstyle ':completion:*'              auto-description  'specify: %d'
 # default seperator between option -- description, update list-colors if changed.
 zstyle ':completion:*'              list-separator    '::'
 zstyle ':completion:*'              completer         _expand _complete _correct _approximate
 # message telling you what you are completing
 if (( $(tput colors) == 8 )); then
   zstyle ':completion:*'            format            'Completing %d'
-  zstyle ':completion:*'            select-prompt     %Smenu selection: current selection at %p%s
+  zstyle ':completion:*'            select-prompt     %SMenu selection: current selection at %p%s
+  # this style is used by `_arguments --'
+  zstyle ':completion:*'            auto-description  'Completing: %d '
 else
-  zstyle ':completion:*'            format            '%K{12}%B%F{240} Completing :%K{240}%F{12}: %d %f%k'
-  zstyle ':completion:*'            select-prompt     '%K{12}%B%F{240} menu selection: %K{240}%F{12} current selection at %p %f%k'
+  zstyle ':completion:*'            format            '%K{12}%B%F{240} Completing: %K{240}%F{12} %d %f%k'
+  zstyle ':completion:*'            select-prompt     '%K{12}%B%F{240} Menu selection: %K{240}%F{12} current selection at %p %f%k'
+  zstyle ':completion:*'            auto-description  '%K{12}%B%F{240} Completing: %K{240}%F{12} %d %f%k'
 fi
 # group completions by type
 zstyle ':completion:*'              group-name        ''
