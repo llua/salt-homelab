@@ -53,6 +53,13 @@ hash -d zsh=$HOME/src/zsh/
 hash -d build=$HOME/build/
 hash -d tmp=$HOME/.local/tmp/
 
+format_style() {
+  if (( ${term_colors:=$(tput colors)} == 8 )); then
+    print -r -- "$@"
+  else
+    print -r -- "%K{12}%B%F{240} $1: %K{240}%F{12} $argv[2,-1] %f%k"
+  fi
+}
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
@@ -357,7 +364,7 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 fi
 
 stty start '' stop '' erase '^?'
-unfunction bind2maps; unset key reply
+unfunction bind2maps format_style; unset key reply term_colors
 
 if autoload +X -z localrc 2>/dev/null; then
   localrc
