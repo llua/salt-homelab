@@ -78,16 +78,10 @@ zstyle ':completion:*'              extra-verbose     true
 zstyle ':completion:*'              list-separator    '::'
 zstyle ':completion:*'              completer         _expand _complete _correct _approximate
 # message telling you what you are completing
-if (( $(tput colors) == 8 )); then
-  zstyle ':completion:*'            format            'Completing %d'
-  zstyle ':completion:*'            select-prompt     %SMenu selection: current selection at %p%s
-  # this style is used by `_arguments --'
-  zstyle ':completion:*'            auto-description  'Completing: %d '
-else
-  zstyle ':completion:*'            format            '%K{12}%B%F{240} Completing: %K{240}%F{12} %d %f%k'
-  zstyle ':completion:*'            select-prompt     '%K{12}%B%F{240} Menu selection: %K{240}%F{12} current selection at %p %f%k'
-  zstyle ':completion:*'            auto-description  '%K{12}%B%F{240} Completing: %K{240}%F{12} %d %f%k'
-fi
+zstyle ':completion:*'              format            "$(format_style Completing: %d)"
+zstyle ':completion:*'              select-prompt     "$(format_style Menu-selection: current selection at %p)"
+# this style is used by `_arguments --'
+zstyle ':completion:*'              auto-description  "$(format_style Completing: %d)"
 # group completions by type
 zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
@@ -108,10 +102,10 @@ zstyle ':completion:*:hosts'        ignored-patterns  '*'
 zstyle ':completion:*:hosts'        fake-always       ${(A)reply::={umbra,ansuz,corbenik,netslum,nypumi,caerleon-medb,al-fadel,sakubo,tarvos,aurora,fidchell,login1,login2}}
 zstyle ':completion:*:hosts-normal' ignored-patterns  $reply
 # completion of pids
-zstyle ':completion:*:processes'    format            'Completing %d (pid user lstart %%%cpu %%%mem rss args)'
+zstyle ':completion:*:processes'    format            "$(format_style Completing %d "(pid user lstart %%%cpu %%%mem rss args)")"
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
 zstyle ':completion:*:nsenter:*:processes' \
-                                    format            'Completing %d (pid command systemd-machined-id utsns netns mntns pidns ipcns userns)'
+                                    format            "$(format_style Completing %d "(pid command systemd-machined-id utsns netns mntns pidns ipcns userns)")"
 zstyle ':completion:*:nsenter:*:processes' \
                                     command           'ps -o pid,comm,machine,utsns,netns,mntns,pidns,ipcns,userns -A'
 # completion of process names 
