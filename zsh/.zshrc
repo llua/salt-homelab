@@ -57,7 +57,7 @@ format_style() {
   if (( ${term_colors:=$(tput colors)} == 8 )); then
     print -r -- "$@"
   else
-    print -r -- "%K{12}%B%F{240} $1: %K{240}%F{12} $argv[2,-1] %f%k"
+    print -r -- "%K{12}%B%F{240} $1 %K{240}%F{12} $argv[2,-1] %f%k"
   fi
 }
 # zshmodules(1)
@@ -109,10 +109,10 @@ zstyle ':completion:*:hosts'        ignored-patterns  '*'
 zstyle ':completion:*:hosts'        fake-always       ${(A)reply::={umbra,ansuz,corbenik,netslum,nypumi,caerleon-medb,al-fadel,sakubo,tarvos,aurora,fidchell,login1,login2}}
 zstyle ':completion:*:hosts-normal' ignored-patterns  $reply
 # completion of pids
-zstyle ':completion:*:processes'    format            "$(format_style Completing %d "(pid user lstart %%%cpu %%%mem rss args)")"
+zstyle ':completion:*:processes'    format            "$(format_style Completing: %d "(pid user lstart %%%cpu %%%mem rss args)")"
 zstyle ':completion:*:processes'    command           'ps -o pid,user,lstart,pcpu,pmem,rss,args -A'
 zstyle ':completion:*:nsenter:*:processes' \
-                                    format            "$(format_style Completing %d "(pid command systemd-machined-id utsns netns mntns pidns ipcns userns)")"
+                                    format            "$(format_style Completing: %d "(pid command systemd-machined-id utsns netns mntns pidns ipcns userns)")"
 zstyle ':completion:*:nsenter:*:processes' \
                                     command           'ps -o pid,comm,machine,utsns,netns,mntns,pidns,ipcns,userns -A'
 # completion of process names 
