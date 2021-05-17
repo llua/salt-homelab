@@ -1,0 +1,1 @@
+curl -s https://status.vultr.com/status.json|jq -r '.regions | map(select(.alerts|length > 0))'
