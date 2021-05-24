@@ -1,3 +1,5 @@
+[[ $COLORTERM = rxvt-* ]] && print -Pn "\e]0;urxvt ${TTY#/dev/}\a"
+
 # load wanted modules
 for mod in 'pcre' 'net/tcp' 'complist'; do
   [[ -e $module_path[1]/zsh/$mod.so ]] && zmodload zsh/$mod
