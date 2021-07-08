@@ -1,1 +1,1 @@
-(( $+commands[zfs] )) && zfs list -o name,refer,used,avail,mountpoint,type,compression,quota,reservation,atime,origin "$@"
+(( $+commands[zfs] )) && zfs list -o name,refer,used,avail,mountpoint,canmount,type,compression,quota,reservation,atime,origin "$@"
