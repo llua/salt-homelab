@@ -1,0 +1,9 @@
+plexmediaserver:
+  pkg: plexmediaserver
+  service_name: plexmediaserver
+  service_enable: True
+  config: /etc/ssh/sshd_config
+  config_src: salt://plexmediaserver/files/sshd_config
+  config_user: root
+  config_group: root
+  config_mode: '644'
