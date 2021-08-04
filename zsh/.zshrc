@@ -54,6 +54,55 @@ hash -d dotfiles=$HOME/src/dotfiles/
 hash -d zsh=$HOME/src/zsh/
 hash -d build=$HOME/build/
 hash -d tmp=$HOME/.local/tmp/
+hash -d torrents=/usr/jail/rtorrent/usr/home/llua/torrents
+zsh_directory_name() {
+  zsh_directory_name_functions_comp "$@"
+  zsh_directory_name_functions_jail "$@"
+}
+
+zsh_directory_name_functions_comp() {
+  [[ $1 = c ]] || return 1
+  [[ -prefix *: ]] && return 1
+  local expl
+  _values -s ':' 'dynamic directory prefixes' jail_${^$(jls name)}
+}
+
+zsh_directory_name_functions_jail() {
+  emulate -L zsh
+  setopt extendedglob
+
+  local -a match mbegin mend
+
+  case $1 in
+    n)
+      [[ $2 != (#b)jail_([^:]##):(?*) ]] && return 1
+      typeset -ga reply
+      reply=( $(jls -j ${match[1]} path)${match[2]} )
+      ;;
+    c)
+      if [[ $PREFIX = (#b)jail_([^:]##):(?*) ]]; then
+        compset -P 1 "jail_${(q)match[1]}:/"
+        _path_files -S \] -r "^(\]| |\t|\n|\-)" -J "$match[1]-dynamic-directory" -W $(jls -j $match[1] path) -X "$match[1] dynamic-directory (press / to replace the ] suffix)"
+      fi
+      ;;
+  esac
+}
+
+_dynamic_directory_name() {
+  local func
+  integer ret=1
+
+  if [[ -n $functions[zsh_directory_name] ||
+    ${+zsh_directory_name_functions} -ne 0 ]]; then
+    [[ -n $functions[zsh_directory_name] ]] && zsh_directory_name c && ret=0
+    for func in $zsh_directory_name_functions; do
+      $func c && ret=0
+    done
+    return ret
+  else
+    _message 'dynamic directory name: implemented as zsh_directory_name c'
+  fi
+}
 
 format_style() {
   if (( ${term_colors:=$(tput colors)} == 8 )); then
