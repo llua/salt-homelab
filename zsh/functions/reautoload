@@ -1,0 +1,3 @@
+for 1; do
+  functions[$1]='autoload -XUz'
+done
