@@ -229,6 +229,10 @@ zstyle ':completion::complete:salt(|-cp|-call):minions:' \
                                     cache-ttl         60 days
 zstyle ':completion::complete:journalctl:option-b-1:' \
                                     sort              false
+zstyle ':completion::complete:reautoload:argument-rest:' \
+                                    tag-order         'functions:-nounderscore functions:-underscore'
+zstyle ':completion:*:functions-nounderscore'         ignored-patterns '_*'
+zstyle ':completion:*:functions-underscore'           ignored-patterns '^_*'
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
 zstyle ':completion:*:(mpc|zypper|sysrc|ansible(|-doc)|salt(|-cp|-call|-run|-key)):*' \
                                     use-cache         true
