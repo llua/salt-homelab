@@ -1,0 +1,16 @@
+#compdef getextattr lsextattr rmextattr setextattr
+
+local no_i= no_a=
+[[ $service = setextattr ]] || no_i=!
+[[ $service = (get|rm|set)extattr ]] || no_a=!
+
+_arguments -s -A '-*' : \
+  '-f[ignore errors and continue on]' \
+  '-h[do not follow symlinks]' \
+  "${no_i}-i[read attribute data from stdin]" \
+  '-n[null delimited output]' \
+  '-q[quiet]' \
+  '-s[escape nonprinting characters]' \
+  '1:attribute namespace:(system user)' \
+  "${no_a}2:attribute name:" \
+  '*: : _files'
