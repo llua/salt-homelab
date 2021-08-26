@@ -1,0 +1,2 @@
+#compdef reautoload
+_arguments '*: : _functions'
