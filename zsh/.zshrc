@@ -16,7 +16,7 @@ setopt   ExtendedHistory IncAppendHistory${${${+options[incappendhistorytime]}/1
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Stuff we don't want
-unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete AutoList Beep
+unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete Beep
 
 HISTFILE=~/.zsh_history
 [[ -f ~/.config/.zsh_history ]] && HISTFILE=~/.config/.zsh_history
