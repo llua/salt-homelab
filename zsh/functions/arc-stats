@@ -1,0 +1,13 @@
+dtrace -n '
+  :::arc-hit {
+    @["arc hits"] = count()
+  }
+  :::arc-miss {
+    @["arc misses"] = count()
+  }
+  :::l2arc-hit {
+    @["l2arc hits"] = count()
+  }
+  :::l2arc-miss {
+    @["l2arc misses"] = count()
+  }' "$@"
