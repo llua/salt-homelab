@@ -1,0 +1,21 @@
+#compdef iscsictl
+
+_arguments -A '-*' : \
+  '--libxo[use libxo for output]:format:(json xml html)' \
+  '(-M -R -L)-A[add session]' \
+  '(-R -A -L)-M[modify session]' \
+  '(-M -A -L)-R[remove session]' \
+  '(-M -A -R)-L[list session]' \
+  '(-M -L)-a[add (with -A) or remove (with -R) all sessions]' \
+  '(-M -L)-c[path to configuration file]: : _files' \
+  '(-M -L -R)-d[target host for SendTargets discovery]: : _hosts' \
+  '(-R -L)-e[enable/disable session]:state:(enable disable)' \
+  '(-A -R -L)-i[specify session id]:session id' \
+  '(-R -L)-n[specify nickname of a session]:nickname' \
+  '(-R -L)-p[specify target portal]: : _hosts' \
+  '(-M -R -L)-r[use iSER (iSCSI over RDMA)]' \
+  '(-R -L)-s[specify CHAP secret]:CHAP secret' \
+  '(-R -L)-t[specify target name]:target name' \
+  '(-R -L)-u[specify CHAP login]:CHAP username:_users' \
+  '(-A -M -R)-v[verbose mode]' \
+  '(-M -R)-w[timeout duration]:duration'
