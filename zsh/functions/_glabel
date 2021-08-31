@@ -1,0 +1,39 @@
+#compdef glabel
+local context state state_descr line
+local -A opt_args
+local -a subcommands=(
+  create
+  destroy
+  label
+  stop
+  dump
+  refresh
+  help
+  list
+  status
+  load
+  unload
+)
+
+_arguments '1: :{ _describe -t commands command subcommands }' \
+  '*:: :->subcmd' && return
+
+if [[ $state[1] == subcmd ]]; then
+  local -a copts=('-v[verbose]')
+  local ret=1
+  curcontext=${curcontext%:*}-${words[1]}:
+  case $words[1] in
+    create|label) _arguments -A '-*' : $copts '1:name' '2:device:_files' && ret=0;;
+    destroy|stop) _arguments -A '-*' : $copts '-f[force removal]' '*: : _geoms -c label' && ret=0;;
+    clear)        _arguments -A '-*' : $copts '*:device:_files' && ret=0;;
+    dump|refresh) _arguments '*:device:_files' && ret=0;;
+    help|(|un)load) _nothing;;
+    list)         _arguments -A '-*' : '-a[print information for geoms without providers]' && ret=0;;
+    status)       _arguments -A '-*' : \
+      '-a[print information for geoms without providers, when used with -g]' \
+      '-g[report geoms instead of providers]' \
+      '-s[produce script friendly output]' && ret=0
+    ;;
+  esac
+fi
+return ret
