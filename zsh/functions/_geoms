@@ -1,0 +1,24 @@
+#autoload
+
+local ctags ctag expl ret=1
+local -A providers=(
+  $(_call_program geom-conf awk ''\''BEGIN {
+      while ("sysctl -n kern.geom.conftxt" | getline)
+        print $3, tolower($2) }'\''')
+)
+
+zparseopts -D c+:-=ctags
+if (( $#ctags )); then
+  ctags=("${(@)${(@)ctags#-c}:l}")
+else
+  ctags=(fd raid md part label vfs disk zfs::zvol dev swap flashmap map)
+fi
+
+_tags ${^ctags//::/-}-providers
+
+while _tags; do
+  for ctag in $ctags; do
+    _requested ${ctag//::/-}-providers expl "$ctag geom" compadd -k "$@" - "providers[(Re)$ctag]" && ret=0
+  done
+  (( ret )) || break
+done
