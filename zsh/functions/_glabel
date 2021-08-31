@@ -24,7 +24,10 @@ if [[ $state[1] == subcmd ]]; then
   curcontext=${curcontext%:*}-${words[1]}:
   case $words[1] in
     create|label) _arguments -A '-*' : $copts '1:name' '2:device:_files' && ret=0;;
-    destroy|stop) _arguments -A '-*' : $copts '-f[force removal]' '*: : _geoms -c label' && ret=0;;
+    destroy|stop)
+      _arguments -A '-*' : $copts '-f[force removal]' \
+        '*: : _alternative "geoms:geom: _geoms -c label" "files:file: _files"' && ret=0
+    ;;
     clear)        _arguments -A '-*' : $copts '*:device:_files' && ret=0;;
     dump|refresh) _arguments '*:device:_files' && ret=0;;
     help|(|un)load) _nothing;;
