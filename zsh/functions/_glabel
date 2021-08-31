@@ -6,6 +6,7 @@ local -a subcommands=(
   destroy
   label
   stop
+  clear
   dump
   refresh
   help
