@@ -1,0 +1,165 @@
+#compdef gpart
+local context state state_descr line
+local -A opt_args
+local -a subcommands=(
+  add
+  backup
+  bootcode
+  commit
+  create
+  delete
+  destroy
+  modify
+  recover
+  resize
+  restore
+  set
+  show
+  undo
+  unset
+  help
+  list
+  status
+  load
+  unload
+)
+
+local -a part_schemes=(
+  "APM:Apple Partition Map" "BSD:traditional BSD disklabel"
+  "BSD64:DragonFlyBSD's BSD disklabel" "LDM:Logical Disk Manager"
+  "GPT:GUID Partition Table" "MBR:Master Boot Record"
+  "VTOC8:SunOS SMI Volume Tables Of Contents"
+)
+
+local -a part_types=(
+  {apple,bios}-boot
+  efi
+  freebsd{,-{boot,swap,ufs,vinum,zfs}}
+  apple-{apfs,core-storage,hfs,label,raid,raid-offline,tv-recovery,ufs,zfs}
+  dragonfly-{label{32,64},legacy,ccd,hammer{,2},swap,ufs,vinum}
+  ebr
+  fat{16,32{,lba}}
+  linux-{data,lvm,raid,swap}
+  mbr
+  ms-basic-data
+  ms-ldm-{meta,}data
+  netbsd-{ccd,cgd,ffs,lfs,raid,swap}
+  ntfs
+  prep-boot
+  solaris-{boot,root,swap,backup,var,home,altsec,reserved}
+  vmware-{vmfs,vmkdiag,reserved,vsanhdr}
+)
+
+local -a part_attrs=(
+  active bootme bootonce bootfailed lenovofix
+)
+
+local -a op_flags=(
+  "C:commit change immediately"
+  "x:delay change"
+)
+
+_arguments '1: :{ _describe -t commands command subcommands }' \
+  '*:: :->subcmd' && return
+
+if [[ $state[1] == subcmd ]]; then
+  local ret=1
+  curcontext=${curcontext%:*}-${words[1]}:
+  case $words[1] in
+    add)
+      _arguments -A '-*' : \
+        '-a+[try to align the partition to value]:alignment' \
+        '-b+[LBA where the partition will begin]:logical block address' \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-i+[the index in the partition table]:index' \
+        '-l+[attach a label to the partition]:label' \
+        '-s+[specify the size of the partition]:size' \
+        '-t+[specify partition type]:partition type:( $part_types )' \
+        '1:device: _alternative "geoms:geom: _geoms -c part" files:file:_files' && ret=0
+    ;;
+    backup|commit|undo) _arguments '1: : _geoms -c part' && ret=0;;
+    bootcode)
+      _arguments -A '-*' : \
+        '-N[do not preserve Volume Serial Number for MBR]' \
+        '-b+[embed bootcode from file into the geom]: : _files' \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-i+[specify target partition for -p]:index' \
+        '-p+[embed bootcode from file into the geom partition]: : _files' \
+        '1: : _geoms -c part' && ret=0
+    ;;
+    create)
+      _arguments -A '-*' : \
+        '-s+[partition scheme]:partition scheme:(( $part_schemes ))' \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-n+[specify number of entries in the partition table]:number of partitions' \
+        '1:device: _alternative "geoms:geom: _geoms --providers" files:file:_files' && ret=0
+    ;;
+    delete)
+      _arguments -A '-*' : \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-i+[target partition to delete]:index' \
+        '1:device: _alternative "geoms:geom: _geoms -c part" files:file:_files' && ret=0
+    ;;
+    destroy)
+      _arguments -A '-*' : \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-F[force deletion]' \
+        '1: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    modify)
+      _arguments -A '-*' : \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-i+[target partition to modify]:index' \
+        '-l+[modify a label to the partition]:label' \
+        '-t+[modify partition type]:partition type:( $part_types )' \
+        '1: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    recover)
+      _arguments -A '-*' : \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '1: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    resize)
+      _arguments -A '-*' : \
+        '-a+[try to align the partition to value]:alignment' \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-i+[target partition to resize]:index' \
+        '-s+[specify the size of the partition]:size' \
+        '1: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    restore)
+      _arguments -A '-*' : \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-F[delete the partition table before restore]' \
+        '-l[restore partition labels if possible]' \
+        '*: : _alternative "geoms:geom: _geoms --providers" "files:file: _files"' && ret=0
+    ;;
+    set|unset)
+      _arguments -A '-*' : \
+        '-a+[modify an attribute]:attribute:( $part_attrs )' \
+        '-f+[operational flags]:flag:(( $op_flags ))' \
+        '-i+[target partition to modify]:index' \
+        '1: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    show)
+      _arguments -A '-*' : \
+        '-l[print partition labels instead of type]' \
+        '-p[show provider names instead of partition indexes]' \
+        '-r[show raw partition type instead of symbolic name]' \
+        '*: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    help|(|un)load) _nothing;;
+    list)
+      _arguments -A '-*' : '-a[print information for geoms without providers]' \
+        '*: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+    status)
+      _arguments -A '-*' : \
+        '-a[print information for geoms without providers, when used with -g]' \
+        '-g[report geoms instead of providers]' \
+        '-s[produce script friendly output]' \
+        '*: : _alternative "geoms:geom: _geoms -c part" "files:file: _files"' && ret=0
+    ;;
+  esac
+fi
+return ret
