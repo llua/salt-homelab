@@ -1,24 +1,39 @@
 #autoload
+# `-c class' only complete geoms of `class'; can be specified multiple times.
+# `--providers' complete providers of the geom instances, not the geoms themselves.
 
 local ctags ctag expl ret=1
+zparseopts -D -E c+:-=ctags -providers=pros
 local -A geoms=(
   $(_call_program geom-conf awk ''\''BEGIN {
       while ("sysctl -n kern.geom.conftxt" | getline)
         print $3, tolower($2) }'\''')
 )
 
-zparseopts -D c+:-=ctags
 if (( $#ctags )); then
-  ctags=("${(@)${(@)ctags#-c}:l}")
+  ctags=("${(@)${(@u)ctags#-c}:l}")
 else
-  ctags=(fd raid md part label vfs disk zfs::zvol dev swap flashmap map)
+  ctags=(${(u)geoms})
 fi
 
-_tags ${^ctags//::/-}-geoms
+_tags ${^ctags//::/-}-geom${pros:+-provider}s
 
 while _tags; do
-  for ctag in $ctags; do
-    _requested ${ctag//::/-}-geoms expl "$ctag geom" compadd -k "$@" - "geoms[(Re)$ctag]" && ret=0
-  done
+  if (( $#pros )); then
+    for ctag in $ctags; do
+      _requested ${ctag//::/-}-geom-providers expl "$ctag geom provider" compadd -k "$@" - "geoms[(Re)$ctag]" && ret=0
+    done
+  else
+    # from what i can tell, disk and label geoms share the same name usually
+    # so the two tags will have same list in them ultimately.
+    # the user can of course use the tag-order style to ignore a tag if that is
+    # undesired.
+    for ctag in $ctags; do
+      if _requested ${ctag//::/-}-geoms; then
+        _all_labels ${ctag//::/-}-geoms expl "$ctag geom" \
+          compadd "$@" - "${(@)${(@)${(f@)$(_call_program geom-names geom $ctag status -gas 2>/dev/null)}##[[:space:]]##}%% *}" && ret=0
+      fi
+    done
+  fi
   (( ret )) || break
 done
