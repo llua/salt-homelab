@@ -1,0 +1,193 @@
+#compdef geli
+local context state state_descr line
+local -A opt_args
+local -a subcommands=(
+  init
+  label
+  {at,de}tach
+  stop
+  onetime
+  configure
+  {set,del}key
+  kill
+  backup
+  restore
+  suspend
+  resume
+  resize
+  version
+  clear
+  dump
+  help
+  list
+  status
+  load
+  unload
+)
+
+local -a auth_algo=(
+  HMAC/SHA{1,256,384,512} HMAC/RIPEMD160
+)
+
+local -a enc_algo=(
+  AES-XTS AES-CBC Camellia-CBC NULL
+)
+
+local -a meta_ver=(
+  '7:FreeBSD >= 10.0'
+  '6:FreeBSD >= 9.0'
+  '5:FreeBSD >= 8.2'
+  '3:FreeBSD >= 6.2'
+  '0:FreeBSD >= 6.0'
+)
+
+local -a key_len=(
+  '128:AES-XTS/AES-CBC/Camellia-CBC'
+  '256:AES-XTS/AES-CBC/Camellia-CBC'
+  '192:AES-CBC/Camellia-CBC'
+)
+
+_arguments '1: :{ _describe -t commands command subcommands }' \
+  '*:: :->subcmd' && return
+
+if [[ $state[1] == subcmd ]]; then
+  local ret=1
+  curcontext=${curcontext%:*}-${words[1]}:
+  case $words[1] in
+    init|label)
+      _arguments -A '-*' -s : \
+        '-a+[enable data integrity verification]:algorithm:($auth_algo)' \
+        '-b[try to decrypt this partition during boot]' \
+        '-B+[backup metadata to file]: : _files' \
+        '-d[echo * characters when typing in password]' \
+        '-e+[encryption algorithm to us]:algorithm:($enc_algo)' \
+        '-g[enable booting from this partition]' \
+        '-i+[iterate N times when processing User Key passphrase]:iterations' \
+        '(-P)-J+[input file for the passphrase component of the User Key]: : _files' \
+        '-K+[input file for the keyfile component of the User Key]: : _files' \
+        '-l+[specify data key length]:key length:(( $key_len ))' \
+        '(-J)-P[do not use a passphrase with the User Key]' \
+        "-s+[change provider's sector size]:size" \
+        '-R[turn off automatic expansion of the provider size]' \
+        '-T[do not pass BIO_DELETE calls (TRIM/UNMAP)]' \
+        '-V+[specify metadata version to use]:metadata version:(( $meta_ver ))' \
+        '1:device: _alternative "geoms:geom: _geoms" files:file:_files' && ret=0
+    ;;
+    attach)
+      _arguments -A '-*' -s : \
+        '-C[dry-run]' \
+        '-d[detach on last close]' \
+        '-m[master key index number]:number:(0 1)' \
+        '-j[specify file containing the passphrase]: : _files' \
+        '-k[specify file containing the keyfile]: : _files' \
+        '-p[do not use a passphrase]' \
+        '-r[attach read-only]' \
+        '*:device: _alternative "geoms:geom: _geoms" files:file:_files' && ret=0
+    ;;
+    detach|stop)
+      _arguments -A '-*' -s : \
+        '-f[force detach]' \
+        '-l[mark provider to detach on last close]' \
+        '*:device: _alternative "geoms:geom: _geoms -c eli" files:file:_files' && ret=0
+    ;;
+    onetime)
+      _arguments -A '-*' -s : \
+        '-a+[enable data integrity verification]:algorithm:($auth_algo)' \
+        '-d[mark provider to detach on last close]' \
+        '-e+[encryption algorithm to us]:algorithm:($enc_algo)' \
+        '-l+[specify data key length]:key length:(( $key_len ))' \
+        "-s+[change provider's sector size]:size" \
+        '-R[turn off automatic expansion of the provider size]' \
+        '-T[do not pass BIO_DELETE calls (TRIM/UNMAP)]' \
+        '1:device: _alternative "geoms:geom: _geoms" files:file:_files' && ret=0
+    ;;
+    configure)
+      _arguments -A '-*' -s : \
+        '-b[set BOOT flag on given providers]' \
+        '-B[remove BOOT flag on given providers]' \
+        '-d[echo * characters when typing password]' \
+        '-D[disable echoing characters when typing password]' \
+        '-g[prompt for passphrase at boot]' \
+        '-G[do not prompt for passphrase at boot]' \
+        '-r[turn on automatic expansion of the provider size]' \
+        '-R[turn off automatic expansion of the provider size]' \
+        '-t[pass BIO_DELETE calls (TRIM/UNMAP)]' \
+        '-T[do not pass BIO_DELETE calls (TRIM/UNMAP)]' \
+        '*:device: _alternative "geoms:geom: _geoms -c eli" files:file:_files' && ret=0
+    ;;
+    setkey)
+      _arguments -A '-*' -s : \
+        '-i+[iterate N times when processing User Key passphrase]:iterations' \
+        '(-j)-j[specify file containing the current passphrase]: : _files' \
+        '(-P)-J[specify file containing the new passphrase]: : _files' \
+        '-k[specify file containing the current keyfile]: : _files' \
+        '-K[specify file containing the new keyfile]: : _files' \
+        '(-j)-p[do not use a passphrase for the current User Key]' \
+        '(-J)-P[do not use a passphrase for the new User Key]' \
+        '-v[be verbose]' \
+        '1:device: _alternative "geoms:geom: _geoms -c eli" files:file:_files' && ret=0
+    ;;
+    delkey)
+      _arguments -A '-*' -s : \
+        '-a[destroy all copies of the Master Key]' \
+        '-f[force key destruction]' \
+        '-n[specify Master Key index number]:number' \
+        '-v[be verbose]' \
+        '1:device: _alternative "geoms:geom: _geoms -c eli" files:file:_files' && ret=0
+    ;;
+    kill)
+      _arguments -A '-*' -s : \
+        '-a[kill all attached providers]' \
+        '-v[be verbose]' \
+        '*:device: _alternative "geoms:geom: _geoms -c eli" files:file:_files' && ret=0
+    ;;
+    backup) _arguments -A '-*' -s : '-v[be verbose]' '1: : _geoms -c eli' && ret=0;;
+    restore)
+      _arguments -A '-*' -s : \
+        '-f[force restore]' \
+        '-v[be verbose]' \
+        '1: : _files' \
+        '2: : _geoms' && ret=0
+    ;;
+    resume)
+      _arguments -A '-*' -s : \
+        '(-p)-j+[input file for the passphrase component of the User Key]: : _files' \
+        '-k+[input file for the keyfile component of the User Key]: : _files' \
+        '(-j)-p[do not use a passphrase for the current User Key]' \
+        '*:device: _alternative '\''files:file:_files'\'' '\''eli-geom-consumers:geom:( $(geli status -s | awk '\''\'\'''\''{ print $3 }'\''\'\'''\'') )'\''' && ret=0
+    ;;
+    suspend)
+      _arguments -A '-*' -s : \
+        '-a[suspend all attached providers]' \
+        '-v[be verbose]' \
+        '*:device: _alternative '\''files:file:_files'\'' '\''eli-geom-consumers:geom:( $(geli status -s | awk '\''\'\'''\''{ print $3 }'\''\'\'''\'') )'\''' && ret=0
+    ;;
+    resize)
+      _arguments -A '-*' -s : \
+        '-s+[specify the old size of the provider]:size' \
+        '1: : _alternative "geoms:geom: _geoms -c eli" "files:file: _files"' && ret=0
+    ;;
+    version)
+      _arguments -A '-*' -s : \
+        '*:device: _alternative '\''files:file:_files'\'' '\''eli-geom-consumers:geom:( $(geli status -s | awk '\''\'\'''\''{ print $3 }'\''\'\'''\'') )'\''' && ret=0
+    ;;
+    dump|clear)
+      _arguments -A '-*' -s : \
+        '-v[be verbose]' \
+        '*:device: _alternative '\''files:file:_files'\'' '\''eli-geom-consumers:geom:( $(geli status -s | awk '\''\'\'''\''{ print $3 }'\''\'\'''\'') )'\''' && ret=0
+    ;;
+    help|(|un)load) _nothing;;
+    list)
+      _arguments -A '-*' -s : '-a[print information for geoms without providers]' \
+        '*: : _alternative "geoms:geom: _geoms -c eli" "files:file: _files"' && ret=0
+    ;;
+    status)
+      _arguments -A '-*' -s : \
+        '-a[print information for geoms without providers, when used with -g]' \
+        '-g[report geoms instead of providers]' \
+        '-s[produce script friendly output]' \
+        '*: : _alternative "geoms:geom: _geoms -c eli" "files:file: _files"' && ret=0
+    ;;
+  esac
+fi
+return ret
