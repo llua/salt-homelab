@@ -10,13 +10,13 @@ unset mod
 # Globbing
 setopt   ExtendedGlob
 # Misc
-setopt   RcQuotes RecExact LongListJobs TransientRprompt MagicEqualSubst InteractiveComments CompleteInWord PromptSubst
+setopt   RcQuotes RecExact LongListJobs TransientRprompt MenuComplete MagicEqualSubst InteractiveComments CompleteInWord PromptSubst
 # History
 setopt   ExtendedHistory IncAppendHistory${${${+options[incappendhistorytime]}/1/Time}/0} HistIgnoreDups
 # pushd settings
 setopt   AutoPushd PushdMinus AutoCd PushdToHome PushdSilent PushdIgnoreDups
 # Stuff we don't want
-unsetopt BgNice AutoParamSlash Hup Correct CorrectAll MenuComplete Beep
+unsetopt BgNice AutoParamSlash Hup Correct CorrectAll Beep
 
 HISTFILE=~/.zsh_history
 [[ -f ~/.config/.zsh_history ]] && HISTFILE=~/.config/.zsh_history
