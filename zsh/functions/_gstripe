@@ -1,0 +1,57 @@
+#compdef gstripe
+local context state state_descr line
+local -A opt_args
+local -a subcommands=(
+  create
+  destroy
+  label
+  stop
+  clear
+  dump
+  help
+  list
+  status
+  load
+  unload
+)
+
+_arguments '1: :{ _describe -t commands command subcommands }' \
+  '*:: :->subcmd' && return
+
+if [[ $state[1] == subcmd ]]; then
+  local -a copts=('-v[verbose]')
+  local ret=1
+  curcontext=${curcontext%:*}-${words[1]}:
+  case $words[1] in
+    create)
+      _arguments -A '-*' -s : $copts \
+        '-s[set stripe size]:size' \
+        '1:name' '*:device: _alternative "geoms:geom: _geoms" "files:file: _files"' && ret=0
+    ;;
+    label)
+      _arguments -A '-*' -s : $copts \
+        '-h[hardcode providers names in metadata]' \
+        '-s[set stripe size]:size' \
+        '1:name' '*:device: _alternative "geoms:geom: _geoms" "files:file: _files"' && ret=0
+    ;;
+    destroy|stop)
+      _arguments -A '-*' : $copts '-f[force removal]' \
+        '*: : _alternative "geoms:geom: _geoms -c stripe" "files:file: _files"' && ret=0
+    ;;
+    clear)  _arguments -A '-*' : $copts '*:device: _alternative '\''files:file:_files'\'' '\''concat-geom-consumers:geom:( $(gstripe status -s | awk '\''\'\'''\''{ print $3 }'\''\'\'''\'') )'\''' && ret=0;;
+    dump)   _arguments '*:device: _alternative '\''files:file:_files'\'' '\''concat-geom-consumers:geom:( $(gstripe status -s | awk '\''\'\'''\''{ print $3 }'\''\'\'''\'') )'\''' && ret=0;;
+    help|(|un)load) _nothing;;
+    list)
+      _arguments -A '-*' : '-a[print information for geoms without providers]' \
+        '*: : _alternative "geoms:geom: _geoms -c stripe" "files:file: _files"' && ret=0
+    ;;
+    status)
+      _arguments -A '-*' : \
+        '-a[print information for geoms without providers, when used with -g]' \
+        '-g[report geoms instead of providers]' \
+        '-s[produce script friendly output]' \
+        '*: : _alternative "geoms:geom: _geoms -c stripe" "files:file: _files"' && ret=0
+    ;;
+  esac
+fi
+return ret
