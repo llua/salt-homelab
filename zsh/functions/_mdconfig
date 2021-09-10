@@ -1,0 +1,30 @@
+#compdef mdconfig
+
+local -a md_opts=(
+  async cache reserve
+  cluster compress force
+  readonly verify
+)
+
+_arguments -A '-*' -s : \
+  '(-d -r -l)-a[attach a memory disk]' \
+  '(-d -r -l)-t+[specify type of memory disk]:type:(malloc vnode swap null)' \
+  '(-d -r)-f+[specify filename]: : _files' \
+  '(-a -t -d -r)-l[list configured devices]' \
+  '(-a -t -l -r)-d[detach a memory disk]' \
+  '(-a -t -l -d)-r[resize a memory disk]' \
+  '(-d -r)-n[print unit number without md prefix]' \
+  '(-l -d)-s+[size of memory disk]:size' \
+  '(-d -r -l)-S+[specify sectorsize]:sector size' \
+  '(-d -r -l)-x+[specify sector/track geometry]:geometry' \
+  '(-d -r -l)-y+[specify heads/cylinder geometry]:geometry' \
+  '(-d -r -l)-L+[associate a label]:label' \
+  '(-l)-o+[set options]:option:{
+    if [[ -v opt_args[(i)-[dr]] ]]; then
+      _wanted values expl option compadd -- {no,}force
+    else
+      _describe option md_opts -M "B\:no="
+    fi
+    }' \
+  '-u+[request a specific unit number]:unit number' \
+  '(-)1: : _files'
