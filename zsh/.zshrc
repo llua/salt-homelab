@@ -261,7 +261,6 @@ autoload -Uz promptinit; promptinit
 prompt arx >/dev/null 2>&1
 
 zle -C most-recent-file menu-complete _generic
-# generate completions from gnu tool's --help
 if [[ $OSTYPE == *linux* ]]; then
   if [[ -f /etc/arch-release ]]; then
     AUTOREMOVE() sudo pacman -R ${(of)"$(pacman -Qdtq)"}
