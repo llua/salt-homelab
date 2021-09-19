@@ -4,12 +4,6 @@
   typeset -gU path
   # the -g is needed to prevent the tied parameter from becoming empty
   export EDITOR='vim' PAGER='less' PATH LESS='-XRSF'
-  export SSH_AUTH_SOCK=~/.ssh/agent.socket
-  if ssh-add -L; (( $? == 2 )) && (( UID != 0 )); then
-    rm -f "$SSH_AUTH_SOCK"
-    ssh-agent -a "$SSH_AUTH_SOCK"
-  fi > /dev/null 2>&1
-
   if (( UID != 0 )) && {
      export SSH_AUTH_SOCK=~/.ssh/agent.socket
      ssh-add -L &&
