@@ -233,6 +233,9 @@ zstyle ':completion::complete:reautoload:argument-rest:' \
                                     tag-order         'functions:-nounderscore functions:-underscore'
 zstyle ':completion:*:functions-nounderscore'         ignored-patterns '_*'
 zstyle ':completion:*:functions-underscore'           ignored-patterns '^_*'
+# complete jails from /usr/jail when -c is used
+zstyle -e ':completion::complete:jail:argument-rest:jails' \
+                                                      fake '[[ -v opt_args[(i)-c] ]] && reply=(/usr/jail/^freebsd*(:t))'
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
 zstyle ':completion:*:(mpc|zypper|sysrc|ansible(|-doc)|salt(|-cp|-call|-run|-key)):*' \
                                     use-cache         true
