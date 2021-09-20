@@ -1,0 +1,12 @@
+#compdef filetop
+local -a cols=({all,reads,writes,rbytes,wbytes})
+
+_arguments -A '-*' -s : \
+  '(-h --help)'-{h,-help}'[show help message]' \
+  '(-a --all-files)'-{a,-all-files}'[include non-regular file types]' \
+  '(-C --noclear)'-{C,-noclear}'[do not clear the screen]' \
+  '(-r --maxrows)'-{r,-maxrows=}'[max rows to print]:rows' \
+  '(-s --sort)'-{s,-sort=}'[sort by column]:column name:( $cols )' \
+  '(-p --pid)'-{p,-pid=}'[target a pid to trace]: : _pids' \
+  '1: :_guard "^-*" interval' \
+  '2: :_guard "^-*" count'

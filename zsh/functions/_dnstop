@@ -1,0 +1,23 @@
+#compdef dnstop
+
+_arguments -A '-*' -s : \
+  '(-6)-4[count only messages with IPv4 addresses]' \
+  '(-4)-6[count only messages with IPv6 addresses]' \
+  '(-R)-Q[count only DNS query messages]' \
+  '(-Q)-R[count only DNS reply messages]' \
+  '-a[anonymize addresses]' \
+  '-b[BPF filter expression]:BPF expression' \
+  '*-i[ignore select addresses]:address' \
+  '-p[do not put the interface into promiscuous mode]' \
+  '-r[redraw interval]:interval' \
+  '-l[keep counts on names up to N domain name levels]' \
+  '-f[input filter name]:filter:(
+    unknown-tlds new-gtlds A-for-A
+    rfc1918-ptr refused qtype-any
+  )' \
+  '-n[only count messages within the specified domain name]:domain:_domains' \
+  '-P[display progress in non-interactive mode]' \
+  '*-B[use hash table buckets]:bucket' \
+  '-X[do not tabulate output]' \
+  '1: : _net_interfaces' \
+  '2: : _files'
