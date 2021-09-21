@@ -49,6 +49,9 @@ LS_COLORS=$ZLS_COLORS
 # run-help's HELPDIR
 HELPDIR=~/.cache/zsh-help
 
+if [[ $OSTYPE = freebsd* ]]; then
+  hash python=${${(v)commands[(I)python<->.<->]}[-1]}
+fi
 # hashed directories
 hash -d dotfiles=$HOME/src/dotfiles/
 hash -d zsh=$HOME/src/zsh/
