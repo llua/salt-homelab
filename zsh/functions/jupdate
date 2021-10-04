@@ -3,6 +3,6 @@ local jail
 
 while read -ru3 jail; do
   print -r -- "Updating jail $jail"
-  PAGER=cat freebsd-update -b /usr/jail/$jail -f /usr/jail/$jail/etc/freebsd-update.conf -d /usr/jail/$jail/var/db/freebsd-update fetch
+  PAGER=cat freebsd-update -b /usr/jail/$jail -f /usr/jail/$jail/etc/freebsd-update.conf -d /usr/jail/$jail/var/db/freebsd-update fetch --currently-running $(jexec $jail freebsd-version -u)
   freebsd-update -b /usr/jail/$jail -f /usr/jail/$jail/etc/freebsd-update.conf -d /usr/jail/$jail/var/db/freebsd-update install
 done 3< <(jls name)
