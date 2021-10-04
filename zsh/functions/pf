@@ -1,1 +1,0 @@
-pf() less =(gpg -d ~/Dropbox/wat-wat.gpg)
