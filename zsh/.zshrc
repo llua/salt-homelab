@@ -222,6 +222,8 @@ zstyle :completion::complete:-command-::commands \
                                     ignored-patterns  restart reboot
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
+zstyle -e ':completion::complete:pkg-install:*:*' \
+                                    tag-order         'if [[ $IPREFIX$PREFIX$SUFFIX$ISUFFIX = */* ]]; then reply=("!packages" -); fi'
 zstyle ':completion:*:*:(lua|lua5[12]|lua-#5.[12]):*:*' \
                                     file-patterns     '*(-/):directories:directories *.(#i)lua(-.):globbed-files:lua\ scripts ^*.(#i)lua(-.):other-files:other\ files'
 # avoiding _perl's restrictive _files glob
