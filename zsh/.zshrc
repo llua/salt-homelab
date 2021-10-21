@@ -142,7 +142,7 @@ zstyle ':completion:*'              completer         _expand _complete _correct
 zstyle ':completion:*'              format            "$(format_style Completing: %d)"
 zstyle ':completion:*'              select-prompt     "$(format_style Menu-selection: current selection at %p)"
 # this style is used by `_arguments --'
-zstyle ':completion:*'              auto-description  "$(format_style Completing: %d)"
+zstyle ':completion:*'              auto-description  "specify: %d"
 # group completions by type
 zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
