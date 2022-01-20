@@ -6,7 +6,7 @@
   export EDITOR='vim' PAGER='less' PATH LESS='-XRSF'
   if (( UID != 0 )) && {
      export SSH_AUTH_SOCK=~/.ssh/agent.socket
-     ssh-add -L &&
+     ssh-add -L
      (( $? == 2 ))
    }; then
          rm -f "$SSH_AUTH_SOCK"
