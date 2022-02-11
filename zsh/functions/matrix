@@ -1,0 +1,35 @@
+#autoload
+# http://bruxy.regnet.cz/web/linux/EN/matrix-sh/
+# with less forking and golfing
+(
+if command -v unsetopt >/dev/null 2>&1; then
+  unsetopt monitor
+fi
+
+((
+  rows = $(tput lines) - 1,
+  cols = $(tput cols)
+))
+
+printf %s $'\033[2J\033[?25l'
+while true; do
+  (( RANDOM ))
+  {
+    ((lrows = RANDOM % rows, cols = RANDOM % cols))
+    for ((n=1; n<=rows; n++)); do
+      printf -v char '\\%.4o' "$((RANDOM % 57 + 33 ))"
+      printf '\033[%d;%dH\033[32m%b\033[%d;%dH\033[37m%b' \
+        "$((n-1))" "$cols" "$char" "$n" "$cols" "$char"
+      sleep 0.1
+      if ((n >= lrows)); then
+        printf '\033[%d;%dH ' "$((n-lrows))" "$cols"
+      fi
+    done
+    for ((n=n-lrows;n<=rows;n++)); do
+      printf '\033[%d;%df ' "$n" "$cols"
+      sleep 0.1
+    done
+  } &
+  sleep 0.05
+done
+)
