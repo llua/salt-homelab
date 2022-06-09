@@ -1,0 +1,31 @@
+#compdef ndp
+
+_arguments -A '-*' \
+  '-n[do not resolve hostnames]' \
+  '-t[print timestamps for each entry]' \
+  + '(mutex_ops)' \
+  '1:hostname:_hosts' \
+  '-a[print existing NDP entries]' \
+  '-A[repeatedly print NDP entries]:seconds' \
+  '-c[erase all NDP entries]' \
+  '-d[delete NDP entry]:entry:_hosts' \
+  '-f[create NDP entries from input file]: : _files' \
+  '-H[harmonize consistency between routing table and default router list]' \
+  '-I[specify default interface used when no default router exists]: :{
+    _alternative iface\:iface\:_net_interfaces "delete\:delete\:(( delete\:default\ interface))"
+  }' \
+  '-i[view ND of interface]:interface:_net_interfaces:*:expressions:{
+    local -a expressions=(
+      nud accept_rtadv auto_linklocal no_prefer_iface disabled
+    )
+    local -a expressions_with_value=(
+      basereachable\:number retrans\:number curhlim\:number
+    )
+    _describe -t values expression expressions -M B\:-=
+    _values expression $expressions_with_value
+  }' \
+  '-p[show prefix list]' \
+  '-P[flush prefix list entries]' \
+  '-r[show default router list]' \
+  '-R[flust entries in default router list]' \
+  '-s[register NDP entry]:entry:_hosts:etheraddr: _message -e etheraddr etheraddr:*:option:(proxy temp)'
