@@ -21,8 +21,9 @@ _arguments -A '-*' \
     local -a expressions_with_value=(
       basereachable\:number retrans\:number curhlim\:number
     )
-    _describe -t values expression expressions -M B\:-=
-    _values expression $expressions_with_value
+    local -a swords=(${words#-})
+    _describe -t values expression expressions -M B\:-= -F swords
+    _values expression ${expressions_with_value:#(${(j.|.)~words%=*}):*}
   }' \
   '-p[show prefix list]' \
   '-P[flush prefix list entries]' \
