@@ -258,6 +258,7 @@ zstyle ':completion:*:events'       range             50
 zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true # may cause completers to fail, look into why.
 zstyle ':completion:*'              accept-exact      false
+zstyle ':completion:*'              accept-exact-dirs true
 zstyle ':completion:*'              matcher-list      '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=* l:|=*'
 zstyle ':completion:*'              use-compctl       false
 zstyle ':completion:*'              rehash            true
