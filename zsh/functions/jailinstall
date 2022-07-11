@@ -34,7 +34,7 @@
   print -lr 'search mac-anu.org' 'nameserver '{8.8.8.8,1.1.1.1} > $dir/etc/resolv.conf
   sysrc -R $dir sshd_enable=YES
   pkg -r $dir install -y pkg
-  pkg -r $dir install -y py37-salt
+  pkg -r $dir install -y py39-salt
   {
     mkdir -p $dir/usr/local/etc/salt/minion.d
     echo 'master: corbenik.mac-anu.org' > $dir/usr/local/etc/salt/minion.d/f_default.conf
