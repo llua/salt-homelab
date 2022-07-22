@@ -117,7 +117,7 @@ format_style() {
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
-zstyle ':prompt:arx:'               users             llua ecook arx root
+zstyle ':prompt:arx:'               users             llua root
 zstyle ':prompt:arx:'               primary-color     24 #  39 199
 zstyle ':prompt:arx:'               secondary-color   45 # 105 210
 zstyle ':prompt:arx:'               delimiter-color   219
