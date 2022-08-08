@@ -1,0 +1,13 @@
+salt:
+  clean_config_d_dir: False
+  minion:
+    hash_type: sha256
+    auth_tries: 100
+    ping_interval: 10
+    auth_safemode: False
+    #log_file: file:///dev/log
+    #log_fmt_logfile: 'salt-master: [%(name)-17s][%(levelname)-8s] %(message)s'
+    schedule:
+      - highstate:
+        - function: state.highstate
+        - minutes: 15

@@ -1,0 +1,63 @@
+salt:
+  master:
+    interface: 0.0.0.0
+    hash_type: sha256
+    state_output: changes
+    state_verbose: False
+    ext_pillar_first: True
+    yaml_utf8: True
+    file_recv: True
+    file_recv_max_size: '4096'
+    pillar_source_merging_strategy: 'recurse'
+    pillar_merge_lists: 'True'
+    reactors:
+      - 'salt/minion/*/start':
+        - 'salt://reactors/highstate_on_boot.sls'
+    git_pillar_base: production
+    # the __env__ is replaced with a git branch specified via `pillarenv'
+    ext_pillar:
+      - gitstack:
+        - __env__ file:///usr/local/etc/salt/config:
+          - root: pillar
+          - stack:
+            - _stack/default/enc.cfg
+            - _stack/default/stack.cfg
+      - git:
+        - __env__ file:///usr/local/etc/salt/config:
+          - root: pillar
+      - gpg: {}
+    fileserver_backend:
+      - gitfs
+    # update gitfs remotes every 6 hours, since i am pinning tags/branches
+    # updating frequently isn't important. It defaults to every minute.
+    # to manually update these
+    # for d in /var/cache/salt/master/git_pillar/*/.git; do
+    #   git --git-dir "$d" pull
+    # done
+    gitfs_update_interval: 21600
+    gitfs_remotes:
+      - file:///usr/local/etc/salt/config:
+        - base: production
+        - root: export
+        # update this control repo once a 10 minutes
+        - update_interval: 600
+      - https://github.com/amendlik/gitstack-pillar.git:
+        - base: develop
+      - https://github.com/llua/salt-formula.git:
+        - base: fbsd_pkg
+      - https://github.com/saltstack-formulas/epel-formula.git:
+        - base: v1.16.1
+      - https://github.com/saltstack-formulas/openssh-formula.git:
+        - base: v3.0.3
+      - https://github.com/llua/samba-formula.git:
+        - base: master
+      - https://github.com/saltstack-formulas/users-formula.git:
+        - base: v0.48.6
+      - https://github.com/saltstack-formulas/sysctl-formula.git:
+        - base: v0.6.3
+      - https://github.com/saltstack-formulas/sudoers-formula.git:
+        - base: v0.25.0
+      - https://github.com/saltstack-formulas/dnsmasq-formula.git:
+        - base: v0.2.1
+      - https://github.com/saltstack-formulas/chrony-formula.git:
+        - base: v1.3.0
