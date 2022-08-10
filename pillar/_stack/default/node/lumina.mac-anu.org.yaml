@@ -1,0 +1,65 @@
+packages: ['coreutils']
+loader_conf:
+  kern.cam.ada.write_cache: 0
+  vmm_load: 'YES'
+  nmdm_load: 'YES'
+  ipmi_load: 'YES'
+  if_tap_load: 'YES'
+  if_bridge_load: 'YES'
+  console: '"comconsole,vidconsole"'
+  comconsole_speed: '115200'
+  boot_multicons: 'YES'
+  boot_serial: 'YES'
+  comconsole_port: '0x2F8' # get via `dmesg | grep uart
+  vfs.zfs.vdev.cache.size: '10M'
+
+sshd_config:
+  ListenAddress: {{ __grains__['ip4_interfaces']['igb0'][0] }}
+  PasswordAuthentication: 'yes'
+
+samba:
+  conf:
+    render:
+      section_order:
+      - global
+      - music
+      - videos
+      - 'IPC$'
+      - storage
+    sections:
+      global:
+        interfaces: {{ grains['ip4_interfaces']['igb0'][0] }}
+        'shadow:snapdir': .zfs/snapshot
+        'shadow:sort': desc
+        'shadow:format': zfs-auto-snap_daily-%Y-%m-%d-%Hh%M
+        'shadow:snapdirseverywhere': yes
+        'vfs objects': full_audit shadow_copy2
+        'dfree command': /usr/local/etc/smb4-zfs-dfree
+      IPC$:
+        'vfs objects': shadow_copy2
+      storage:
+        path: /export/storage
+        read only: 'no'
+        guest ok: 'no'
+        guest only: 'no'
+        force user: llua
+        force group: llua
+        browseable: yes
+        vfs objects: full_audit
+        full_audit:prefix: "%u|%I|%S"
+        full_audit:facility: LOCAL7
+        full_audit:priority: INFO
+        full_audit:success: "open fdopendir opendir unlink chmod chmod_acl rename create_file connect disconnect chflags fchmod fchmod_acl fchown mkdir chown fchown link symlink"
+        full_audit:failure: "connect"
+      music:
+        path: /export/storage/audio/music
+        read only: 'yes'
+        browseable: 'yes'
+        guest only: 'yes'
+        force user: nobody
+      videos:
+        path: /export/storage/videos
+        read only: 'yes'
+        browseable: 'yes'
+        guest only: 'yes'
+        force user: nobody

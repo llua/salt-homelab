@@ -1,2 +1,6 @@
 personal_dotfiles:
   - ecook
+users:
+  llua:
+    ssh_auth_file:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDV7QwJQuzHpEtneYuknoQLilJf1RAjOmNrVefYit1ngblm+oXJfCP/hmzPs3sfN9+5eSVEfLJSMN7NWUobIIdZA8kVG0VUjVcs7xo5i6reeiDpwaWtPrR8+iuavgEGZgTfF6mz1eKrMb6hH26xCks2QwVGyipj5UMFN1t8OJ+eCc60AJb4uKHB3O8Czg/3rZkAX7MGU/LQb3LWHTttqapL/X9WvWwJLBLqQ3IVUE9EZWBd9xWqk7xDQJTgDte4VRW2Fxk+0GGHFV8cS/r0igP97H0xi2Ou9etXvUTPOwK2uqLiu3e9eQ+QPRaUZ7rA3tq8wes98oT4Jbv1zzbZ8Ygp corbenik_key'

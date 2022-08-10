@@ -1,0 +1,4 @@
+plexmediaserver:
+  lookup:
+    preferences:
+      FriendlyName: lumina

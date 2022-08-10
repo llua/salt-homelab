@@ -1,0 +1,4 @@
+sshd_config:
+  PasswordAuthentication: 'yes'
+  X11Forwarding: 'yes'
+  X11UseLocalhost: 'no'

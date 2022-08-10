@@ -1,0 +1,18 @@
+dnsmasq:
+  settings:
+    bind-dynamic: True
+    addn-hosts: '/etc/dnsmasq.d/addn-hosts'
+    dhcp-name-match: 'set:wpad-ignore,wpad'
+    dhcp-ignore-names: 'tag:wpad-ignore'
+    listen-address: '127.0.0.1,192.168.122.1'
+    dhcp-range: '192.168.122.2,192.168.122.254'
+    dhcp-no-override: True
+    dhcp-lease-max: '253'
+    enable-tftp: True
+    tftp-no-fail: True
+    tftp-root: '/srv/tftp'
+    dhcp-boot: 'pxelinux.0'
+sshd_config:
+  PasswordAuthentication: 'yes'
+  X11Forwarding: 'yes'
+  X11UseLocalhost: 'no'
