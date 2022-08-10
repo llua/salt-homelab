@@ -28,7 +28,7 @@ samba:
       - storage
     sections:
       global:
-        interfaces: {{ grains['ip4_interfaces']['igb0'][0] }}
+        interfaces: {{ __grains__['ip4_interfaces']['igb0'][0] }}
         'shadow:snapdir': .zfs/snapshot
         'shadow:sort': desc
         'shadow:format': zfs-auto-snap_daily-%Y-%m-%d-%Hh%M
