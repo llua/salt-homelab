@@ -11,3 +11,13 @@ packages:
   - procps-ng
   - bind
 
+sysctl:
+  params:
+    net.ipv4.ip_forward:
+      value: 1
+    vm.laptop_mode:
+      value: 5
+dnsmasq:
+  settings:
+    dhcp-hostsdir: /etc/dnsmasq.d/leases
+    dhcp-leasefile: /var/log/dnsmasq-leases.log

@@ -25,6 +25,9 @@ freebsd-update:
   ServerName: update.FreeBSD.org
   Components:
     - world
+  {% if __grains__['virtual'] == 'physical' %}
+    - kernel
+  {% endif %}
   IgnorePaths:
     - /etc/freebsd-update.conf
     - /etc/group
@@ -64,3 +67,18 @@ sudoers:
 users:
   llua:
     shell: /usr/local/bin/zsh
+
+salt:
+  py_ver: py39
+
+sysctl:
+  lookup:
+    config:
+      location: '/etc/sysctl.conf'
+  params:
+    vfs.zfs.min_auto_ashift:
+      value: 12
+    security.bsd.see_jail_proc:
+      value: 0
+    net.link.tap.up_on_open:
+      value: 1

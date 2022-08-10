@@ -1,3 +1,12 @@
 packages:
   - procps
   - bind-utils
+schedule:
+  purge_old_kernels:
+    args:
+    - 'purge-kernels latest,latest-1,running'
+    enabled: true
+    function: cmd.run
+    jid_include: true
+    maxrunning: 1
+    minutes: 10080
