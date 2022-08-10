@@ -20,6 +20,7 @@ include:
 {% if grains['kernel'] == 'FreeBSD' %}
   - misc_confs
   - freebsd-update
+  - syslogd
   {% if grains['freebsd_jailed'] == false %}
   - ntp
   - sysctl.param
