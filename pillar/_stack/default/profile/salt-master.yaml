@@ -17,13 +17,13 @@ salt:
     # the __env__ is replaced with a git branch specified via `pillarenv'
     ext_pillar:
       - gitstack:
-        - __env__ file:///usr/local/etc/salt/config:
+        - __env__ https://github.com/llua/salt-homelab:
           - root: pillar
           - stack:
             - _stack/default/enc.cfg
             - _stack/default/stack.cfg
       - git:
-        - __env__ file:///usr/local/etc/salt/config:
+        - __env__ https://github.com/llua/salt-homelab:
           - root: pillar
       - gpg: {}
     fileserver_backend:
@@ -36,7 +36,7 @@ salt:
     # done
     gitfs_update_interval: 21600
     gitfs_remotes:
-      - file:///usr/local/etc/salt/config:
+      - https://github.com/llua/salt-homelab:
         - base: production
         - root: export
         # update this control repo once a 10 minutes
