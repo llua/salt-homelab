@@ -5,6 +5,7 @@ schedule:
 salt:
   clean_config_d_dir: False
   minion:
+    master: corbenik.mac-anu.org
     hash_type: sha256
     auth_tries: 100
     ping_interval: 10
