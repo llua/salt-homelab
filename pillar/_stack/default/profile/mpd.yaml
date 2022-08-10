@@ -1,0 +1,41 @@
+mpd:
+  music_directory: "/mnt/music"
+  playlist_directory: "/var/mpd/playlists"
+  db_file: "/var/mpd/database"
+  log_file: "/var/log/mpd.log"
+  state_file: "/var/mpd/state"
+  sticker_file: "/var/mpd/sticker.sql"
+  user: "mpd"
+  port: "6600"
+  auto_update: "yes"
+  password: |
+    -----BEGIN PGP MESSAGE-----
+
+    hQGMA8Q1Y82D+psOAQv6Al7WlabcfsOEc+zjZKJFHoi8V9t3WYyMNUn/DncP5phO
+    KZaY5Y6d3diTYlDOaqE/OSfhNfA2Oj5kpDzkMHYh6Dug1/28gD1J2shNO/tz4cPX
+    VIaVTxRquV9E7Q1zuNqvdEZDjkX4Fi3RlMVHC5qTFqDpuFQh3IbSxDP5QAY42qow
+    iNVe4Cui63gvsIaP7X9mkXaBK7gc+UFCDOW1apqjxYjQrLjrytd0OQ88jlnJnbMU
+    ffjkS16a5FB0ljf6oR87UtfKlLzsyKEa+RiMedNXnKbctGbTLiut9eCI/Iy5Lsl8
+    xtzs/mf0Lxq3H21ZJh09uBDwyKOaH4pkHGY20qJzTShEurIBjAelUVU6Ai6r5a3l
+    H+dV/ZtqgYd6/lQk/KDoG8crQfZkKwGnLvMd0bbzYQbVnUl9IlzdzJsEanpSgmXA
+    4MqeWklLuUnpL4ZzPnl1RNd7nwdusE8UrRa5NE4p8DF2iQ5FGSXbK59g20kyGMJi
+    P4iHuvRlfAcjfqPmE/pl0mABpoFTQRXsNgAnRIYW+hiWihD1KUtwMoldnxLOprsk
+    q7sqhpubbyIogh1DZklw4zdFOzSKlDMfTDbizT4FasCVyOIVdZP/afwVTcjF4jnx
+    NpKjwyyQEbBoaRJQEhQlmyg=
+    =8/AI
+    -----END PGP MESSAGE-----
+  default_permissions: "read"
+  input:
+    - plugin: "curl"
+    - plugin: "ffmpeg"
+  audio_output:
+    - type: "httpd"
+      name: "Aurora's MPD daemon"
+      #url: "http://aurora.mac-anu.org:8000"
+      encoder: "flac" # optional, vorbis or lame
+      port: "8000"
+      #bitrate: "128" # do not define if quality is defined
+      format: "44100:16:1"
+      max_clients: "0" # optional 0=no limit
+  max_playlist_length: "1000000"
+  filesystem_charset: "UTF-8"
