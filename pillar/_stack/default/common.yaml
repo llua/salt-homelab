@@ -1,7 +1,7 @@
 schedule:
-  - highstate:
-    - function: state.highstate
-    - minutes: 15
+  highstate:
+  - function: state.highstate
+  - minutes: 15
 salt:
   clean_config_d_dir: False
   minion:
