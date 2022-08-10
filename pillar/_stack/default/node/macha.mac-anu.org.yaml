@@ -1,0 +1,34 @@
+sudoers:
+  users:
+    danielsh:
+      - 'ALL=(zayita) NOPASSWD: ALL'
+
+users:
+  danielsh:
+    fullname: danielsh
+    createhome: True
+    shell: /bin/zsh
+    ssh_key_type: rsa
+    ssh_auth_file:
+      - |
+        -----BEGIN PGP MESSAGE-----
+
+        hQGMA8Q1Y82D+psOAQv/dOSkurCcwYuylhlSusCrCTaShamCtDkE4IpHazrQcc34
+        L5zZrPFJAesxznMgqbndbdZynxnH9WhZKCQpOpoIN0e1/vx5OwQVz0pmpft6nVpi
+        UBC6+bkaUWh9LX3Eae5GBN4zGjxj7HbdcZMiLqPIbZav1JMsSulMEZidQkK2P2S2
+        boO9v8vXh5vV2LoBgED3rB98a/8sbuXnAyLCVnSy/raVuyWyuusbbn8cCE8wQWQm
+        5dmnzWKjC2SM571Boq95PD+Xa98SU39+LL63du2lg9zv4FZNv/svgPWBnK5iYI86
+        7VB4AFglnr+m0pWDz29ZHOxzs1zq96fCZOwyZlyBIDwcKXUYnQvNYQDLZejYtXwk
+        jcy1JqgpmMhEb8b8tRmSSWpbMsc1THL1hpEm1t3Oix85SWEToY8PGGHz1Fio+MJW
+        9yraWlBHhm1T2KJkUu0vA0gMWL/j1NxKrXNorNUgaN7DF+6cevAnka32hEdrzxMG
+        kw+FCQffshQci4cmgI9K0sDOAZVvsfW7w3HWFAGdsrlXQurkxRkBzBpQ23hD6QvX
+        2M81Ac/zXT8mnKpDeUfWDsCOm56Y2pFnBkM8DmLBtK0gxzv8x+AYdu9TzbDsSxRP
+        5m3yinSoa0G+rQk1k9vdXcXO+VuFY8CuYyL3g1zqt2HDQHu2wG4f5CEOjRtVm3Rg
+        uFUU31gTn0HWwiXd9cXJJHr66uM9gzBZZGS76IdlF+gVkIiD/pq9E5PYg0+Sk524
+        55quGkoiV5oRhExfpk2tGhcs76cEebcXmS6dtdeoP7KhHoWOFTJJM4tw/IPRkzUY
+        L6GsWrDKL3Ps/vzmZ1qptP7Pkq2F8K3QACtXDAgqtTBTyRHZbwkVZnS/tv+GpKXI
+        doQY05xdbn0kNS97ySF6nSz63tcC60nNbwHuvutfpVyfW8hg/TUPDgYbDXOjHBmt
+        MIFDcBfKkKWmR4mvJx/WYRbf1DbHaLY4xKi/u1ChM21Mn9nP++/WYGHISfukvhJs
+        5RE0cdUQ0SF0jE1eWRtE1q8mN7d8L9mi6KR7reG3uEo=
+        =Gsb/
+        -----END PGP MESSAGE-----

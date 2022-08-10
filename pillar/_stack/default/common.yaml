@@ -70,3 +70,39 @@ sudoers:
       - 'env_keep = "HOME EDITOR LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS XDG_SESSION_COOKIE SSH_CLIENT SSH_TTY SSH_CONNECTION"'
       - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
       - '!insults'
+
+users:
+  llua:
+    fullname: llua
+    password: |
+      -----BEGIN PGP MESSAGE-----
+
+      hQGMA8Q1Y82D+psOAQv9H39yJFj8i+bH/0CfOQc21v/kkrlvLTOgNJr5iHgbBBSp
+      Dz3yCYPnUFzBI0swrWC5LHdftBuTyvzMfvsydsNPYstBEWUmYeU1jMbhRHl/lzfW
+      L+FXZ/D6lpH9fM3eQdFqtZQ6o3Wa33iHEgTl8u2jHzThY38qXEuONGmGJqW6PxGC
+      Lmew324R72nTqwzrPO5wiDV69iBELb4A2fpho2spRxDfIBaLb0eHiMJhgifGlba5
+      SCIIdX1nxmHbddKvhrXspApUAcyB9BO30yDoa9LoZ7+emcohmJQFle8ICZBuAypH
+      7pl8L+QJnJ1foWab7Dh0Zy7QhEhGYdb7Fft3eP+iBaCn4gdZ35K6FHg6OdHxKAET
+      1fBgh/GLzCdpiQST67t58WFlpOMuwFE1E/ZeW1pE1+PH2EXsUVOh9yPT/aqA48JI
+      5BZ8KArtu0TX5O8tvUMA5rprfuVymXTBm9Vg6G847GtS4+vJG6fXZriZzZQKqyYo
+      Z79qaTwePc3gL28fuCgp0p0B57c2DaeafkS39mn+9bciXCy3X2uzGS4mqMTu9wpm
+      SCTz+v5EytuHplXruKTRqIdyF55wyZt62grRXASZkeJNkqXY2qmVG2bLUKlYeOHk
+      cQGZwwE876G2q4h415k7/Ee8prenY7NLyCEJL/2Ufit7t0JzlI44zm1hwTnMSVze
+      HCNUfIMjk3BaUmjglGO9QPIimiYYXTbniupQ5woX
+      =LLbd
+      -----END PGP MESSAGE-----
+    createhome: True
+    sudouser: False
+    shell: /bin/zsh
+    groups: ['wheel']
+    ssh_key_type: rsa
+    ssh_auth_file:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCw09wjtsxYrw4zsZiW1ZG8mLOXE28gGE2vSdOeK5Gyrg2mw80odhs6bQIHJbLTKlNySYv56cKHPtPR2/pBmAN7cOVLVq3JYZistIABRdz1cM8r5HHyUhQ2Ba8M+cX/oONJsTMyKmRJlthW/7D5n2u1yOe0Wm7bRHefywEXOngnl6eC0cg23bVXKrOUtgEcgdqEBhOoCI0fccuXNJkBEbNRYkE/+Pl2F1Tz4vj/ZAMS8fQ1LvahSC+lMkLMl33n1xxSquQUb6sRm5St9qYQxEb3RwbXQVCSbcsnwXYpkucCazxOTXvV4pWIYWULp12OyOvOn9zsxaOEYRYg+W9fasx1'
+  centos:
+    absent: True
+    purge: True
+    force: True
+  ubuntu:
+    absent: True
+    purge: True
+    force: True

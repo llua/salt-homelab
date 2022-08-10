@@ -60,3 +60,7 @@ freebsd-update:
 
 sudoers:
   includedir: /usr/local/etc/sudoers.d
+
+users:
+  llua:
+    shell: /usr/local/bin/zsh

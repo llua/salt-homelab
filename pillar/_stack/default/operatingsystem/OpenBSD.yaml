@@ -1,3 +1,22 @@
 packages:
   - vim--no_x11
   - ksh93
+users:
+  llua:
+    shell: /usr/local/bin/zsh
+    password: |
+      -----BEGIN PGP MESSAGE-----
+
+      hQGMA8Q1Y82D+psOAQv+O7t8YtTFzoLngfscSkQ8KCbdXuyhOzhBpPcs4IlYIJMn
+      81iQBGBJLyzVwVRO8PERPfwCDn+m7JZO67BvChR5o29tUhGXJ/zLiuIBCMg5uPpS
+      piBftR2qME5JEngysOk11iDYhIrzIkhjsuvq1qJHACdcun6QC09+7NYCPHKEnkTV
+      dTSNetp4zrj1yxGYkbfX943TLKrxPTl55GJ024fvh4BiCN24ds1sDiax9H4kM06C
+      iUeteQIImMaTKUjmWe17LyAPsTJKG0kXUgLWLHl6QufFyZyby2usprB/h3uraiyS
+      FoBVDs2ZVMPawlvjJptL0IyiivroZgztYwMwFhGYbiZfwnPiHMoBqT2eKbNupvQO
+      d/5y3OtlDYD5ZTBVYcVviZG/cJ8hPVWamt18a+o+AdN+Nlu20KvgSPrYRwF8Oh/B
+      hkGwEhq9JOxY0Mqy81Vu/+mvOj6ECq2QLDmG8BhkNDFwPIMEDcQCLFA6tQClJI65
+      c4kRlYfpaNlJnjKVrW300ncB/EW5Gg/38BsYDNIM110L6xP40tubrbzX3CnR0Zo8
+      4L/CjADS7NEm9VmW2SCMWbT9zFaIfDRWvinCdQHQRwOVw8aqTprYEzsCyyquv3n0
+      RxpI/gE95ztnqrD0zjKmtGNXT0fbUhwMV4KhD80wded1GVR1BuhlDw==
+      =acln
+      -----END PGP MESSAGE-----

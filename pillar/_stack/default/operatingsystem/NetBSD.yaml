@@ -1,2 +1,21 @@
 sshd_config:
   SyslogFacility: 'AUTH'
+users:
+  llua:
+    shell: /usr/pkg/bin/zsh
+    password: |
+      -----BEGIN PGP MESSAGE-----
+
+      hQGMA8Q1Y82D+psOAQv+MVU6CgzH+gWp+Aj70jiCPcT15myhPWVvftjUICbjVA7z
+      dTEHoJMSk9eRvvB8vH4STd6DYV18gfm7sTZREIiS5m5KAmqAkaVHjkO1tW0X+zQf
+      ce7WuepswMQKXvL8lm8pY2qYu46xqveALT40+ONuWKFm7itWUth/meTQ7fXIfh9b
+      Aa41HVJfygeWzJC/05AgGsAxa7pDVXTwCDK91U6/iQ7RWx3GN0cEpQkUdaNH6eBE
+      tpgNntKIttDlsqjVZONUXX91rNO5jMFNSIcPFbU46QEANEu+2UQXE9XYd31m1u0+
+      yC/CQex0cTfqn2fGaIsvaJbXZdob8mCVUFBgNUxKxLO3yhlEq1CcD/vf5i9+R6VV
+      8pgHItIXrnI08dvQVZexpzJXLRwd8dZIfReYOYJYfsdf3msJwh1gry/0KT02RVMT
+      m1w0EpvAblZKhC+uGAFB90vecTV+LFdzWcJbtS+OxDzk4YXbLgWjymplkGruHgGv
+      L5XghMEHwxS1IrDvu8QU0mwB5ALnm7kL9kj82/L/kizKz1uzj+FDWMSilFezmO1t
+      c+87OtwOBWmPSE7Ung/wV4FjEtbc0ATX0PQe8+KrCI698IkblaocD5A1cVFDfKhs
+      9Y54B/aNGiJ2jAoEucOmhJM0n9C5sJVTpvaztP0=
+      =v8Nk
+      -----END PGP MESSAGE-----
