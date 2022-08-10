@@ -1,2 +1,15 @@
 packages:
   - ksh93
+
+periodic_conf:
+  daily_ntpd_leapfile_enable: 'NO'
+  daily_clean_tmps_enable: 'YES'
+  daily_clean_tmps_dirs: '/tmp'
+  daily_clean_tmps_days: '3'
+  daily_output: '/var/log/daily.log'
+  daily_status_security_output: '/var/log/daily.log'
+  weekly_output: '/var/log/weekly.log'
+  weekly_status_security_output: '/var/log/weekly.log'
+  monthly_output: '/var/log/monthly.log'
+  monthly_status_security_output: '/var/log/monthly.log'
+  daily_clean_tmps_ignore: '".X*-lock .X11-unix .ICE-unix .font-unix .XIM-unix quota.user quota.group .snap .sujournal"'
