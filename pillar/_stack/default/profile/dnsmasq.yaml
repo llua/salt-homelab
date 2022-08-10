@@ -1,0 +1,9 @@
+{% set etc = '/usr/local/etc' if __grains__['os'] == 'FreeBSD' else '/etc' %}
+
+dnsmasq:
+  dnsmasq_conf: salt://dnsmasq/files/dnsmasq.conf
+  settings:
+    bind-dynamic: true
+    addn-hosts: {{ etc }}/dnsmasq.d/addn-hosts
+    dhcp-name-match: set:wpad-ignore,wpad
+    dhcp-ignore-names: tag:wpad-ignore
