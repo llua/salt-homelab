@@ -1,3 +1,7 @@
+schedule:
+  - highstate:
+    - function: state.highstate
+    - minutes: 15
 salt:
   clean_config_d_dir: False
   minion:
@@ -7,7 +11,20 @@ salt:
     auth_safemode: False
     #log_file: file:///dev/log
     #log_fmt_logfile: 'salt-master: [%(name)-17s][%(levelname)-8s] %(message)s'
-    schedule:
-      - highstate:
-        - function: state.highstate
-        - minutes: 15
+packages:
+  - zsh
+  - curl
+{% if __grains__['kernel'] == 'Linux' %}
+  - sysstat
+  - strace
+  - less
+  - ed
+  - lsof
+  - iproute2
+{% endif %}
+{% if __grains__['os_family'] not in ['OpenBSD', 'RedHat'] %}
+  - vim
+{% endif %}
+{% if __grains__['os_family'] not in ['Arch', 'OpenBSD', 'FreeBSD'] %}
+  - ksh
+{% endif %}

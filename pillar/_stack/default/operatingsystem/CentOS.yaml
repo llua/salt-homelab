@@ -1,0 +1,7 @@
+packages:
+  - mlocate
+  - procps-ng
+  - bind-utils
+  - setools-console
+  - cyrus-sasl-plain
+  - mailx

@@ -1,0 +1,4 @@
+{% set _ = stack['packages'].remove('iproute2') %}
+packages:
+  - vim-enhanced
+  - iproute

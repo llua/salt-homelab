@@ -1,0 +1,9 @@
+packages:
+  - mlocate
+  - htop
+  - policycoreutils-python-utils
+  - procps-ng
+  - util-linux-user
+  - hostname
+  - mailx
+  - python3-dnf-plugin-versionlock

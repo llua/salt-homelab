@@ -1,0 +1,4 @@
+packages:
+  - policycoreutils-python
+  - yum-plugin-versionlock
+  - libselinux-python

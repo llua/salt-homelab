@@ -1,0 +1,13 @@
+packages:
+  - busybox
+  - dash
+  - file
+  - gawk
+  - git
+  - grep
+  - mksh
+  - man-db
+  - htop
+  - procps-ng
+  - bind
+
