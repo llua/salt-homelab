@@ -135,3 +135,45 @@ samba:
         full_audit:failure: "connect"
         full_audit:facility: LOCAL7
         full_audit:priority: INFO
+
+ncmpcpp:
+  default:
+    mpd_host: "aurora.mac-anu.org"
+    mpd_connection_timeout: '5'
+    song_list_format: "{$7%a -$9 }{$8%t$9}|{$8%b$9}$R{$7(%l)$9}"
+    {% raw %}
+    alternative_header_second_line_format: '{{$0$b%a$/b$9}{ - $7%b$9}{ ($0$b%y$/b$9)}}|{%D}'
+    {% endraw %}
+    song_columns_list_format: "(7f)[cyan]{l} (25)[cyan]{a} (40)[white]{t|f} (30)[cyan]{b}"
+    playlist_display_mode: "columns" # (classic/columns)
+    max_playlist_length: "64000"
+    user_interface: 'alternative'
+    jump_to_now_playing_song_at_start: "yes"
+    ignore_leading_the: "no"
+    mouse_support: "yes"
+    mouse_list_scroll_whole_page: "no"
+    enable_window_title: "yes"
+    allow_physical_files_deletion: "no"
+    allow_physical_directories_deletion: "no"
+    colors_enabled: "yes"
+    header_window_color: "cyan"
+    volume_color: "cyan"
+    state_line_color: "cyan"
+    state_flags_color: "cyan"
+    main_window_color: "cyan"
+    color1: "white"
+    color2: "white"
+    main_window_highlight_color: "white" # 0.8 deprecates this in favor for current_item_*
+    current_item_prefix: "$(white)$r"
+    current_item_suffix: "$/r$(end)"
+    active_column_color: "cyan" # 0.8 deprecates this in favor for current_item_inactive_column_*
+    current_item_inactive_column_prefix: "$(cyan)$r"
+    current_item_inactive_column_suffix: "$/r$(end)"
+    progressbar_color: "cyan"
+    statusbar_color: "cyan"
+    visualizer_color: "cyan"
+    window_border_color: "cyan"
+    active_window_border: "cyan"
+    progressbar_elapsed_color: 13
+  configs:
+    llua: {}
