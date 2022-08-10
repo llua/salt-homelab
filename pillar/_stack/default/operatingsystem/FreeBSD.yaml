@@ -82,3 +82,7 @@ sysctl:
       value: 0
     net.link.tap.up_on_open:
       value: 1
+
+samba:
+  server: samba413
+  client: samba413

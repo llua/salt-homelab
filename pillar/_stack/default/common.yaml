@@ -109,3 +109,29 @@ users:
 personal_dotfiles:
   - llua
   - root
+
+samba:
+  conf:
+    render:
+      section_order: [global]
+      include_skeleton: no
+    sections:
+      global:
+        workgroup: WORKGROUP
+        disable netbios: 'yes'
+        server string: "%h server"
+        log file: "/var/log/samba4/%m.log"
+        max log size: 1000
+        logging: "file"
+        map to guest: "Bad User"
+        guest account: "nobody"
+        server services: '-winbindd, +smb'
+        encrypt passwords: "true"
+        name resolve order: "lmhosts bcast host"
+        nmbd bind explicit broadcast: no
+        vfs objects: full_audit
+        full_audit:prefix: "%u|%I|%S"
+        full_audit:success: "all !readdir !telldir !file_id_create !get_alloc_size"
+        full_audit:failure: "connect"
+        full_audit:facility: LOCAL7
+        full_audit:priority: INFO
