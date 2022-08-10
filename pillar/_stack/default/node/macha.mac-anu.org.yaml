@@ -32,3 +32,5 @@ users:
         5RE0cdUQ0SF0jE1eWRtE1q8mN7d8L9mi6KR7reG3uEo=
         =Gsb/
         -----END PGP MESSAGE-----
+personal_dotfiles:
+  - macha

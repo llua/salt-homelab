@@ -106,3 +106,6 @@ users:
     absent: True
     purge: True
     force: True
+personal_dotfiles:
+  - llua
+  - root
