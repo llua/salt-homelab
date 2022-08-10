@@ -13,3 +13,9 @@ periodic_conf:
   monthly_output: '/var/log/monthly.log'
   monthly_status_security_output: '/var/log/monthly.log'
   daily_clean_tmps_ignore: '".X*-lock .X11-unix .ICE-unix .font-unix .XIM-unix quota.user quota.group .snap .sujournal"'
+
+loader_conf:
+  zfs_load: 'YES'
+  aio_load: 'YES'
+  kern.racct.enable: 1
+  kern.geom.label.gptid.enable: 0
