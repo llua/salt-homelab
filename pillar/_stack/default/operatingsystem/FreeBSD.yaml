@@ -19,3 +19,41 @@ loader_conf:
   aio_load: 'YES'
   kern.racct.enable: 1
   kern.geom.label.gptid.enable: 0
+
+freebsd-update:
+  KeyPrint: 800651ef4b4c71c27e60786d7b487188970f4b4169cc055784e21eb71d410cc5
+  ServerName: update.FreeBSD.org
+  Components:
+    - world
+  IgnorePaths:
+    - /etc/freebsd-update.conf
+    - /etc/group
+    - /etc/hosts
+    - /etc/login.conf
+    - /etc/login.conf.db
+    - /etc/mail/sendmail.cf
+    - /etc/mail/submit.cf
+    - /etc/master.passwd
+    - /etc/motd
+    - /etc/ntp.conf
+    - /etc/passwd
+    - /etc/shells
+    - /etc/ssh/ssh_config
+    - /etc/ssh/sshd_config
+    - /etc/sysctl.conf
+    - /etc/syslog.conf
+    - /etc/ttys
+  IDSIgnorePaths:
+    - /usr/share/man/cat
+    - /usr/share/man/whatis
+    - /var/db/locate.database
+    - /var/log
+  UpdateIfUnmodified:
+    - /etc/
+    - /var/
+    - /root/
+    - /.cshrc
+    - /.profile
+  MergeChanges:
+    - /etc/
+    - /boot/device.hints
