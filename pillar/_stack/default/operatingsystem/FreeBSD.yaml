@@ -57,3 +57,6 @@ freebsd-update:
   MergeChanges:
     - /etc/
     - /boot/device.hints
+
+sudoers:
+  includedir: /usr/local/etc/sudoers.d

@@ -53,3 +53,20 @@ sshd_config:
   PrintMotd: 'yes'
   AcceptEnv: |
     LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT LC_IDENTIFICATION LC_ALL LANGUAGE XMODIFIERS
+
+sudoers:
+  users:
+    root:
+      - 'ALL=(ALL) ALL'
+  groups:
+    wheel:
+      - 'ALL=(ALL) ALL'
+  defaults:
+    generic:
+      - requiretty
+      - '!visiblepw'
+      - always_set_home
+      - env_reset
+      - 'env_keep = "HOME EDITOR LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS XDG_SESSION_COOKIE SSH_CLIENT SSH_TTY SSH_CONNECTION"'
+      - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+      - '!insults'
