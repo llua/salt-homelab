@@ -8,8 +8,7 @@ manage /etc/rc.conf.d/syslogd:
     - mode: 640
     - user: root
     - group: wheel
-    - content: |
-      {{ salt['slsutil.banner']() }}
-      syslogd_flags="-sO rfc5424"
+    - contents: |
+        syslogd_flags="-sO rfc5424"
     - listen_in:
       - service: syslogd
