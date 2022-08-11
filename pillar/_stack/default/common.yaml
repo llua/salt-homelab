@@ -10,8 +10,6 @@ salt:
     auth_tries: 100
     ping_interval: 10
     auth_safemode: False
-    top_file_merging_strategy: same
-    default_top: base
     #log_file: file:///dev/log
     #log_fmt_logfile: 'salt-master: [%(name)-17s][%(levelname)-8s] %(message)s'
 packages:
