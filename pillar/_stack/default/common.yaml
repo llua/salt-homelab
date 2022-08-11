@@ -10,7 +10,7 @@ salt:
     auth_tries: 100
     ping_interval: 10
     auth_safemode: False
-    environment: base
+    saltenv: base
     #log_file: file:///dev/log
     #log_fmt_logfile: 'salt-master: [%(name)-17s][%(levelname)-8s] %(message)s'
 packages:
