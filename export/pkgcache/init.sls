@@ -17,6 +17,7 @@ install squid:
 "create squid's cache directory":
   cmd.run:
     - name: 'squid -z --foreground >/dev/null 2>&1'
+    - shell: /bin/sh
     - creates:
       - /var/squid/cache/00
 
