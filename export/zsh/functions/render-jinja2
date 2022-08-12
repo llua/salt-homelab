@@ -1,5 +1,5 @@
 (
-  python2 - "$@" <<\eof
+  ${${(v)commands[(I)python<->.<->]}[-1]} - "$@" <<\eof
 from __future__ import print_function
 from jinja2 import Template
 import sys

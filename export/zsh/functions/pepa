@@ -1,7 +1,0 @@
-#autoload
-
-if ! (( $+commands[pepa] )); then
-  python -m salt.pillar.pepa -c /usr/local/etc/salt/master.d/f_defaults.conf "$@"
-else
-  command pepa "$@"
-fi
