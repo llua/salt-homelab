@@ -2,7 +2,7 @@
 
 Install python-augeas:
   pkg.installed:
-    - name: py39-python-augeas
+    - name: "py{{ grains['pythonversion'][0:2] | join('') }}-python-augeas"
 
 plexmediaserver:
   {% if plexmediaserver.pkg is defined %}
