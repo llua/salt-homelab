@@ -31,10 +31,7 @@ salt:
       - gitfs
     # update gitfs remotes every 6 hours, since i am pinning tags/branches
     # updating frequently isn't important. It defaults to every minute.
-    # to manually update these
-    # for d in /var/cache/salt/master/git_pillar/*/.git; do
-    #   git --git-dir "$d" pull
-    # done
+    # to manually update these: salt-run fileserver.update
     gitfs_update_interval: 21600
     gitfs_remotes:
       - https://github.com/llua/salt-homelab:
