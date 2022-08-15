@@ -86,3 +86,6 @@ sysctl:
 samba:
   server: samba413
   client: samba413
+
+postfix:
+  setgid_group: postfix
