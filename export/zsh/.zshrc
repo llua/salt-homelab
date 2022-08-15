@@ -320,6 +320,7 @@ bindkey -M viins '\e[c'                 vi-forward-word
 bindkey -M vicmd '\e[c'                 vi-forward-word
 bindkey -M viins '\e[1;5C'              vi-forward-word
 bindkey -M vicmd '\e[1;5C'              vi-forward-word
+bindkey -M vicmd ';'                    execute-last-named-cmd
 vi-exit() { print -sr -- $BUFFER; builtin exit; }; zle -N vi-exit; bindkey -M vicmd 'ZZ' vi-exit
 bindkey -M menuselect '^[[Z'            reverse-menu-complete
 bindkey -M menuselect '^r'              history-incremental-search-backward
