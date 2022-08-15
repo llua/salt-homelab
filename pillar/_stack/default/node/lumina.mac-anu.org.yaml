@@ -21,7 +21,6 @@ samba:
   conf:
     render:
       section_order:
-      - global
       - music
       - videos
       - 'IPC$'

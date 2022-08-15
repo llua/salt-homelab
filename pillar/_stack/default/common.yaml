@@ -126,6 +126,8 @@ samba:
         log file: "/var/log/samba4/%m.log"
         max log size: 1000
         logging: "file"
+        printcap name: bsd
+        printing: bsd
         map to guest: "Bad User"
         guest account: "nobody"
         server services: '-winbindd, +smb'
