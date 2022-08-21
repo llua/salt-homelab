@@ -1,0 +1,1 @@
+awk -v comment=${COMMENT:-\#} '$0 !~ "^"comment && !/^[[:space:]]*$/' $@
