@@ -41,8 +41,8 @@ salt:
         - update_interval: 600
       - https://github.com/amendlik/gitstack-pillar.git:
         - base: develop
-      - https://github.com/llua/salt-formula.git:
-        - base: fbsd_pkg
+      - https://github.com/saltstack-formulas/salt-formula.git:
+        - base: v1.12.0
       - https://github.com/saltstack-formulas/epel-formula.git:
         - base: v1.16.1
       - https://github.com/saltstack-formulas/openssh-formula.git:
