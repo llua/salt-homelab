@@ -28,14 +28,14 @@ mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
 READNULLCMD=less
 TIMEFMT=$(
-  print -rP '%B %%J %b%K{12}%F{240} %%U %K{240}%F{12} user'\
-    '%K{12}%F{240} %%S %K{240}%F{12} system'\
-    '%K{12}%F{240} %%P %K{240}%F{12} cpu'\
-    '%K{12}%F{240} %%*E %K{240}%F{12} total %f%k'
+  print -rP '%B %%J %b%K{60}%F{225} %%U %K{225}%F{60} user'\
+    '%K{60}%F{225} %%S %K{225}%F{60} system'\
+    '%K{60}%F{225} %%P %K{225}%F{60} cpu'\
+    '%K{60}%F{225} %%*E %K{225}%F{60} total %f%k'
 )
 REPORTTIME=60
 WATCHFMT=$(
-  print -rP '%K{12}%F{8} %%n %K{240}%F{12} has %%a %%l @ %%D{%%T} %%D %f%k'
+  print -rP '%K{60}%F{8} %%n %K{225}%F{60} has %%a %%l @ %%D{%%T} %%D %f%k'
 )
 
 # autoload wrapper functions
@@ -111,16 +111,16 @@ format_style() {
   if (( ${term_colors:=$(tput colors)} == 8 )); then
     print -r -- "$@"
   else
-    print -r -- "%K{12}%B%F{240} $1 %K{240}%F{12} $argv[2,-1] %f%k"
+    print -r -- "%K{60}%B%F{225} $1 %K{225}%F{60} $argv[2,-1] %f%k"
   fi
 }
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
 zstyle ':prompt:arx:'               users             llua root
-zstyle ':prompt:arx:'               primary-color     24 #  39 199
-zstyle ':prompt:arx:'               secondary-color   45 # 105 210
-zstyle ':prompt:arx:'               delimiter-color   219
+zstyle ':prompt:arx:'               primary-color     60  # 24  39 199
+zstyle ':prompt:arx:'               secondary-color   111 # 45 105 210
+zstyle ':prompt:arx:'               delimiter-color   225
 zstyle ':prompt:arx:'               primary-color-8colors \
                                                       6
 zstyle ':prompt:arx:'               secondary-color-8colors \
@@ -148,9 +148,9 @@ zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
 zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default'      list-colors       'ma=01;07;35' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:default'      list-colors       'ma=48;5;225' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
 zstyle ':completion:*:(options|flags)' \
-                                    list-colors       '=(#s)(#b)[[:space:]]#*[[:space:]]#[[:space:]]#(::)[[:space:]]#(*)(#B)(#e)=0=38;5;219=38;5;24'
+                                    list-colors       '=(#s)(#b)[[:space:]]#*[[:space:]]#[[:space:]]#(::)[[:space:]]#(*)(#B)(#e)=0=38;5;111=38;5;60'
 zstyle ':completion::complete:vim:option-u-1:*' \
                                     fake              NONE
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
