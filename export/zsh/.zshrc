@@ -111,7 +111,7 @@ format_style() {
   if (( ${term_colors:=$(tput colors)} == 8 )); then
     print -r -- "$@"
   else
-    print -r -- "%K{60}%B%F{225} $1 %K{225}%F{60} $argv[2,-1] %f%k"
+    print -r -- "%K{225}%B%F{60} $1 %K{60}%F{225} $argv[2,-1] %f%k"
   fi
 }
 # zshmodules(1)
