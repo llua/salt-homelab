@@ -26,7 +26,7 @@ set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
 
 "Color theme
 if &term =~ 'xterm\|screen'
-color vif-lua
+color vif-crepusculo
 set t_Co=256
 endif
 
