@@ -90,6 +90,9 @@ au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
 au BufRead,BufNewFile *.j2 setfiletype jinja
+au FileType go setlocal listchars=nbsp:¬,tab:\ \ ,extends:»,precedes:«,trail:•
+au FileType go setlocal noexpandtab
+au FileType go setlocal shiftwidth=0 laststatus=0
 " the python community prefers 4 spaces indents or tabs
 au FileType python setlocal shiftwidth=4 softtabstop=4
 " for https://github.com/vim-python/python-syntax
