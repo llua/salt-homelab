@@ -92,7 +92,7 @@ au BufRead,BufNewFile *.jinja setfiletype jinja
 au BufRead,BufNewFile *.j2 setfiletype jinja
 au FileType go setlocal listchars=nbsp:¬,tab:\ \ ,extends:»,precedes:«,trail:•
 au FileType go setlocal noexpandtab
-au FileType go setlocal shiftwidth=0 laststatus=0
+au FileType go setlocal shiftwidth=0 softtabstop=0
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
