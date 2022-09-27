@@ -1,7 +1,10 @@
 # get an updated LS_COLORS value
 lscolors() (
   source <(dircolors)
-  LS_COLORS=${LS_COLORS/bd=[^:]##:/bd=40;01:} 
+  LS_COLORS=${LS_COLORS/di=[^:]##:/di=38;5;60:}  # directories
+  LS_COLORS=${LS_COLORS/ln=[^:]##:/ln=38;5;111:} # symlinks
+  LS_COLORS=${LS_COLORS/ex=[^:]##:/ex=38;5;225:} # executables
+  LS_COLORS=${LS_COLORS/bd=[^:]##:/bd=40;01:}
   LS_COLORS=${LS_COLORS/cd=[^:]##:/cd=01;30:}
-  typeset -p LS_COLORS 
+  typeset -p LS_COLORS
 )
