@@ -99,6 +99,8 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
+hi! link goMethodCall goFunction
+hi! link goFunctionCall goFunction
 " the python community prefers 4 spaces indents or tabs
 au FileType python setlocal shiftwidth=4 softtabstop=4
 " for https://github.com/vim-python/python-syntax
