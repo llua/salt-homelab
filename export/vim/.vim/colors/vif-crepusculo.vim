@@ -61,8 +61,8 @@ hi! link Statement TertiaryColor
 hi link BStatement TertiaryColorBold
 hi link PreProc SecondaryColor
 hi link BPreProc SecondaryColorBold
-hi Type  ctermfg=181 ctermbg=NONE
-hi BType ctermfg=181 ctermbg=NONE cterm=BOLD
+hi Type  ctermfg=175 ctermbg=NONE
+hi BType ctermfg=175 ctermbg=NONE cterm=BOLD
 hi link Function PrimaryColor
 hi link Repeat TertiaryColor
 hi link Operator TertiaryColor
