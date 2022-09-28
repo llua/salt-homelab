@@ -6,38 +6,42 @@ endif
 hi Normal guifg=#5f8caa guibg=#1c1c1c ctermfg=67 ctermbg=234
 set background=dark
 let g:colors_name = "vif-lua"
+hi PrimaryColor       ctermfg=24  ctermbg=NONE
+hi PrimaryColorBold   ctermfg=24  ctermbg=NONE cterm=BOLD
+hi SecondaryColor     ctermfg=45 ctermbg=NONE
+hi SecondaryColorBold ctermfg=45 ctermbg=NONE cterm=BOLD
+hi TertiaryColor      ctermfg=219 ctermbg=NONE
+hi TertiaryColorBold  ctermfg=219 ctermbg=NONE cterm=BOLD
 hi SpecialKey gui=NONE guifg=Cyan guibg=NONE cterm=NONE ctermfg=51 ctermbg=NONE
 hi NonText gui=bold guifg=Blue guibg=NONE cterm=bold ctermfg=21 ctermbg=NONE
-hi Directory gui=NONE guifg=Cyan guibg=NONE cterm=NONE ctermfg=51 ctermbg=NONE
+hi link Directory SecondaryColor
 hi ErrorMsg gui=NONE guifg=White guibg=Red cterm=NONE ctermfg=231 ctermbg=196
 hi IncSearch gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi Search gui=NONE guifg=Black guibg=Yellow cterm=NONE ctermfg=16 ctermbg=226
 hi MoreMsg gui=bold guifg=SeaGreen guibg=NONE cterm=bold ctermfg=29 ctermbg=NONE
 hi ModeMsg gui=bold guifg=NONE guibg=NONE cterm=bold ctermfg=NONE ctermbg=NONE
-hi LineNr gui=NONE guifg=Yellow guibg=NONE cterm=NONE ctermfg=226 ctermbg=NONE
 hi Question gui=bold guifg=Green guibg=NONE cterm=bold ctermfg=46 ctermbg=NONE
-hi StatusLine gui=bold,reverse guifg=NONE guibg=NONE cterm=bold,reverse ctermfg=NONE ctermbg=NONE
-hi StatusLineNC gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
-hi VertSplit gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
+hi StatusLine ctermfg=231 ctermbg=67 cterm=NONE
+hi StatusLineNC ctermfg=231 ctermbg=67 cterm=NONE
+hi VertSplit ctermfg=219 ctermbg=67 cterm=NONE
 hi Title gui=bold guifg=Magenta guibg=NONE cterm=bold ctermfg=201 ctermbg=NONE
-hi Visual gui=NONE guifg=NONE guibg=DarkGrey cterm=NONE ctermfg=NONE ctermbg=248
+hi Visual cterm=NONE ctermfg=NONE ctermbg=241
 hi VisualNOS gui=bold,underline guifg=NONE guibg=NONE cterm=bold,underline ctermfg=NONE ctermbg=NONE
 hi WarningMsg gui=NONE guifg=Red guibg=NONE cterm=NONE ctermfg=196 ctermbg=NONE
-hi WildMenu gui=NONE guifg=Black guibg=Yellow cterm=NONE ctermfg=16 ctermbg=226
+hi WildMenu ctermfg=231 ctermbg=219 cterm=NONE
 hi Folded gui=NONE guifg=Cyan guibg=DarkGrey cterm=NONE ctermfg=51 ctermbg=248
 hi FoldColumn gui=NONE guifg=Cyan guibg=Grey cterm=NONE ctermfg=51 ctermbg=250
-hi DiffAdd gui=NONE guifg=NONE guibg=DarkBlue cterm=NONE ctermfg=NONE ctermbg=18
-hi DiffChange gui=NONE guifg=NONE guibg=DarkMagenta cterm=NONE ctermfg=NONE ctermbg=90
-hi DiffDelete gui=bold guifg=Blue guibg=DarkCyan cterm=bold ctermfg=21 ctermbg=30
-hi DiffText gui=bold guifg=NONE guibg=Red cterm=bold ctermfg=NONE ctermbg=196
 hi SignColumn gui=NONE guifg=Cyan guibg=Grey cterm=NONE ctermfg=51 ctermbg=250
 hi SpellBad gui=undercurl guifg=NONE guisp=Red cterm=undercurl ctermfg=NONE ctermbg=196
 hi SpellCap gui=undercurl guifg=NONE guisp=Blue cterm=undercurl ctermfg=NONE ctermbg=21
 hi SpellRare gui=undercurl guifg=NONE guisp=Magenta cterm=undercurl ctermfg=NONE ctermbg=201
 hi SpellLocal gui=undercurl guifg=NONE guisp=Cyan cterm=undercurl ctermfg=NONE ctermbg=51
-hi PmenuSel gui=NONE guifg=NONE guibg=DarkGrey cterm=NONE ctermfg=NONE ctermbg=248
-hi PmenuSbar gui=NONE guifg=NONE guibg=Grey cterm=NONE ctermfg=NONE ctermbg=250
-hi PmenuThumb gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
+hi Pmenu ctermfg=219 ctermbg=24 cterm=NONE
+hi PmenuSel ctermfg=231 ctermbg=219 cterm=NONE
+hi PmenuSbar ctermfg=NONE ctermbg=24 cterm=NONE
+hi PmenuThumb ctermfg=NONE ctermbg=219 cterm=NONE
+hi StatusLineTerm ctermfg=67 ctermbg=219
+hi StatusLineTermNC ctermfg=67 ctermbg=219
 hi TabLine gui=underline guifg=NONE guibg=DarkGrey cterm=underline ctermfg=NONE ctermbg=248
 hi TabLineSel gui=bold guifg=NONE guibg=NONE cterm=bold ctermfg=NONE ctermbg=NONE
 hi TabLineFill gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
@@ -45,42 +49,39 @@ hi CursorColumn gui=NONE guifg=NONE guibg=Grey40 cterm=NONE ctermfg=NONE ctermbg
 hi CursorLine gui=NONE guifg=NONE guibg=Grey40 cterm=NONE ctermfg=NONE ctermbg=241
 hi Cursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi lCursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
-hi MatchParen gui=NONE guifg=NONE guibg=DarkCyan cterm=NONE ctermfg=NONE ctermbg=30
+hi MatchParen cterm=NONE ctermfg=219 ctermbg=24
 hi Comment guifg=#585858 guibg=NONE ctermfg=240 ctermbg=NONE
 hi Constant guifg=#7e7999 guibg=NONE ctermfg=102 ctermbg=NONE
 hi BConstant guifg=#7e7999 guibg=NONE gui=BOLD cterm=BOLD ctermfg=102 ctermbg=NONE
 hi String guifg=#ffffff guibg=NONE ctermfg=231 ctermbg=NONE
-hi String guifg=#ffffff guibg=NONE gui=BOLD cterm=BOLD ctermfg=231 ctermbg=NONE
-hi htmlTagName guifg=#f2b8f2 guibg=NONE ctermfg=219 ctermbg=NONE
-hi Identifier guifg=#7f95c7 guibg=NONE ctermfg=12 ctermbg=NONE
-hi BIdentifier guifg=#7f95c7 guibg=NONE gui=BOLD cterm=BOLD ctermfg=12 ctermbg=NONE
-hi Statement guifg=#5f8caa guibg=NONE ctermfg=67 ctermbg=NONE
-hi BStatement guifg=#5f8caa guibg=NONE gui=BOLD cterm=BOLD ctermfg=67 ctermbg=NONE
-hi PreProc guifg=#0affff guibg=NONE ctermfg=51 ctermbg=NONE
-hi BPreProc guifg=#0affff guibg=NONE gui=BOLD cterm=BOLD ctermfg=51 ctermbg=NONE
-hi Type guifg=#f2b8f2 guibg=NONE ctermfg=219 ctermbg=NONE
-hi BType guifg=#f2b8f2 guibg=NONE gui=BOLD cterm=BOLD ctermfg=219 ctermbg=NONE
-hi Function guifg=#7a7c95 guibg=NONE ctermfg=102 ctermbg=NONE
-hi Repeat guifg=#f2b8f2 guibg=NONE ctermfg=219 ctermbg=NONE
-hi Operator guifg=#858585 guibg=NONE ctermfg=102 ctermbg=NONE
-hi Question guifg=#f2b8f2 guibg=NONE ctermfg=219 ctermbg=NONE
+hi link htmlTagName TertiaryColor
+hi Identifier ctermfg=117 ctermbg=NONE
+hi BIdentifier ctermfg=117 ctermbg=NONE cterm=BOLD
+hi! link Statement TertiaryColor
+hi link BStatement TertiaryColorBold
+hi link PreProc SecondaryColor
+hi link BPreProc SecondaryColorBold
+hi Type  ctermfg=141 ctermbg=NONE
+hi BType ctermfg=141 ctermbg=NONE cterm=BOLD
+hi link Function PrimaryColor
+hi link Repeat TertiaryColor
+hi link Operator TertiaryColor
+hi link Question TertiaryColor
 hi Error guibg=#ff0000 guifg=#ffffff ctermfg=231 ctermbg=196
-hi TODO guibg=#0011ff guifg=#ffffff ctermfg=231 ctermbg=21
-hi LineNr guifg=#ffffff guibg=#5f8caa ctermfg=231 ctermbg=67
+hi TODO ctermfg=219 ctermbg=111
+hi LineNr ctermfg=231 ctermbg=67
 hi DiffAdd guifg=#ffffff guibg=#5f8caa ctermfg=231 ctermbg=67
 hi DiffChange guifg=#5f8caa guibg=#0affff ctermfg=67 ctermbg=51
 hi DiffDelete guifg=#ffffff guibg=#ff0000 ctermfg=231 ctermbg=196
 hi DiffText guifg=#ffffff guibg=#f2b8f2 ctermfg=231 ctermbg=219
-hi link Pmenu LineNr
-hi link PmenuSel LineNr
 hi link character constant
 hi link number constant
 hi link boolean constant
 hi link Float Number
 hi link Conditional Repeat
-hi link Label Statement
-hi link Keyword Statement
-hi link Exception Statement
+hi link Label TertiaryColor
+hi link Keyword TertiaryColor
+hi link Exception TertiaryColor
 hi link Include PreProc
 hi link Define PreProc
 hi link Macro PreProc
@@ -94,3 +95,5 @@ hi link SpecialChar Special
 hi link Delimiter Special
 hi link SpecialComment Special
 hi link Debug Special
+hi! link goMethodCall goFunction
+hi! link goFunctionCall goFunction
