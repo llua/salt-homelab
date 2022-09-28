@@ -59,10 +59,10 @@ hi Identifier ctermfg=141 ctermbg=NONE
 hi BIdentifier ctermfg=141 ctermbg=NONE cterm=BOLD
 hi! link Statement TertiaryColor
 hi link BStatement TertiaryColorBold
-hi link PreProc SecondaryColor
-hi link BPreProc SecondaryColorBold
-hi Type  ctermfg=175 ctermbg=NONE
-hi BType ctermfg=175 ctermbg=NONE cterm=BOLD
+hi PreProc ctermfg=96 ctermbg=NONE
+hi BPreProc ctermfg=96 ctermbg=NONE
+hi Type  ctermfg=210 ctermbg=NONE
+hi BType ctermfg=210 ctermbg=NONE cterm=BOLD
 hi link Function PrimaryColor
 hi link Repeat TertiaryColor
 hi link Operator TertiaryColor
