@@ -114,6 +114,7 @@ format_style() {
     print -r -- "%K{225}%B%F{60} $1 %K{60}%F{225} $argv[2,-1] %f%k"
   fi
 }
+PS4=$(format_style '+%N' '%i')
 # zshmodules(1)
 # zstyle ':completion:function:completer:command:arguments:tag'
 
