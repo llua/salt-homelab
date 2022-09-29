@@ -68,7 +68,7 @@ hi link Repeat TertiaryColor
 hi link Operator TertiaryColor
 hi link Question TertiaryColor
 hi Error guibg=#ff0000 guifg=#ffffff ctermfg=231 ctermbg=196
-hi TODO ctermfg=225 ctermbg=111
+hi TODO ctermfg=141 ctermbg=NONE
 hi LineNr ctermfg=225 ctermbg=60
 hi DiffAdd guifg=#ffffff guibg=#5f8caa ctermfg=231 ctermbg=67
 hi DiffChange guifg=#5f8caa guibg=#0affff ctermfg=67 ctermbg=51
