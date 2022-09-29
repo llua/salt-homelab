@@ -61,3 +61,5 @@ salt:
         - base: v1.3.0
       - https://github.com/saltstack-formulas/postfix-formula.git:
         - base: v2.0.2
+      - https://github.com/rodjek/vim-puppet:
+        - mountpoint: vim/.vim/pack/plugins/start/vim-puppet
