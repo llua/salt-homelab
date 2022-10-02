@@ -65,3 +65,5 @@ salt:
         - mountpoint: vim/.vim/pack/plugins/start/vim-puppet
       - https://github.com/chrisbra/vim-zsh:
         - mountpoint: vim/.vim/pack/plugins/start/vim-zsh
+      - https://github.com/ctrlpvim/ctrlp.vim:
+        - mountpoint: vim/.vim/pack/plugins/start/vim-ctrlp
