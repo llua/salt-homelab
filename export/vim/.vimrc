@@ -87,17 +87,6 @@ au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
 au BufRead,BufNewFile *.j2 setfiletype jinja
-au FileType go setlocal listchars=nbsp:¬,tab:\ \ ,extends:»,precedes:«,trail:•
-au FileType go setlocal noexpandtab
-au FileType go setlocal shiftwidth=0 softtabstop=0
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_operators = 1
-hi! link goMethodCall goFunction
-hi! link goFunctionCall goFunction
 hi! link puppetType Function
 hi! link puppetName Function
 " the python community prefers 4 spaces indents or tabs
