@@ -20,6 +20,7 @@ set wildmenu        " show zsh-like menucompletion in ex command mode
 set splitright      " Vertical splitting, creates new window on right side
 set splitbelow      " Horizontal splitting, creates new window below
 set mouse=          " Disable VISUAL selection when using mouse/touchpad
+set path=.,**       " path used by find command to search for files
 filetype indent on  " Indenting
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete " <C-x><C-o> for completion
