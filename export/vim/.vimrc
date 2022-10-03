@@ -89,10 +89,6 @@ au BufRead,BufNewFile *.jinja setfiletype jinja
 au BufRead,BufNewFile *.j2 setfiletype jinja
 hi! link puppetType Function
 hi! link puppetName Function
-" the python community prefers 4 spaces indents or tabs
-au FileType python setlocal shiftwidth=4 softtabstop=4
-" for https://github.com/vim-python/python-syntax
-let g:python_highlight_all = 1
 
 au BufNewFile Gemfile 0r ~/.vim/skel/Gemfile
 " jump to the line you was previously at after opening a file
