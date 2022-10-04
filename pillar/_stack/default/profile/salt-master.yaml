@@ -67,3 +67,5 @@ salt:
         - mountpoint: vim/.vim/pack/plugins/start/vim-zsh
       - https://github.com/ctrlpvim/ctrlp.vim:
         - mountpoint: vim/.vim/pack/plugins/start/vim-ctrlp
+      - https://github.com/vim-python/python-syntax:
+        - mountpoint: vim/.vim/pack/plugins/start/python-syntax
