@@ -1,0 +1,3 @@
+salt:
+  minion:
+    master: aida-07c081.mac-anu.org
