@@ -40,32 +40,36 @@ salt:
         # update this control repo once a 10 minutes
         - update_interval: 600
       - https://github.com/amendlik/gitstack-pillar.git:
-        - base: develop
+        - all_saltenvs: develop
       - https://github.com/saltstack-formulas/salt-formula.git:
-        - base: v1.12.0
+        - all_saltenvs: v1.12.0
       - https://github.com/saltstack-formulas/epel-formula.git:
-        - base: v1.16.1
+        - all_saltenvs: v1.16.1
       - https://github.com/saltstack-formulas/openssh-formula.git:
-        - base: v3.0.3
+        - all_saltenvs: v3.0.3
       - https://github.com/llua/samba-formula.git:
-        - base: master
+        - all_saltenvs: master
       - https://github.com/saltstack-formulas/users-formula.git:
-        - base: v0.48.6
+        - all_saltenvs: v0.48.6
       - https://github.com/saltstack-formulas/sysctl-formula.git:
-        - base: v0.6.3
+        - all_saltenvs: v0.6.3
       - https://github.com/saltstack-formulas/sudoers-formula.git:
-        - base: v0.25.0
+        - all_saltenvs: v0.25.0
       - https://github.com/saltstack-formulas/dnsmasq-formula.git:
-        - base: v0.2.1
+        - all_saltenvs: v0.2.1
       - https://github.com/saltstack-formulas/chrony-formula.git:
-        - base: v1.3.0
+        - all_saltenvs: v1.3.0
       - https://github.com/saltstack-formulas/postfix-formula.git:
-        - base: v2.0.2
+        - all_saltenvs: v2.0.2
       - https://github.com/rodjek/vim-puppet:
         - mountpoint: vim/.vim/pack/plugins/start/vim-puppet
+        - all_saltenvs: master
       - https://github.com/chrisbra/vim-zsh:
         - mountpoint: vim/.vim/pack/plugins/start/vim-zsh
+        - all_saltenvs: master
       - https://github.com/ctrlpvim/ctrlp.vim:
         - mountpoint: vim/.vim/pack/plugins/start/vim-ctrlp
+        - all_saltenvs: master
       - https://github.com/vim-python/python-syntax:
         - mountpoint: vim/.vim/pack/plugins/start/python-syntax
+        - all_saltenvs: master
