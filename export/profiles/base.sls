@@ -28,3 +28,4 @@ include:
   {% endif %}
 {% endif %}
   - postfix
+  - postfix.config
