@@ -88,4 +88,5 @@ samba:
   client: samba413
 
 postfix:
-  setgid_group: postfix
+  lookup:
+    setgid_group: maildrop
