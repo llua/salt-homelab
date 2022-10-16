@@ -62,6 +62,15 @@ let g:netrw_liststyle = 3
 " where it should get the dictionary files
 let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
 
+" for https://github.com/vim-python/python-syntax
+let g:python_highlight_all = 1
+
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
 "let g:lua_complete_omni = 1
 "let g:lua_define_completefunc = 1
 
