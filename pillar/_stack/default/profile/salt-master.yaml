@@ -73,3 +73,6 @@ salt:
       - https://github.com/vim-python/python-syntax:
         - mountpoint: vim/.vim/pack/plugins/start/python-syntax
         - all_saltenvs: master
+      - https://github.com/fatih/vim-go:
+        - mountpoint: vim/.vim/pack/plugins/start/vim-go
+        - all_saltenvs: master
