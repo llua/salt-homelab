@@ -35,7 +35,7 @@ TIMEFMT=$(
 )
 REPORTTIME=60
 WATCHFMT=$(
-  print -rP '%K{60}%F{8} %%n %K{225}%F{60} has %%a %%l @ %%D{%%T} %%D %f%k'
+  print -rP '%K{60}%F{225} %%n %K{225}%F{60} has %%a %%l @ %%D{%%T} %%D %f%k'
 )
 
 # autoload wrapper functions
