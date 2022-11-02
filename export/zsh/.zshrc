@@ -149,7 +149,7 @@ zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
 zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default'      list-colors       'ma=48;5;225' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:default'      list-colors       'ma=38;5;225;48;5;60' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
 zstyle ':completion:*:(options|flags)' \
                                     list-colors       '=(#s)(#b)[[:space:]]#*[[:space:]]#[[:space:]]#(::)[[:space:]]#(*)(#B)(#e)=0=38;5;111=38;5;60'
 zstyle ':completion::complete:vim:option-u-1:*' \
