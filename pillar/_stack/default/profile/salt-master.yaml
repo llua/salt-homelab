@@ -10,7 +10,7 @@ salt:
     file_recv_max_size: '4096'
     top_file_merging_strategy: same
     pillar_source_merging_strategy: 'recurse'
-    pillar_merge_lists: 'True'
+    pillar_merge_lists: True
     reactors:
       - 'salt/minion/*/start':
         - 'salt://reactors/highstate_on_boot.sls'
