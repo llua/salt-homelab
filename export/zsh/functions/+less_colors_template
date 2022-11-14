@@ -4,11 +4,11 @@
 # ln -s _less_color_template man, then autoload man like normal
 
 # assumes the zsh's colors() function was loaded and ran.
-LESS_TERMCAP_mb=$bg[default]$fg_bold[blue] \
-LESS_TERMCAP_md=$bg[default]$fg_bold[blue] \
-LESS_TERMCAP_me=$bg[default]$fg_no_bold[default] \
-LESS_TERMCAP_se=$bg[default]$fg_no_bold[default] \
-LESS_TERMCAP_so=$bg[blue]$fg_bold[white] \
-LESS_TERMCAP_ue=$bg[default]$fg_no_bold[default] \
-LESS_TERMCAP_us=$bg[default]$fg_bold[magenta] \
+LESS_TERMCAP_mb=${(%):-%k%F{60}} \
+LESS_TERMCAP_md=${(%):-%B} \
+LESS_TERMCAP_me=${(%):-%f%k%b%s%u} \
+LESS_TERMCAP_se=${(%):-%k%f} \
+LESS_TERMCAP_so=${(%):-%K{60}%F{225}} \
+LESS_TERMCAP_ue=${(%):-%k%f} \
+LESS_TERMCAP_us=${(%):-%k%F{141}} \
 command $0 "$@"
