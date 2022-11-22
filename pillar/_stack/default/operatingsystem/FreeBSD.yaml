@@ -90,3 +90,4 @@ samba:
 postfix:
   lookup:
     setgid_group: maildrop
+    package: postfix-sasl
