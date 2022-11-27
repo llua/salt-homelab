@@ -4,6 +4,10 @@
 (
 if command -v unsetopt >/dev/null 2>&1; then
   unsetopt monitor
+  zmodload zsh/zselect
+  sleep() {
+    zselect -t ${$(( $1 * 100 ))%.[0-9]#} 2> /dev/null
+  }
 fi
 
 ((
