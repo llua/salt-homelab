@@ -1,0 +1,66 @@
+#!/bin/sh -e
+PY=${PY:-39}
+
+pkg install -y "py${PY}-salt" "py${PY}-pygit2" git gnupg
+
+mkdir /usr/local/etc/salt/master.d && :
+
+if ! getent hosts "${host:=$(hostname -f)}" >/dev/null 2>&1; then
+  printf '127.0.0.1 %s\n' "$host" >> /etc/hosts
+fi
+
+cat <<\EOF > /usr/local/etc/salt/master.d/f_defaults.conf
+interface: "0.0.0.0"
+top_file_merging_strategy: "same"
+fileserver_backend:
+  - gitfs
+gitfs_remotes:
+    - https://github.com/llua/salt-homelab:
+      - base: production
+      - root: export
+      - update_interval: 600
+    - https://github.com/amendlik/gitstack-pillar.git:
+      - all_saltenvs: develop
+    - https://github.com/saltstack-formulas/salt-formula.git:
+      - all_saltenvs: v1.12.0
+    - https://github.com/saltstack-formulas/epel-formula.git:
+      - all_saltenvs: v1.16.1
+    - https://github.com/saltstack-formulas/openssh-formula.git:
+      - all_saltenvs: v3.0.3
+    - https://github.com/llua/samba-formula.git:
+      - all_saltenvs: master
+    - https://github.com/saltstack-formulas/users-formula.git:
+      - all_saltenvs: v0.48.6
+    - https://github.com/saltstack-formulas/sysctl-formula.git:
+      - all_saltenvs: v0.6.3
+    - https://github.com/saltstack-formulas/sudoers-formula.git:
+      - all_saltenvs: v0.25.0
+    - https://github.com/saltstack-formulas/dnsmasq-formula.git:
+      - all_saltenvs: v0.2.1
+    - https://github.com/saltstack-formulas/chrony-formula.git:
+      - all_saltenvs: v1.3.0
+    - https://github.com/saltstack-formulas/postfix-formula.git:
+      - all_saltenvs: v2.0.2
+ext_pillar:
+  - gitstack:
+    - __env__ https://github.com/llua/salt-homelab:
+      - root: pillar
+      - stack: ['_stack/default/enc.cfg', '_stack/default/stack.cfg']
+  - git:
+    - __env__ https://github.com/llua/salt-homelab:
+      - root: pillar
+  - gpg:
+ext_pillar_first: true
+pillar_source_merging_strategy: "recurse"
+pillar_merge_lists: "True"
+git_pillar_base: "production"
+gitfs_update_interval:
+  21600
+EOF
+
+sysrc salt_master_enable=YES
+service salt_master start
+salt-run saltutil.sync_pillar
+
+mkdir /usr/local/etc/salt/gpgkeys
+printf '%s\n' 'Remember to copy the gpg homedir to /usr/local/etc/salt/gpgkeys'
