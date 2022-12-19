@@ -1,7 +1,7 @@
 schedule:
   highstate:
     function: state.highstate
-    minutes: 15
+    minutes: 30
     splay: 180
 salt:
   clean_config_d_dir: False
