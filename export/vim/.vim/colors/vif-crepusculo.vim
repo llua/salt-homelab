@@ -29,9 +29,9 @@ hi Visual cterm=NONE ctermfg=NONE ctermbg=241
 hi VisualNOS gui=bold,underline guifg=NONE guibg=NONE cterm=bold,underline ctermfg=NONE ctermbg=NONE
 hi WarningMsg gui=NONE guifg=Red guibg=NONE cterm=NONE ctermfg=196 ctermbg=NONE
 hi WildMenu ctermfg=225 ctermbg=111 cterm=NONE
-hi Folded gui=NONE guifg=Cyan guibg=DarkGrey cterm=NONE ctermfg=51 ctermbg=248
-hi FoldColumn gui=NONE guifg=Cyan guibg=Grey cterm=NONE ctermfg=51 ctermbg=250
-hi SignColumn gui=NONE guifg=Cyan guibg=Grey cterm=NONE ctermfg=51 ctermbg=250
+hi Folded cterm=NONE ctermfg=225 ctermbg=60
+hi FoldColumn cterm=NONE ctermfg=225 ctermbg=60
+hi SignColumn cterm=NONE ctermfg=225 ctermbg=60
 hi SpellBad gui=undercurl guifg=NONE guisp=Red cterm=undercurl ctermfg=NONE ctermbg=196
 hi SpellCap gui=undercurl guifg=NONE guisp=Blue cterm=undercurl ctermfg=NONE ctermbg=21
 hi SpellRare gui=undercurl guifg=NONE guisp=Magenta cterm=undercurl ctermfg=NONE ctermbg=201
