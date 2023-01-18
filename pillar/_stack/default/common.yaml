@@ -13,6 +13,9 @@ salt:
     auth_safemode: False
     saltenv: base
     pillarenv_from_saltenv: True
+    return: syslog
+    syslog:
+      tag: salt-minion
     #log_file: file:///dev/log
     #log_fmt_logfile: 'salt-master: [%(name)-17s][%(levelname)-8s] %(message)s'
 packages:
