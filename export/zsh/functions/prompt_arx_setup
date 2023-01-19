@@ -6,7 +6,7 @@ eof
 
 prompt_arx_setup() {
   autoload -Uz add-zsh-hook
-  local name vcs_info c p vp
+  local localhost name vcs_info c p vp
   zstyle -a ':prompt:arx:' hosts localhost
   zstyle -a ':prompt:arx:' users name
   zstyle -s ':prompt:arx:' primary-color c
