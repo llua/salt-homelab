@@ -3,7 +3,6 @@ schedule:
     function: state.highstate
     minutes: 30
     splay: 180
-    returner: syslog
 salt:
   clean_config_d_dir: False
   minion:

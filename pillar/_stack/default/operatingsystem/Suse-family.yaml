@@ -10,4 +10,3 @@ schedule:
     jid_include: true
     maxrunning: 1
     minutes: 10080
-    returner: syslog
