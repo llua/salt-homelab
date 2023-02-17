@@ -70,9 +70,6 @@ users:
 
 salt:
   py_ver: "py{{ __grains__['pythonversion'][0:2] | join('') }}"
-  minion:
-    syslog:
-      level: 'LOG_NOTICE'
 
 sysctl:
   lookup:
