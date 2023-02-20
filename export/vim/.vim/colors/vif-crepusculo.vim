@@ -74,6 +74,7 @@ hi DiffAdd guifg=#ffffff guibg=#5f8caa ctermfg=231 ctermbg=67
 hi DiffChange guifg=#5f8caa guibg=#0affff ctermfg=67 ctermbg=51
 hi DiffDelete guifg=#ffffff guibg=#ff0000 ctermfg=231 ctermbg=196
 hi DiffText guifg=#ffffff guibg=#f2b8f2 ctermfg=231 ctermbg=219
+hi lspReference ctermbg=111 ctermfg=225
 hi link character constant
 hi link number constant
 hi link boolean constant
