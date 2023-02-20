@@ -76,3 +76,6 @@ salt:
       - https://github.com/fatih/vim-go:
         - mountpoint: vim/.vim/pack/plugins/start/vim-go
         - all_saltenvs: master
+      - https://github.com/prabirshrestha/vim-lsp:
+        - mountpoint: vim/.vim/pack/plugins/start/vim-lsp
+        - all_saltenvs: master
