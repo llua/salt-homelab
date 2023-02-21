@@ -1,4 +1,4 @@
-{% for directive in ['sendmail_enable', 'sendmail_msp_queue_enable', 'sendmail_submit_enable'] %}
+{% for directive in ['sendmail_enable', 'sendmail_msp_queue_enable', 'sendmail_submit_enable', 'sendmail_outbound_enable'] %}
 set {{ directive }} to NO:
   sysrc.managed:
     - name: "{{directive}}"
