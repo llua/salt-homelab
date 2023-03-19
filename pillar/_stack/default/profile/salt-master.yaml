@@ -79,3 +79,6 @@ salt:
       - https://github.com/prabirshrestha/vim-lsp:
         - mountpoint: vim/.vim/pack/plugins/start/vim-lsp
         - all_saltenvs: master
+      - https://github.com/vim-crystal/vim-crystal:
+        - mountpoint: vim/.vim/pack/plugins/start/vim-crystal
+        - all_saltenvs: master
