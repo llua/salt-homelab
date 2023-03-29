@@ -55,8 +55,8 @@ hi Constant guifg=#7e7999 guibg=NONE ctermfg=102 ctermbg=NONE
 hi BConstant guifg=#7e7999 guibg=NONE gui=BOLD cterm=BOLD ctermfg=102 ctermbg=NONE
 hi String guifg=#ffffff guibg=NONE ctermfg=231 ctermbg=NONE
 hi link htmlTagName TertiaryColor
-hi Identifier ctermfg=141 ctermbg=NONE
-hi BIdentifier ctermfg=141 ctermbg=NONE cterm=BOLD
+hi Identifier ctermfg=133 ctermbg=NONE
+hi BIdentifier ctermfg=133 ctermbg=NONE cterm=BOLD
 hi! link Statement TertiaryColor
 hi link BStatement TertiaryColorBold
 hi PreProc ctermfg=96 ctermbg=NONE
