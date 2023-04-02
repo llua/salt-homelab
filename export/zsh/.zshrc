@@ -28,14 +28,14 @@ mailpath+=( /var/spool/mail/${USER}(/N) ~/MailDir(/N) )
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;'
 READNULLCMD=less
 TIMEFMT=$(
-  print -rP '%B %%J %b%K{60}%F{225} %%U %K{225}%F{60} user'\
-    '%K{60}%F{225} %%S %K{225}%F{60} system'\
-    '%K{60}%F{225} %%P %K{225}%F{60} cpu'\
-    '%K{60}%F{225} %%*E %K{225}%F{60} total %f%k'
+  print -rP '%B %%J %b%K{60}%F{183} %%U %K{183}%F{60} user'\
+    '%K{60}%F{183} %%S %K{183}%F{60} system'\
+    '%K{60}%F{183} %%P %K{183}%F{60} cpu'\
+    '%K{60}%F{183} %%*E %K{183}%F{60} total %f%k'
 )
 REPORTTIME=60
 WATCHFMT=$(
-  print -rP '%K{60}%F{225} %%n %K{225}%F{60} has %%a %%l @ %%D{%%T} %%D %f%k'
+  print -rP '%K{60}%F{183} %%n %K{183}%F{60} has %%a %%l @ %%D{%%T} %%D %f%k'
 )
 
 # autoload wrapper functions
@@ -111,7 +111,7 @@ format_style() {
   if (( ${term_colors:=$(tput colors)} == 8 )); then
     print -r -- "$@"
   else
-    print -r -- "%K{225}%B%F{60} $1 %K{60}%F{225} $argv[2,-1] %f%k"
+    print -r -- "%K{183}%B%F{60} $1 %K{60}%F{183} $argv[2,-1] %f%k"
   fi
 }
 PS4=$(format_style '+%N' '%i')
@@ -121,7 +121,7 @@ PS4=$(format_style '+%N' '%i')
 zstyle ':prompt:arx:'               users             llua root
 zstyle ':prompt:arx:'               primary-color     60  # 24  39 199
 zstyle ':prompt:arx:'               secondary-color   111 # 45 105 210
-zstyle ':prompt:arx:'               delimiter-color   225
+zstyle ':prompt:arx:'               delimiter-color   133
 zstyle ':prompt:arx:'               primary-color-8colors \
                                                       6
 zstyle ':prompt:arx:'               secondary-color-8colors \
@@ -149,7 +149,7 @@ zstyle ':completion:*'              group-name        ''
 # if there are atleast 0 matches, use menu selection
 zstyle ':completion:*'              menu              select
 # COLOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURSSSSSSSSSSSS
-zstyle ':completion:*:default'      list-colors       'ma=38;5;225;48;5;60' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
+zstyle ':completion:*:default'      list-colors       'ma=38;5;183;48;5;60' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
 zstyle ':completion:*:(options|flags)' \
                                     list-colors       '=(#s)(#b)[[:space:]]#*[[:space:]]#[[:space:]]#(::)[[:space:]]#(*)(#B)(#e)=0=38;5;111=38;5;60'
 zstyle ':completion::complete:vim:option-u-1:*' \
