@@ -51,8 +51,8 @@ hi Cursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=N
 hi lCursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi MatchParen cterm=NONE ctermfg=225 ctermbg=60
 hi Comment guifg=#585858 guibg=NONE ctermfg=240 ctermbg=NONE
-hi Constant guifg=#7e7999 guibg=NONE ctermfg=102 ctermbg=NONE
-hi BConstant guifg=#7e7999 guibg=NONE gui=BOLD cterm=BOLD ctermfg=102 ctermbg=NONE
+hi Constant ctermfg=211 ctermbg=NONE
+hi BConstant cterm=BOLD ctermfg=211 ctermbg=NONE
 hi String guifg=#ffffff guibg=NONE ctermfg=231 ctermbg=NONE
 hi link htmlTagName TertiaryColor
 hi Identifier ctermfg=133 ctermbg=NONE
