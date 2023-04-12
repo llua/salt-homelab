@@ -12,6 +12,7 @@ hi SecondaryColor     ctermfg=111 ctermbg=NONE
 hi SecondaryColorBold ctermfg=111 ctermbg=NONE cterm=BOLD
 hi TertiaryColor      ctermfg=225 ctermbg=NONE
 hi TertiaryColorBold  ctermfg=225 ctermbg=NONE cterm=BOLD
+hi Special ctermfg=211
 hi SpecialKey gui=NONE guifg=Cyan guibg=NONE cterm=NONE ctermfg=51 ctermbg=NONE
 hi NonText gui=bold guifg=Blue guibg=NONE cterm=bold ctermfg=21 ctermbg=NONE
 hi link Directory SecondaryColor
