@@ -12,7 +12,7 @@ hi SecondaryColor     ctermfg=111 ctermbg=NONE
 hi SecondaryColorBold ctermfg=111 ctermbg=NONE cterm=BOLD
 hi TertiaryColor      ctermfg=225 ctermbg=NONE
 hi TertiaryColorBold  ctermfg=225 ctermbg=NONE cterm=BOLD
-hi Special ctermfg=211
+hi Special ctermfg=111
 hi SpecialKey gui=NONE guifg=Cyan guibg=NONE cterm=NONE ctermfg=51 ctermbg=NONE
 hi NonText gui=bold guifg=Blue guibg=NONE cterm=bold ctermfg=21 ctermbg=NONE
 hi link Directory SecondaryColor
@@ -52,8 +52,8 @@ hi Cursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=N
 hi lCursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi MatchParen cterm=NONE ctermfg=225 ctermbg=60
 hi Comment guifg=#585858 guibg=NONE ctermfg=240 ctermbg=NONE
-hi Constant ctermfg=211 ctermbg=NONE
-hi BConstant cterm=BOLD ctermfg=211 ctermbg=NONE
+hi Constant ctermfg=111 ctermbg=NONE
+hi BConstant cterm=BOLD ctermfg=111 ctermbg=NONE
 hi String guifg=#ffffff guibg=NONE ctermfg=231 ctermbg=NONE
 hi link htmlTagName TertiaryColor
 hi Identifier ctermfg=133 ctermbg=NONE
