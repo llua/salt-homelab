@@ -26,7 +26,7 @@ hi StatusLine ctermfg=225 ctermbg=60 cterm=NONE
 hi StatusLineNC ctermfg=225 ctermbg=60 cterm=NONE
 hi VertSplit ctermfg=225 ctermbg=60 cterm=NONE
 hi Title gui=bold guifg=Magenta guibg=NONE cterm=bold ctermfg=201 ctermbg=NONE
-hi Visual cterm=NONE ctermfg=NONE ctermbg=241
+hi Visual cterm=NONE ctermfg=141 ctermbg=60
 hi VisualNOS gui=bold,underline guifg=NONE guibg=NONE cterm=bold,underline ctermfg=NONE ctermbg=NONE
 hi WarningMsg gui=NONE guifg=Red guibg=NONE cterm=NONE ctermfg=196 ctermbg=NONE
 hi WildMenu ctermfg=225 ctermbg=111 cterm=NONE
@@ -75,7 +75,7 @@ hi DiffAdd guifg=#ffffff guibg=#5f8caa ctermfg=231 ctermbg=67
 hi DiffChange guifg=#5f8caa guibg=#0affff ctermfg=67 ctermbg=51
 hi DiffDelete guifg=#ffffff guibg=#ff0000 ctermfg=231 ctermbg=196
 hi DiffText guifg=#ffffff guibg=#f2b8f2 ctermfg=231 ctermbg=219
-hi lspReference ctermbg=111 ctermfg=225
+hi lspReference ctermbg=60 ctermfg=225
 hi link character constant
 hi link number constant
 hi link boolean constant
