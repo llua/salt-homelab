@@ -100,11 +100,6 @@ au BufRead,BufNewFile *.yml setfiletype yaml.jinja
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
 au BufRead,BufNewFile *.j2 setfiletype jinja
-hi! link puppetType Function
-hi! link puppetName Function
-hi! link rubyPseudoVariable Identifier
-hi! link rubySymbol Identifier
-hi! link crystalSymbol Identifier
 
 au BufNewFile Gemfile 0r ~/.vim/skel/Gemfile
 " jump to the line you was previously at after opening a file

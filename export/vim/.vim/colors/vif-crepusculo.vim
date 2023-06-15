@@ -86,6 +86,7 @@ hi link Keyword TertiaryColor
 hi link Exception TertiaryColor
 hi link Include PreProc
 hi link Define PreProc
+hi link pythonStatement PreProc
 hi link Macro PreProc
 hi link PreCondit PreProc
 hi link StorageClass Type
@@ -97,3 +98,8 @@ hi link SpecialChar Special
 hi link Delimiter Special
 hi link SpecialComment Special
 hi link Debug Special
+hi link puppetType Function
+hi link puppetName Function
+hi link rubyPseudoVariable Identifier
+hi link rubySymbol Identifier
+hi link crystalSymbol Identifier
