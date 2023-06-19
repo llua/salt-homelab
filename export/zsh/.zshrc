@@ -341,6 +341,8 @@ bindkey '^Z' undo
 zle -N edit-command-line
 bindkey -M viins '^E'                   edit-command-line
 bindkey -M vicmd 'v'                    edit-command-line
+autoload -Uz copy-earlier-word
+bindkey -M viins '\e,'                  copy-earlier-word
 # ft's function
 typeset -A key
 key=(
