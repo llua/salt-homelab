@@ -1,0 +1,22 @@
+#compdef zfs-stats
+
+_arguments -s -w : \
+  '--hostname[remote computer to connect to]: : _hosts' \
+  '--port[port of remote computer to connect to]:port:' \
+  '--user[user of remote computer]: : _users' \
+  '--id_file[ssh identity file to use]: : _files' \
+  '-a[all statistics (-IMAELZDs)]' \
+  '-I[general system information]' \
+  '-M[system memory information]' \
+  '-s[sysctl ZFS tunables]' \
+  '-d[descriptions for ZFS tunables]' \
+  '-t[alternate sysctl layout (arc_summary.pl)]' \
+  '-A[ARC summary]' \
+  '-E[ARC efficiency]' \
+  '-D[VDEV cache statistics]' \
+  '-L[L2 ARC statistics]' \
+  '-O[dataset operations statistics]' \
+  '-Z[DMU (zfetch) statistics]' \
+  '-R[display raw numbers and bytes]' \
+  '-V[display program version and exit]' \
+  '-h[display this (help) message]'
