@@ -66,6 +66,9 @@ let g:spellfile_URL = 'http://ftp.vim.org/vim/runtime/spell'
 " for https://github.com/vim-python/python-syntax
 let g:python_highlight_all = 1
 
+if filereadable('/etc/os-release') && system("cat /etc/os-release") =~ 'CentOS Stream'
+    let g:go_version_warning = 0
+endif
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
