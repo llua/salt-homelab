@@ -34,6 +34,5 @@
     ;;
   esac
   path+=( ~/(|.local/)#bin(/N) )
-  [[ $HOST = ran-hati* ]] && export TZ=America/Detroit
 }
 
