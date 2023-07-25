@@ -3,7 +3,7 @@
 
   typeset -gU path
   # the -g is needed to prevent the tied parameter from becoming empty
-  export EDITOR='vim' PAGER='less' PATH LESS='-XRSF' MANPAGER='less -R --use-color -Dd+60 -Du141 -DP225.60'
+  export EDITOR='vim' PAGER='less' PATH LESS='-XRSF'
   if (( UID != 0 )) && {
      export SSH_AUTH_SOCK=~/.ssh/agent.socket
      ssh-add -L
@@ -27,6 +27,18 @@
       if [[ -f /etc/SUSE-brand ]]; then
         path=( /sbin /usr/sbin "$path[@]" )
         unsetopt globalrcs
+      fi
+      if test -r /etc/os-release && grep -qF platform:el $_; then
+        export LESS_TERMCAP_mb=${(%):-%k%F{60}}
+        export LESS_TERMCAP_md=${(%):-%B}
+        export LESS_TERMCAP_me=${(%):-%f%k%b%s%u}
+        export LESS_TERMCAP_se=${(%):-%k%f}
+        export LESS_TERMCAP_so=${(%):-%K{60}%F{225}}
+        export LESS_TERMCAP_ue=${(%):-%k%f}
+        export LESS_TERMCAP_us=${(%):-%k%F{141}}
+        export GROFF_NO_SGR=1
+      else
+        export MANPAGER='less -R --use-color -Dd+60 -Du141 -DP225.60'
       fi
     ;;
     solaris*)
