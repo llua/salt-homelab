@@ -28,7 +28,7 @@
         path=( /sbin /usr/sbin "$path[@]" )
         unsetopt globalrcs
       fi
-      if test -r /etc/os-release && grep -qF platform:el $_; then
+      if test -r /etc/os-release && grep -qF platform:el7 $_; then
         export LESS_TERMCAP_mb=${(%):-%k%F{60}}
         export LESS_TERMCAP_md=${(%):-%B}
         export LESS_TERMCAP_me=${(%):-%f%k%b%s%u}
