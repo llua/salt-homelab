@@ -74,6 +74,8 @@ sudoers:
       - 'env_keep = "HOME EDITOR LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS XDG_SESSION_COOKIE SSH_CLIENT SSH_TTY SSH_CONNECTION"'
       - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
       - '!insults'
+    command_list:
+      /usr/bin/cockpit-bridge: '!requiretty'
 
 users:
   llua:
