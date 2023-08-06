@@ -39,6 +39,7 @@
         export GROFF_NO_SGR=1
       else
         export MANPAGER='less -R --use-color -Dd+60 -Du141 -DP225.60'
+        export MANROFFOPT='-P -c'
       fi
     ;;
     solaris*)
