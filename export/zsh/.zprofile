@@ -17,7 +17,8 @@
     *)
       (( $+commands[ruby] )) && path+=( "$(ruby -e 'print Gem::user_dir + "/bin"')" )
       export MANPAGER='less -R --use-color -Dd+60 -Du141 -DP225.60'
-      export MANROFFOPT='-P -c'
+      # opensuse and EL lacks -P in order to use -P -c
+      export MANROFFOPT='-c'
     ;|
     (freebsd|solaris)*)
       export MANWIDTH=tty
@@ -31,6 +32,7 @@
         unsetopt globalrcs
       fi
       if test -r /etc/os-release && grep -qF platform:el $_; then
+        # less lacks -D/--color in =< EL9
         export LESS_TERMCAP_mb=${(%):-%k%F{60}}
         export LESS_TERMCAP_md=${(%):-%B}
         export LESS_TERMCAP_me=${(%):-%f%k%b%s%u}
