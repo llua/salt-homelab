@@ -20,7 +20,7 @@ gitfs_remotes:
       - root: export
       - update_interval: 600
     - https://github.com/amendlik/gitstack-pillar.git:
-      - all_saltenvs: develop
+      - all_saltenvs: main
     - https://github.com/saltstack-formulas/salt-formula.git:
       - all_saltenvs: v1.12.0
     - https://github.com/saltstack-formulas/epel-formula.git:
