@@ -52,10 +52,9 @@ ext_pillar:
   - gpg:
 ext_pillar_first: true
 pillar_source_merging_strategy: "recurse"
-pillar_merge_lists: "True"
+pillar_merge_lists: true
 git_pillar_base: "production"
-gitfs_update_interval:
-  21600
+gitfs_update_interval: 21600
 EOF
 
 sysrc salt_master_enable=YES
