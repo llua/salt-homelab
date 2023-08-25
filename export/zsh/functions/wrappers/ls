@@ -1,14 +1,18 @@
-ls() {
-  local -a args
-  case $OSTYPE in
-    *linux*)
-      local -x LS_COLORS=$LS_COLORS TIME_STYLE=long-iso
-      args=(--color=auto --group-directories-first -X)
-    ;;
-    freebsd*)
-      local -x LSCOLORS=ExGxFxDaCxegAxabagacad CLICOLOR=1
-      args=(-I)
-    ;;
-  esac
-  command ls "${(@)args}" "$@"
-}
+#autoload
+local -a args
+case $OSTYPE in
+  *linux*)
+    local -x LS_COLORS=$LS_COLORS TIME_STYLE=long-iso
+    args=(--color=auto --group-directories-first -X)
+  ;;
+  freebsd*)
+    if (( $+commands[gls] )); then
+      [[ $commands[ls] != $commands[gls] ]] && hash ls=$commands[gls]
+      OSTYPE=linux ls "$@"
+      return
+    fi
+    local -x LSCOLORS=ExGxFxDaCxegAxabagacad CLICOLOR=1
+    args=(-I)
+  ;;
+esac
+command ls "${(@)args}" "$@"
