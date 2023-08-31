@@ -1,5 +1,3 @@
-personal_dotfiles:
-  - ecook
 users:
   llua:
     ssh_auth_file:
