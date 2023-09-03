@@ -88,3 +88,6 @@ salt:
       - https://github.com/vim-crystal/vim-crystal:
         - mountpoint: vim/.vim/pack/plugins/start/vim-crystal
         - all_saltenvs: master
+      - https://github.com/jeetsukumaran/vim-pythonsense.git:
+        - mountpoint: vim/.vim/pack/plugins/start/vim-pythonsense
+        - all_saltenvs: master
