@@ -1,5 +1,5 @@
-# this file is managed by saltstack
-# any changes will be reverted during the next highstate
+{{ salt['slsutil.banner']() }}
+
 require 'readline'
 
 if !Readline::VERSION.include?('EditLine')
