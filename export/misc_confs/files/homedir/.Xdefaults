@@ -1,0 +1,70 @@
+urxvt.font:                 xft:Cascadia Mono:size=10:antialias=true
+!urxvt.font:                 xft:Fira Mono Medium:size=10:antialias=true
+!urxvt.font:                 xft:liberation mono:size=10:antialias=true
+urxvt.letterSpace:          -1
+urxvt.termName:             xterm-256color
+urxvt.scrollBar:            off
+urxvt.visualBell:           true
+urxvt.perl-ext-common:      default,matcher,clipboard,resize-font
+urxvt.url-launcher:         /usr/bin/firefox
+urxvt.matcher.button:       1
+urxvt.depth:                32
+urxvt.background:           [95]#1C1C1C
+urxvt.cursorColor:          #D493D4
+urxvt.keysym.M-c:           perl:clipboard:copy
+urxvt.keysym.M-v:           perl:clipboard:paste
+urxvt.keysym.M-C-v:         perl:clipboard:paste_escaped
+urxvt.keysym.C-Up:          \033[1;5A
+urxvt.keysym.C-Down:        \033[1;5B
+urxvt.keysym.C-Right:       \033[1;5C
+urxvt.keysym.C-Left:        \033[1;5D
+urxvt.keysym.C-Prior:       \033[5;5~
+urxvt.keysym.C-Next:        \033[6;5~
+urxvt.keysym.C-Home:        \033[7;5~
+urxvt.keysym.C-End:         \033[8;5~
+xterm.utf8:                 1
+xterm.cjkWidth:             true
+xterm*faceName:             xft:Fira Mono Medium:size=10:antialias=true
+!xterm*faceName:             xft:liberation mono:size=10:antialias=true
+xterm.termName:             xterm-256color
+xterm*renderFont:           true
+xterm*cursorColor:          #D493D4
+xterm.vt100.scrollBar:      false
+xterm.VT100.Translations:   #override Alt <Key>V:    insert-selection(CLIPBOARD) \n Alt <Key>C:    copy-selection(CLIPBOARD)
+xterm.on2Clicks:            regex [[:alpha:]]+://([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+
+! [arx] -  vif-lua
+*background:  #1C1C1C
+*foreground:  #5F8CAA
+
+! BLACK
+*color0:      #000000
+*color8:      #555555
+
+! WHITE
+*color7:      #C9C6C6
+*color15:     #E4E4E4
+
+! RED
+*color1:      #803232
+*color9:      #D75756
+
+! YELLOW
+*color3:      #DEAC40
+*color11:     #D9C964
+
+! GREEN
+*color2:      #60B48A
+*color10:     #66CC99
+
+! CYAN
+*color6:      #007086
+*color14:     #53CAD9
+
+! BLUE
+*color4:      #0061B1
+*color12:     #93C9FF
+
+! MAGENTA
+*color5:      #6751A6
+*color13:     #D5B8FF
