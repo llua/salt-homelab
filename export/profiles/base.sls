@@ -7,6 +7,7 @@ include:
   - openssh
   - openssh.config
   - sudoers
+  - misc_confs
 {% if grains['kernel'] == 'Linux' %}
   - openssh.client
   {% if grains['os'] == 'CentOS' %}
@@ -18,7 +19,6 @@ include:
   {% endif %}
 {% endif %}
 {% if grains['kernel'] == 'FreeBSD' %}
-  - misc_confs
   - freebsd-update
   - syslogd
   - stop_sendmail
