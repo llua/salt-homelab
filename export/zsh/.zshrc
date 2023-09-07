@@ -1,4 +1,7 @@
-[[ $COLORTERM = rxvt-* ]] && print -Pn "\e]0;urxvt ${TTY#/dev/}\a"
+case $COLORTERM in
+  rxvt-*)    print -n "\e]0;urxvt ${TTY#/dev/}\a";;
+  truecolor) print -n "\e]0;terminal ${TTY#/dev/}\a";;
+esac
 
 # load wanted modules
 for mod in 'pcre' 'net/tcp' 'complist'; do
