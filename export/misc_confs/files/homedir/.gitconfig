@@ -1,0 +1,23 @@
+{{ salt['slsutil.banner']() }}
+[user]
+	name  = Eric Cook
+	email = llua@gmx.com
+[core]
+	editor = vim
+	pager = less
+[merge]
+	tool = vimdiff
+[push]
+	default = current
+[color "diff"]
+	commit = 60
+	meta = 183 #146
+	frag = 133 #141
+#	old = 197
+#	new = 79
+[color "decorate"]
+#	head = normal
+	branch = 225
+	remoteBranch = 141
+[include]
+	path = .gitconfig-sendemail
