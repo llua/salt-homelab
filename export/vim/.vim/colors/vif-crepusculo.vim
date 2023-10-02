@@ -87,6 +87,8 @@ hi link Exception TertiaryColor
 hi link Include PreProc
 hi link Define PreProc
 hi link pythonStatement PreProc
+hi link pythonConditional PreProc
+hi link pythonRepeat PreProc
 hi link Macro PreProc
 hi link PreCondit PreProc
 hi link StorageClass Type
