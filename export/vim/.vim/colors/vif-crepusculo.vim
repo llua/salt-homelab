@@ -10,8 +10,8 @@ hi PrimaryColor       ctermfg=60  ctermbg=NONE
 hi PrimaryColorBold   ctermfg=60  ctermbg=NONE cterm=BOLD
 hi SecondaryColor     ctermfg=111 ctermbg=NONE
 hi SecondaryColorBold ctermfg=111 ctermbg=NONE cterm=BOLD
-hi TertiaryColor      ctermfg=225 ctermbg=NONE
-hi TertiaryColorBold  ctermfg=225 ctermbg=NONE cterm=BOLD
+hi TertiaryColor      ctermfg=96 ctermbg=NONE
+hi TertiaryColorBold  ctermfg=96 ctermbg=NONE cterm=BOLD
 hi Special ctermfg=111
 hi SpecialKey gui=NONE guifg=Cyan guibg=NONE cterm=NONE ctermfg=51 ctermbg=NONE
 hi NonText gui=bold guifg=Blue guibg=NONE cterm=bold ctermfg=21 ctermbg=NONE
@@ -60,13 +60,13 @@ hi Identifier ctermfg=133 ctermbg=NONE
 hi BIdentifier ctermfg=133 ctermbg=NONE cterm=BOLD
 hi! link Statement TertiaryColor
 hi link BStatement TertiaryColorBold
-hi PreProc ctermfg=96 ctermbg=NONE
-hi BPreProc ctermfg=96 ctermbg=NONE
+hi PreProc ctermfg=225 ctermbg=NONE
+hi BPreProc ctermfg=225 ctermbg=NONE
 hi Type  ctermfg=183 ctermbg=NONE
 hi BType ctermfg=183 ctermbg=NONE cterm=BOLD
 hi link Function PrimaryColor
 hi link Repeat TertiaryColor
-hi link Operator TertiaryColor
+hi link Operator PreProc
 hi link Question TertiaryColor
 hi Error guibg=#ff0000 guifg=#ffffff ctermfg=231 ctermbg=196
 hi TODO ctermfg=141 ctermbg=NONE
@@ -84,12 +84,8 @@ hi link Conditional Repeat
 hi link Label TertiaryColor
 hi link Keyword TertiaryColor
 hi link Exception TertiaryColor
-hi link Include PreProc
-hi link Define PreProc
-hi link pythonStatement PreProc
-hi link pythonConditional PreProc
-hi link pythonRepeat PreProc
-hi link pythonException PreProc
+hi link Include TertiaryColor
+hi link Define TertiaryColor
 hi link Macro PreProc
 hi link PreCondit PreProc
 hi link StorageClass Type
