@@ -102,3 +102,5 @@ hi link puppetName Function
 hi link rubyPseudoVariable Identifier
 hi link rubySymbol Identifier
 hi link crystalSymbol Identifier
+hi link zshDereferencing Identifier
+hi link shShellVariables Identifier
