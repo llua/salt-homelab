@@ -1,0 +1,3 @@
+for 1; do
+  ffmpeg -i $1 -vn -c:a copy ${1:r}.ogg
+done
