@@ -1,1 +1,1 @@
-curl -s http://wttr.in/detroit|less
+w3m https://wttr.in/detroit|less
