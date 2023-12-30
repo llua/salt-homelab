@@ -139,7 +139,7 @@ samba:
         nmbd bind explicit broadcast: no
         vfs objects: full_audit
         full_audit:prefix: "%u|%I|%S"
-        full_audit:success: "all !readdir !telldir !file_id_create !get_alloc_size"
+        full_audit:success: "openat connect disconnect"
         full_audit:failure: "connect"
         full_audit:facility: LOCAL7
         full_audit:priority: INFO

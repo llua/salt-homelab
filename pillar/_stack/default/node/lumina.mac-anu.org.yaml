@@ -45,11 +45,6 @@ samba:
         force group: llua
         browseable: yes
         vfs objects: full_audit
-        full_audit:prefix: "%u|%I|%S"
-        full_audit:facility: LOCAL7
-        full_audit:priority: INFO
-        full_audit:success: "open fdopendir opendir unlink chmod chmod_acl rename create_file connect disconnect chflags fchmod fchmod_acl fchown mkdir chown fchown link symlink"
-        full_audit:failure: "connect"
       music:
         path: /export/storage/audio/music
         read only: 'yes'
