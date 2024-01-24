@@ -91,3 +91,6 @@ salt:
       - https://github.com/jeetsukumaran/vim-pythonsense.git:
         - mountpoint: vim/.vim/pack/plugins/start/vim-pythonsense
         - all_saltenvs: master
+      - https://github.com/pearofducks/ansible-vim:
+        - mountpoint: vim/.vim/pack/plugins/start/ansible-vim
+        - all_saltenvs: master
