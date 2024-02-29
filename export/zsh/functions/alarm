@@ -1,0 +1,1 @@
+{ quodlibet $1; quodlibet --shuffle=1; quodlibet --volume=$2; quodlibet --play; } > /dev/null 2>&1
