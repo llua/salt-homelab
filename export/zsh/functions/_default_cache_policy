@@ -1,0 +1,17 @@
+local oldp ttl d t
+zstyle -a ":completion:$curcontext:cache-ttl" cache-ttl ttl
+
+if (( $#ttl >= 2 )); then
+  [[ $ttl[1] == <-> ]] && integer t=$ttl[1]
+
+  case $ttl[2] in
+    seconds#)d=s;;
+    months#) d=M;;
+    weeks#)  d=w;;
+    hours#)  d=h;;
+    *)       d=d;;
+  esac
+fi
+
+oldp=( "$1"(Nm${d:-d}+${t:-1}) )
+(( $#oldp ))
