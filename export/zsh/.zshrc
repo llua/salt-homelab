@@ -264,6 +264,30 @@ zstyle ':completion:*'              insert-tab        false
 zstyle ':completion:*'              list-dirs-first   true # may cause completers to fail, look into why.
 zstyle ':completion:*'              accept-exact      false
 zstyle ':completion:*'              accept-exact-dirs true
+# see COMPLETION MATCHING CONTROL in zshcompwid for details.
+# when completion is invoked and zsh compares the word you typed with possible choices, a type of pattern matching(not exactly like what is used on the cli)
+# is used and by default it appends `*' to the current word and any choices that doesn't match the pattern is omitted.
+# an example being typing ..u<TAB> with a possible choice of `comp.sources.unix', with the default behavior `..u*' would not match `comp.sources.unix' thus not be presented.
+# the matcher/matcher-list style controls what the pattern ultimately results in. the entire completion system is ran for each entry, thus twice in my config.
+# m:{[:lower:][:upper:]}={[:upper:][:lower:]} lets any lowercase character in the current word be completed to itself or its uppercase counterpart and the same with
+# uppercase characters matching itself or their lowercase counterpart.
+# you can think of it in filename generation terms as: (#i)..u
+# l:|=* prepends * to the current-word/match-pattern for filtering possible choices.
+# you can think of it in filename generation terms as: *(#i)..u
+# r:|=* appends * to the current-word/match-pattern for filtering possible choices.
+# you can think of it in filename generation terms as: *(#i)..u*
+# r:|[._-]=** is checking the word for substrings matching empty string (the left side of the |) that has characters ., _ or - to the right of it.
+# effectively matching anywhere those three characters appear and inserting a ** after the empty string. note this `**' is different than recursive globbing.
+# `*' would match up to the anchor pattern of [._-] but `**' will match the anchor too.
+# to illustrate the difference:
+# _foo() { local expl; _wanted usenet-groups expl group compadd -M 'r:|[._-]=*' comp.sources.unix }; compdef _foo foo
+# foo c.s.u<TAB> # will insert comp.sources.unix
+# foo .u<TAB>    # will not
+# you can think of it in filename generation terms as: *(#i)*.*.u*
+# _foo() { local expl; _wanted usenet-groups expl group compadd -M 'r:|[._-]=**' comp.sources.unix }; compdef _foo foo
+# foo c.s.u<TAB> # will insert comp.sources.unix
+# foo .u<TAB>    # will also insert comp.sources.unix
+# this is where the comparsion to filename generation kinda breaks down because its not like: *(#i)**.**.u* but kinda like *(#i)****u*
 zstyle ':completion:*'              matcher-list      '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} r:|[._-]=** r:|=* l:|=*'
 zstyle ':completion:*'              use-compctl       false
 zstyle ':completion:*'              rehash            true
