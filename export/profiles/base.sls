@@ -10,7 +10,7 @@ include:
   - misc_confs
 {% if grains['kernel'] == 'Linux' %}
   - openssh.client
-  {% if grains['os'] == 'CentOS' %}
+  {% if grains['os'] == 'AlmaLinux' %}
   - epel
   {% endif %}
   {% if grains['linux_lxc'] == false and grains['virtual'] != 'systemd-nspawn' %}
