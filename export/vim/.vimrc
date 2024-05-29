@@ -100,6 +100,7 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 au BufRead,BufNewFile *.sls setfiletype yaml.jinja
 au BufRead,BufNewFile *.yml setfiletype yaml.jinja
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 au BufRead,BufNewFile *.pp  setfiletype puppet
 au BufRead,BufNewFile *.jinja setfiletype jinja
 au BufRead,BufNewFile *.j2 setfiletype jinja
