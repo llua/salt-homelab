@@ -224,7 +224,7 @@ zstyle ':completion:*:systemd-machines-qemu' \
 # misc stuff
 zstyle ':completion:*'              special-dirs      ..
 zstyle :completion::complete:-command-::commands \
-                                    ignored-patterns  restart reboot
+                                    ignored-patterns  restart reboot vendor_perl
 zstyle :completion::complete:-tilde-:: \
                                     group-order       named-directories users
 zstyle -e ':completion::complete:pkg-install:*:*' \
