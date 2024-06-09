@@ -1,5 +1,6 @@
 packages:
   - ksh93
+  - htop
 
 periodic_conf:
   daily_ntpd_leapfile_enable: 'NO'
