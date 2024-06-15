@@ -21,6 +21,11 @@ install squid:
     - creates:
       - /var/squid/cache/00
 
+enable syslog logging for squid:
+  sysrc.managed:
+    - name: "squid_flags"
+    - value: '-s'
+
 manage squid service:
   service.running:
     - name: squid
