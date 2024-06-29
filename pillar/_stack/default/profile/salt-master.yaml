@@ -29,6 +29,8 @@ salt:
       - gpg: {}
     fileserver_backend:
       - gitfs
+    fileserver_interval: 9600
+    maintenance_interval: 9600
     # update gitfs remotes every 6 hours, since i am pinning tags/branches
     # updating frequently isn't important. It defaults to every minute.
     # to manually update these: salt-run fileserver.update
