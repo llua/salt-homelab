@@ -33,3 +33,10 @@ manage squid service:
     - refresh: True
     - watch:
       - file: /usr/local/etc/squid/squid.conf
+
+manage list of cached urls:
+  cron.present:
+    - hour: 1
+    - minute: 0
+    - name: |
+      find /var/squid/cache/*/ -type f -exec sh -c 'xxd -s 80 -g 0 -c 256 "$1" | sed "s/.* http/http/;s/\.\..*//;q"' . {} \; > /var/squid/cache/url.lst
