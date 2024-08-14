@@ -21,3 +21,8 @@ dnsmasq:
   settings:
     dhcp-hostsdir: /etc/dnsmasq.d/leases
     dhcp-leasefile: /var/log/dnsmasq-leases.log
+
+postfix:
+  config:
+    alias_maps: 'lmdb:/etc/aliases'
+    alias_database: 'lmdb:/etc/aliases'
