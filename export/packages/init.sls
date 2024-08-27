@@ -6,6 +6,16 @@ set up proxy for pkg:
     - user: root
     - group: wheel
     - mode: 644
+
+use regular http for proxy cache:
+  file.managed:
+    - name: /usr/local/etc/pkg/repos/FreeBSD.conf
+    - source: salt://packages/files/FreeBSD.conf
+    - template: jinja
+    - user: root
+    - group: wheel
+    - mode: 644
+    - makedirs: True
 {% endif %}
 
 base_packages:
