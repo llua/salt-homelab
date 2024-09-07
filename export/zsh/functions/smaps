@@ -1,4 +1,4 @@
-#autoload +X
+#vim: syn=zsh
 # see: https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 # a small function for systems that lack pmap's -X option
 

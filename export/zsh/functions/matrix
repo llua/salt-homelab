@@ -1,4 +1,4 @@
-#autoload
+#vim: syn=zsh
 # http://bruxy.regnet.cz/web/linux/EN/matrix-sh/
 # with less forking and golfing
 (

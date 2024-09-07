@@ -1,4 +1,4 @@
-#autoload
+#vim: syn=zsh
 typeset -A opts
 zparseopts -A opts -D -url: -start: -end: -nowait -dryrun
 

@@ -1,4 +1,4 @@
-#autoload
+#vim: syn=zsh
 (
 # port of yu-jie lin's bash script
 
