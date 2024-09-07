@@ -4,5 +4,5 @@
   quodlibet $1
   quodlibet --shuffle=1
   quodlibet --volume=$2
-  xscreensaver-command --time | grep -qF 'screen non-blanked' && quodlibet --play
+  xscreensaver-command --time | grep -qF 'screen non-blanked' || quodlibet --play
 } > /dev/null 2>&1
