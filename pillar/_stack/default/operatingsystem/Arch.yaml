@@ -1,3 +1,5 @@
+salt:
+  install_packages: false
 packages:
   - busybox
   - dash
