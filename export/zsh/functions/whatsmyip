@@ -1,3 +1,4 @@
 # public ip, duh
-curl -4 ifconfig.co
-curl -6 ifconfig.co
+for 1 in -4 -6; do
+  curl --silent $1 -H 'Accept: application/json' ifconfig.co
+done | jq -r .ip
