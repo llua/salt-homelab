@@ -1,0 +1,9 @@
+#compdef arc_summary
+
+_arguments -A '-*' -s : \
+  '(-h --help)'{-h,--help}'[show this help message and exit]' \
+  '(-a --alternate)'{-a,--alternate}'[use alternate formatting for tunables and SPL]' \
+  '(-d --description)'{-d,--description}'[print descriptions with tunables and SPL]' \
+  '(-g --graph)'{-g,--graph}'[print graph on ARC use and exit]' \
+  '(-r --raw)'{-r,--raw}'[dump all available data with minimal formatting]' \
+  '(-s --section)'{-s,--section}'[print info from one section]:section:(arc archits dmu l2arc spl tunables vdev zil)'
