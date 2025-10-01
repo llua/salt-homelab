@@ -52,6 +52,7 @@ hi Cursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=N
 hi lCursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi MatchParen cterm=NONE ctermfg=225 ctermbg=60
 hi Comment ctermfg=104 ctermbg=236
+hi TODO ctermfg=210 ctermbg=236
 hi Constant ctermfg=111 ctermbg=NONE
 hi BConstant cterm=BOLD ctermfg=111 ctermbg=NONE
 hi String guifg=#ffffff guibg=NONE ctermfg=231 ctermbg=NONE
@@ -69,7 +70,6 @@ hi link Repeat TertiaryColor
 hi link Operator PreProc
 hi link Question TertiaryColor
 hi Error guibg=#ff0000 guifg=#ffffff ctermfg=231 ctermbg=196
-hi TODO ctermfg=141 ctermbg=NONE
 hi LineNr ctermfg=225 ctermbg=60
 hi DiffAdd guifg=#ffffff guibg=#5f8caa ctermfg=231 ctermbg=67
 hi DiffChange guifg=#5f8caa guibg=#0affff ctermfg=67 ctermbg=51
