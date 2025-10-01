@@ -51,7 +51,7 @@ hi CursorLine gui=NONE guifg=NONE guibg=Grey40 cterm=NONE ctermfg=NONE ctermbg=2
 hi Cursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi lCursor gui=reverse guifg=NONE guibg=NONE cterm=reverse ctermfg=NONE ctermbg=NONE
 hi MatchParen cterm=NONE ctermfg=225 ctermbg=60
-hi Comment guifg=#585858 guibg=NONE ctermfg=240 ctermbg=NONE
+hi Comment ctermfg=104 ctermbg=236
 hi Constant ctermfg=111 ctermbg=NONE
 hi BConstant cterm=BOLD ctermfg=111 ctermbg=NONE
 hi String guifg=#ffffff guibg=NONE ctermfg=231 ctermbg=NONE
