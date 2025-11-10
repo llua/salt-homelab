@@ -23,6 +23,7 @@ samba:
       section_order:
       - music
       - videos
+      - steam
       - 'IPC$'
       - storage
     sections:
@@ -38,6 +39,16 @@ samba:
         'vfs objects': shadow_copy2
       storage:
         path: /export/storage
+        read only: 'no'
+        guest ok: 'no'
+        guest only: 'no'
+        force user: llua
+        force group: llua
+        browseable: yes
+        vfs objects: full_audit
+      steam:
+        path: /export/storage/games/steam
+        case sensitive: 'no'
         read only: 'no'
         guest ok: 'no'
         guest only: 'no'
