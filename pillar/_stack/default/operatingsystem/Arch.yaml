@@ -7,7 +7,6 @@ packages:
   - gawk
   - git
   - grep
-  - mksh
   - man-db
   - htop
   - procps-ng
