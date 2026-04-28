@@ -70,8 +70,7 @@ users:
     shell: /usr/local/bin/zsh
 
 salt:
-  lookup:
-    py_ver: "py{{ __grains__['pythonversion'][0:2] | join('') }}"
+  py_ver: "py{{ __grains__['pythonversion'][0:2] | join('') }}"
 
 sysctl:
   lookup:
