@@ -156,8 +156,6 @@ zstyle ':completion:*'              menu              select
 zstyle ':completion:*:default'      list-colors       'ma=38;5;183;48;5;60' 'tc=01;36' "${(s.:.)ZLS_COLORS}"
 zstyle ':completion:*:(options|flags)' \
                                     list-colors       '=(#s)(#b)[[:space:]]#*[[:space:]]#[[:space:]]#(::)[[:space:]]#(*)(#B)(#e)=0=38;5;111=38;5;60'
-zstyle ':completion::complete:vim:option-u-1:*' \
-                                    fake              NONE
 zstyle ':completion:*:(scp|ssh|rsync|sftp|qemu-system-*):*' \
                                     tag-order         'users:-normal:local\ user users hosts:-normal:hashed\ host hosts'
 # username completion
@@ -246,7 +244,7 @@ zstyle ':completion:*:functions-nounderscore'         ignored-patterns '_*'
 zstyle ':completion:*:functions-underscore'           ignored-patterns '^_*'
 # complete jails from /usr/jail when -c is used
 zstyle -e ':completion::complete:jail:argument-rest:jails' \
-                                                      fake '[[ -v opt_args[(i)-c] ]] && reply=(/usr/jail/^freebsd*(:t))'
+                                                      fake '[[ -v opt_args[-c] ]] && reply=(/usr/jail/^freebsd*(:t))'
 zstyle ':completion:*'              cache-path        ${ZDOTDIR:-$HOME/.config}/zcompcache
 zstyle ':completion:*:(mpc|zypper|sysrc|ansible(|-doc)|salt(|-cp|-call|-run|-key)):*' \
                                     use-cache         true
