@@ -85,8 +85,8 @@ sysctl:
       value: 1
 
 samba:
-  server: samba419
-  client: samba419
+  server: samba423
+  client: samba423
 
 postfix:
   lookup:
